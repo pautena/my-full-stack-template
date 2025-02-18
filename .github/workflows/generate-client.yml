@@ -19,7 +19,13 @@ jobs:
       if: ( github.event_name != 'pull_request' || github.secret_source == 'Actions' )
       with:
         ref: ${{ github.head_ref }}
-        token: ${{ secrets.FULL_STACK_FASTAPI_TEMPLATE_REPO_TOKEN }}
+        token: ${{ secrets.FULL_STACK_TEMPLATE_REPO_TOKEN }}
+    - name: Install 1Password CLI
+      uses: 1password/install-cli-action@v1
+    - name: Load secrets from 1Password
+      uses: 1password/load-secrets-action/configure@v2
+      with:
+        service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
@@ -34,15 +40,15 @@ jobs:
     - name: Install dependencies
       run: npm ci
       working-directory: frontend
+    - name: Install NextJS dependencies
+      run: npm ci
+      working-directory: next
     - run: uv sync
       working-directory: backend
-    - run: uv run bash scripts/generate-client.sh
+    - run: op run --env-file=".env" -- uv run bash scripts/generate-client.sh
       env:
         VIRTUAL_ENV: backend/.venv
         ENVIRONMENT: production
-        SECRET_KEY: just-for-generating-client
-        POSTGRES_PASSWORD: just-for-generating-client
-        FIRST_SUPERUSER_PASSWORD: just-for-generating-client
     - name: Add changes to git
       run: |
         git config --local user.email "github-actions@github.com"
