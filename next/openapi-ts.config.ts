@@ -1,9 +1,9 @@
 import { defineConfig } from "@hey-api/openapi-ts"
 
 export default defineConfig({
-  client: "legacy/axios",
+  client: "@hey-api/client-fetch",
   input: "./openapi.json",
-  output: "./src/client",
+  output: "./app/client",
   // exportSchemas: true,
   plugins: [
     {

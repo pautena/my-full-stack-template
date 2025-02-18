@@ -108,127 +108,195 @@ export type ValidationError = {
 };
 
 export type ItemsReadItemsData = {
-    limit?: number;
-    skip?: number;
+    query?: {
+        limit?: number;
+        skip?: number;
+    };
 };
 
 export type ItemsReadItemsResponse = (ItemsPublic);
 
+export type ItemsReadItemsError = (HTTPValidationError);
+
 export type ItemsCreateItemData = {
-    requestBody: ItemCreate;
+    body: ItemCreate;
 };
 
 export type ItemsCreateItemResponse = (ItemPublic);
 
+export type ItemsCreateItemError = (HTTPValidationError);
+
 export type ItemsReadItemData = {
-    id: string;
+    path: {
+        id: string;
+    };
 };
 
 export type ItemsReadItemResponse = (ItemPublic);
 
+export type ItemsReadItemError = (HTTPValidationError);
+
 export type ItemsUpdateItemData = {
-    id: string;
-    requestBody: ItemUpdate;
+    body: ItemUpdate;
+    path: {
+        id: string;
+    };
 };
 
 export type ItemsUpdateItemResponse = (ItemPublic);
 
+export type ItemsUpdateItemError = (HTTPValidationError);
+
 export type ItemsDeleteItemData = {
-    id: string;
+    path: {
+        id: string;
+    };
 };
 
 export type ItemsDeleteItemResponse = (Message);
 
+export type ItemsDeleteItemError = (HTTPValidationError);
+
 export type LoginLoginAccessTokenData = {
-    formData: Body_login_login_access_token;
+    body: Body_login_login_access_token;
 };
 
 export type LoginLoginAccessTokenResponse = (Token);
 
+export type LoginLoginAccessTokenError = (HTTPValidationError);
+
 export type LoginTestTokenResponse = (UserPublic);
 
+export type LoginTestTokenError = unknown;
+
 export type LoginRecoverPasswordData = {
-    email: string;
+    path: {
+        email: string;
+    };
 };
 
 export type LoginRecoverPasswordResponse = (Message);
 
+export type LoginRecoverPasswordError = (HTTPValidationError);
+
 export type LoginResetPasswordData = {
-    requestBody: NewPassword;
+    body: NewPassword;
 };
 
 export type LoginResetPasswordResponse = (Message);
 
+export type LoginResetPasswordError = (HTTPValidationError);
+
 export type LoginRecoverPasswordHtmlContentData = {
-    email: string;
+    path: {
+        email: string;
+    };
 };
 
 export type LoginRecoverPasswordHtmlContentResponse = (string);
 
+export type LoginRecoverPasswordHtmlContentError = (HTTPValidationError);
+
 export type PrivateCreateUserData = {
-    requestBody: PrivateUserCreate;
+    body: PrivateUserCreate;
 };
 
 export type PrivateCreateUserResponse = (UserPublic);
 
+export type PrivateCreateUserError = (HTTPValidationError);
+
 export type UsersReadUsersData = {
-    limit?: number;
-    skip?: number;
+    query?: {
+        limit?: number;
+        skip?: number;
+    };
 };
 
 export type UsersReadUsersResponse = (UsersPublic);
 
+export type UsersReadUsersError = (HTTPValidationError);
+
 export type UsersCreateUserData = {
-    requestBody: UserCreate;
+    body: UserCreate;
 };
 
 export type UsersCreateUserResponse = (UserPublic);
 
+export type UsersCreateUserError = (HTTPValidationError);
+
 export type UsersReadUserMeResponse = (UserPublic);
+
+export type UsersReadUserMeError = unknown;
 
 export type UsersDeleteUserMeResponse = (Message);
 
+export type UsersDeleteUserMeError = unknown;
+
 export type UsersUpdateUserMeData = {
-    requestBody: UserUpdateMe;
+    body: UserUpdateMe;
 };
 
 export type UsersUpdateUserMeResponse = (UserPublic);
 
+export type UsersUpdateUserMeError = (HTTPValidationError);
+
 export type UsersUpdatePasswordMeData = {
-    requestBody: UpdatePassword;
+    body: UpdatePassword;
 };
 
 export type UsersUpdatePasswordMeResponse = (Message);
 
+export type UsersUpdatePasswordMeError = (HTTPValidationError);
+
 export type UsersRegisterUserData = {
-    requestBody: UserRegister;
+    body: UserRegister;
 };
 
 export type UsersRegisterUserResponse = (UserPublic);
 
+export type UsersRegisterUserError = (HTTPValidationError);
+
 export type UsersReadUserByIdData = {
-    userId: string;
+    path: {
+        user_id: string;
+    };
 };
 
 export type UsersReadUserByIdResponse = (UserPublic);
 
+export type UsersReadUserByIdError = (HTTPValidationError);
+
 export type UsersUpdateUserData = {
-    requestBody: UserUpdate;
-    userId: string;
+    body: UserUpdate;
+    path: {
+        user_id: string;
+    };
 };
 
 export type UsersUpdateUserResponse = (UserPublic);
 
+export type UsersUpdateUserError = (HTTPValidationError);
+
 export type UsersDeleteUserData = {
-    userId: string;
+    path: {
+        user_id: string;
+    };
 };
 
 export type UsersDeleteUserResponse = (Message);
 
+export type UsersDeleteUserError = (HTTPValidationError);
+
 export type UtilsTestEmailData = {
-    emailTo: string;
+    query: {
+        email_to: string;
+    };
 };
 
 export type UtilsTestEmailResponse = (Message);
 
+export type UtilsTestEmailError = (HTTPValidationError);
+
 export type UtilsHealthCheckResponse = (boolean);
+
+export type UtilsHealthCheckError = unknown;
