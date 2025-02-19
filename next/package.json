@@ -10,6 +10,7 @@
     "generate-client": "openapi-ts"
   },
   "dependencies": {
+    "@hey-api/client-fetch": "^0.5.7",
     "@hey-api/openapi-ts": "^0.57.0",
     "axios": "^1.7.9",
     "next": "15.1.7",
