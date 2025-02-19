@@ -18,4 +18,4 @@ npx biome format --write ./src/client
 # Generate NextJS client
 cd ../next
 npm run generate-client
-npx biome format --write ./src/client
+npx biome format --write ./app/client
