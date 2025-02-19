@@ -107,6 +107,15 @@ services:
     build:
       context: ./next
       dockerfile: Dockerfile.dev
+    develop:
+      watch:
+        - path: ./next
+          action: sync
+          target: /app
+          ignore:
+            - ./next/node_modules
+        - path: ./next/package.json
+          action: rebuild
   playwright:
     build:
       context: ./frontend
