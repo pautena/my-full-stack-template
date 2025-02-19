@@ -112,6 +112,15 @@ services:
         - NODE_ENV=development
     environment:
         - API_URL=http://backend:8000
+    develop:
+      watch:
+        - path: ./next
+          action: sync
+          target: /app
+          ignore:
+            - ./next/node_modules
+        - path: ./next/package.json
+          action: rebuild
   playwright:
     build:
       context: ./frontend
