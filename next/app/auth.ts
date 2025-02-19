@@ -1,12 +1,13 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { LoginService, OpenAPI } from "./client"
+import { LoginService, client } from "./client"
 
-//TODO move this to the correct file
-OpenAPI.BASE = process.env.API_URL || ""
-OpenAPI.TOKEN = async () => {
-  return ""
-}
+client.setConfig({
+  baseUrl: process.env.API_URL || "",
+  // TODO set token when we have it
+})
+
+
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -17,7 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize({ username,password }) {
         const response = await LoginService.loginAccessToken({
-          formData: {
+          body:{
             username: username as string,
             password: password as string
           }
