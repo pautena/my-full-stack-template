@@ -2,17 +2,16 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { LoginService, UsersService, client } from "./client"
 import { z } from 'zod';
-import { headers } from "next/headers";
 
 const baseUrl = process.env.API_URL || "";
 client.setConfig({
   baseUrl,
-  // TODO set token when we have it
 })
 
-
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  callbacks: {
+    authorized: ({auth})=> !!auth,
+  },
   providers: [
     Credentials({
       credentials: {
@@ -30,7 +29,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             body:{ username: email, password}
           })
 
-
           if(response.ok){
 
             client.setConfig({
@@ -47,8 +45,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 name: meData?.full_name,
               }
             }
-
-            return {};
           }
         }
 
