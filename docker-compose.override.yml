@@ -104,9 +104,14 @@ services:
         - VITE_API_URL=http://localhost:8000
         - NODE_ENV=development
   next:
+    restart: "no"
     build:
       context: ./next
       dockerfile: Dockerfile.dev
+      args:
+        - NODE_ENV=development
+    environment:
+        - API_URL=http://backend:8000
     develop:
       watch:
         - path: ./next
