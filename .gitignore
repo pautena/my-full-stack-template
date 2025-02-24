@@ -1,4 +1,5 @@
-.vscode
+.vscode/*
+!.vscode/my-full-stack-template.code-workspace
 node_modules/
 /test-results/
 /playwright-report/
