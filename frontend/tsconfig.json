@@ -4,8 +4,11 @@
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }
