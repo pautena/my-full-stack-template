@@ -1,4 +1,6 @@
+import { createTheme } from '@mui/material/styles';
 import { extendTheme } from "@chakra-ui/react"
+
 
 const disabledStyles = {
   _disabled: {
@@ -6,7 +8,7 @@ const disabledStyles = {
   },
 }
 
-const theme = extendTheme({
+export const chakraTheme = extendTheme({
   colors: {
     ui: {
       main: "#009688",
@@ -58,4 +60,4 @@ const theme = extendTheme({
   },
 })
 
-export default theme
+export const muiTheme = createTheme();

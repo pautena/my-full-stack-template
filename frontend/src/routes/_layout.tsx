@@ -9,9 +9,9 @@ export const Route = createFileRoute("/_layout")({
   component: Layout,
   beforeLoad: async () => {
     if (!isLoggedIn()) {
-      throw redirect({
-        to: "/login",
-      })
+      //TODO throw redirect({
+      //   to: "/login",
+      // })
     }
   },
 })

@@ -1,5 +1,6 @@
 import { Box, Container, Text } from "@chakra-ui/react"
 import { createFileRoute } from "@tanstack/react-router"
+import {Label} from '@pautena/react-design-system'
 
 import useAuth from "../../hooks/useAuth"
 
@@ -14,6 +15,7 @@ function Dashboard() {
     <>
       <Container maxW="full">
         <Box pt={12} m={4}>
+          <Label variant="primary" text="hello world"/>
           <Text fontSize="2xl">
             Hi, {currentUser?.full_name || currentUser?.email} 👋🏼
           </Text>
