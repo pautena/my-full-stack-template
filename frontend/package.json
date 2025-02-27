@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -p tsconfig.build.json --noEmit && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "serve": "vite preview",
     "start": "vite",
     "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",

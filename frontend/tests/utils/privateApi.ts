@@ -3,6 +3,7 @@
 import { OpenAPI, PrivateService } from "../../src/client"
 
 OpenAPI.BASE = `${process.env.VITE_API_URL}`
+console.log("privateApi -> OpenAPI.BASE", OpenAPI.BASE)
 
 export const createUser = async ({
   email,
