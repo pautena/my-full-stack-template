@@ -43,14 +43,14 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
+    <ThemeProvider theme={muiTheme}>
+      <CssBaseline/>
       <ChakraProvider theme={chakraTheme}>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={muiTheme}>
-            <CssBaseline/>
             <RouterProvider router={router} />
-          </ThemeProvider>
         </QueryClientProvider>
       </ChakraProvider>
+      </ThemeProvider>
     </StrictMode>,
   )
 }
