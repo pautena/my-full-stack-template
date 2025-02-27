@@ -8,6 +8,12 @@ import { ThemeProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { muiTheme,chakraTheme } from './theme'
 import { ChakraProvider } from '@chakra-ui/react'
+import { OpenAPI } from './client'
+
+OpenAPI.BASE = import.meta.env.VITE_API_URL
+OpenAPI.TOKEN = async () => {
+  return localStorage.getItem("access_token") || ""
+}
 
 const queryClient = new QueryClient()
 
