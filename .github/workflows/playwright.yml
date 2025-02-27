@@ -76,9 +76,6 @@ jobs:
       working-directory: backend
     - run: npm ci
       working-directory: frontend
-    - name: Install NextJS dependencies
-      run: npm ci
-      working-directory: next
     - run: op run --env-file=".env" -- uv run bash scripts/generate-client.sh
       env:
         VIRTUAL_ENV: backend/.venv

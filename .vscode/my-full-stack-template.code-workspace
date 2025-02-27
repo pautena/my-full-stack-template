@@ -11,10 +11,6 @@
     {
       "name": "frontend",
       "path": "../frontend"
-    },
-    {
-      "name": "next",
-      "path": "../next"
     }
   ],
   "settings": {}
