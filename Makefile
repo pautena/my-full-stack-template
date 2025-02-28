@@ -7,6 +7,9 @@ watch:
 up:
 	op run --env-file=".env" -- docker compose up
 
+up-detached:
+	op run --env-file=".env" -- docker compose up -d
+
 build:
 	op run --env-file=".env" -- docker compose build
 
@@ -20,4 +23,4 @@ generate-client:
 	op run --env-file=".env" -- ./scripts/generate-client.sh
 
 
-.PHONY: watch up build playwright generate-client
+.PHONY: watch up build playwright generate-client up-detached
