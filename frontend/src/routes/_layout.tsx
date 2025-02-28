@@ -25,11 +25,7 @@ function Layout() {
         <DrawerContent nav={sidebarNav}/>
       </Drawer>
       <DrawerAppBar title="My Full Stack Template" />
-      <Content>
-        {isLoading ? (
-          <LoadingArea/>
-        ):<Outlet/>}
-      </Content>
+      {isLoading ? <LoadingArea/>:<Outlet/>}
     </DrawerLayout>
   )
 }
