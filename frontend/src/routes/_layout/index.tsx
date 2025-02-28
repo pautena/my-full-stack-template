@@ -1,8 +1,8 @@
-import { Box, Container, Text } from "@chakra-ui/react"
 import { createFileRoute } from "@tanstack/react-router"
 import {Label} from '@pautena/react-design-system'
 
 import useAuth from "../../hooks/useAuth"
+import { Grid2, Typography } from "@mui/material"
 
 export const Route = createFileRoute("/_layout/")({
   component: Dashboard,
@@ -12,16 +12,15 @@ function Dashboard() {
   const { user: currentUser } = useAuth()
 
   return (
-    <>
-      <Container maxW="full">
-        <Box pt={12} m={4}>
-          <Label variant="primary" text="hello world"/>
-          <Text fontSize="2xl">
+        <Grid2 container>
+          <Grid2 size={12}>
+          <Typography variant="caption">
             Hi, {currentUser?.full_name || currentUser?.email} 👋🏼
-          </Text>
-          <Text>Welcome back, nice to see you again!</Text>
-        </Box>
-      </Container>
-    </>
+          </Typography>
+          </Grid2>
+          <Grid2 size={12}>
+          <Typography>Welcome back, nice to see you again!</Typography>
+          </Grid2>
+        </Grid2>
   )
 }

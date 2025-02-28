@@ -1,9 +1,8 @@
-import { Flex, Spinner } from "@chakra-ui/react"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
-
-import Sidebar from "../components/Common/Sidebar"
-import UserMenu from "../components/Common/UserMenu"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
+import { Content, Drawer, DrawerAppBar, DrawerContent, DrawerLayout, DrawerNavigation, DrawerNavigationItem, DrawerNavigationItemLink, LoadingArea } from "@pautena/react-design-system"
+import { useGetSidebarNav } from "../app/sidebar"
+
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,
@@ -18,18 +17,19 @@ export const Route = createFileRoute("/_layout")({
 
 function Layout() {
   const { isLoading } = useAuth()
+  const sidebarNav = useGetSidebarNav();
 
   return (
-    <Flex maxW="large" h="auto" position="relative">
-      <Sidebar />
-      {isLoading ? (
-        <Flex justify="center" align="center" height="100vh" width="full">
-          <Spinner size="xl" color="ui.main" />
-        </Flex>
-      ) : (
-        <Outlet />
-      )}
-      <UserMenu />
-    </Flex>
+    <DrawerLayout drawerProviderProps={{variant:"mini"}}>
+      <Drawer>
+        <DrawerContent nav={sidebarNav}/>
+      </Drawer>
+      <DrawerAppBar title="My Full Stack Template" />
+      <Content>
+        {isLoading ? (
+          <LoadingArea/>
+        ):<Outlet/>}
+      </Content>
+    </DrawerLayout>
   )
 }
