@@ -8,19 +8,17 @@ import {
   UsersService,
 } from "../../client"
 import useAuth from "../../hooks/useAuth"
-import useCustomToast from "../../hooks/useCustomToast"
 import { emailPattern, handleError } from "../../utils"
 import { Button, Grid2 } from "@mui/material"
-import { TextField } from "@pautena/react-design-system"
+import { TextField, useNotificationCenter } from "@pautena/react-design-system"
 
 const UserInformation = () => {
   const queryClient = useQueryClient()
-  const showToast = useCustomToast()
   const { user: currentUser } = useAuth()
+  const {show} = useNotificationCenter();
   const {
     register,
     handleSubmit,
-    reset,
     getValues,
     formState: { isSubmitting, errors, isDirty },
   } = useForm<UserPublic>({
@@ -36,10 +34,16 @@ const UserInformation = () => {
     mutationFn: (data: UserUpdateMe) =>
       UsersService.updateUserMe({ requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "User updated successfully.", "success")
+      show({
+        severity:"success",
+        message:"User updated successfully",
+      })
     },
     onError: (err: ApiError) => {
-      handleError(err, showToast)
+      show({
+        severity:"error",
+        message:err.message,
+      });
     },
     onSettled: () => {
       queryClient.invalidateQueries()
