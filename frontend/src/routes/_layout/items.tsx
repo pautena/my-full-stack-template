@@ -5,7 +5,7 @@ import { z } from "zod"
 
 import { ItemsService } from "../../client"
 import AddItem from "../../components/Items/AddItem"
-import { Content, Header, HeaderLayout } from "@pautena/react-design-system"
+import { Content, Header, HeaderLayout, useDialog } from "@pautena/react-design-system"
 import { DataGrid, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 
 const columns:GridColDef[] =[{
@@ -37,6 +37,7 @@ function getItemsQueryOptions({ page }: { page: number }) {
 
 
 function Items() {
+  const {open,close,isOpen} = useDialog();
   const queryClient = useQueryClient()
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
@@ -62,11 +63,12 @@ function Items() {
 
   return (
     <HeaderLayout>
-      <Header title="Items Management" actions={[{id:"add","text":"Add Item"}]}/>
+      <Header title="Items Management" actions={[{id:"add","text":"Add Item", onClick:open}]}/>
       <Content>
         <DataGrid columns={columns} loading={isPending} paginationMode="server"
           rows={items?.data} rowCount={items?.count} pageSizeOptions={[PAGE_SIZE]}
           paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
+        <AddItem isOpen={isOpen} onClose={close}/>
       </Content>
     </HeaderLayout>
   )

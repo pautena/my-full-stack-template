@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material'
 import { muiTheme,chakraTheme } from './theme'
 import { ChakraProvider } from '@chakra-ui/react'
 import { OpenAPI } from './client'
+import { NotificationCenterProvider } from '@pautena/react-design-system'
 
 OpenAPI.BASE = import.meta.env.VITE_API_URL
 OpenAPI.TOKEN = async () => {
@@ -43,11 +44,13 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline/>
-        <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
-        </QueryClientProvider>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline/>
+        <NotificationCenterProvider>
+          <QueryClientProvider client={queryClient}>
+              <RouterProvider router={router} />
+          </QueryClientProvider>
+        </NotificationCenterProvider>
       </ThemeProvider>
     </StrictMode>,
   )
