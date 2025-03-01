@@ -37,7 +37,7 @@ export const EditItem = ({ isOpen,item, onClose }: EditItemProps) => {
 
   const handleSubmit = (data:any) => mutation.mutate(data)
 
-  return (<FormDialog open={isOpen} onCancel={onClose} title="Add Item" onSubmit={handleSubmit} loading={mutation.isPending}>
+  return (<FormDialog open={isOpen} onCancel={onClose} title="Edit Item" onSubmit={handleSubmit} loading={mutation.isPending}>
     <Grid2 container spacing={2}>
           <Grid2 size={12}>
             <TextField name="title" label="Title" fullWidth required variant="outlined" defaultValue={item.title} />
