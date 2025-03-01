@@ -1,26 +1,26 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { type ApiError, ItemPublic, ItemsService } from "../../client"
+import { type ApiError, UserPublic, UsersService } from "../../client"
 import { ConfirmDialog,  useNotificationCenter } from "@pautena/react-design-system"
 import { DialogContentText } from "@mui/material"
 
 interface EditItemProps {
   isOpen: boolean
-  item: ItemPublic;
+  user: UserPublic;
   onClose: () => void
 }
 
-export const DeleteItem = ({ isOpen,item, onClose }: EditItemProps) => {
+export const DeleteUser = ({ isOpen,user, onClose }: EditItemProps) => {
   const queryClient = useQueryClient()
   const {show} = useNotificationCenter();
 
   const mutation = useMutation({
     mutationFn: () =>
-      ItemsService.deleteItem({ id: item.id }),
+      UsersService.deleteUser({ userId: user.id }),
     onSuccess: () => {
       show({
         severity:"success",
-        message:"Item deleted",
+        message:"User deleted",
       })
       onClose()
     },
@@ -31,13 +31,13 @@ export const DeleteItem = ({ isOpen,item, onClose }: EditItemProps) => {
       })
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["items"] })
+      queryClient.invalidateQueries({ queryKey: ["users"] })
     },
   })
 
   return (
-    <ConfirmDialog open={isOpen} onCancel={onClose} onConfirm={() => mutation.mutate()} title="Delete Item" loading={mutation.isPending}>
-      <DialogContentText>Are you sure you want to delete this item?</DialogContentText>
+    <ConfirmDialog open={isOpen} onCancel={onClose} onConfirm={() => mutation.mutate()} title="Delete User" loading={mutation.isPending}>
+      <DialogContentText>Are you sure you want to delete this user?</DialogContentText>
     </ConfirmDialog>
   )
 }
