@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { type ApiError, type ItemCreate, ItemsService } from "../../client"
-import useCustomToast from "../../hooks/useCustomToast"
-import { handleError } from "../../utils"
 import { FormDialog, TextField, useNotificationCenter } from "@pautena/react-design-system"
 import { Grid2 } from "@mui/material"
 
@@ -11,7 +9,7 @@ interface AddItemProps {
   onClose: () => void
 }
 
-const AddItem = ({ isOpen, onClose }: AddItemProps) => {
+export const AddItem = ({ isOpen, onClose }: AddItemProps) => {
   const queryClient = useQueryClient()
   const {show} = useNotificationCenter();
 
@@ -21,7 +19,7 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
     onSuccess: () => {
       show({
         severity:"success",
-        message:"Item created successfully.",
+        message:"Item created",
       })
       onClose()
     },
@@ -49,5 +47,3 @@ const AddItem = ({ isOpen, onClose }: AddItemProps) => {
         </Grid2>
   </FormDialog>)
 }
-
-export default AddItem
