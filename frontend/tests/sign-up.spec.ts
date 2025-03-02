@@ -15,10 +15,10 @@ const fillForm = async (
   password: string,
   confirm_password: string,
 ) => {
-  await page.getByPlaceholder("Full Name").fill(full_name)
-  await page.getByPlaceholder("Email").fill(email)
-  await page.getByPlaceholder("Password", { exact: true }).fill(password)
-  await page.getByPlaceholder("Repeat Password").fill(confirm_password)
+  await page.getByLabel("Full Name").fill(full_name)
+  await page.getByLabel("Email").fill(email)
+  await page.getByLabel("Password", { exact: true }).fill(password)
+  await page.getByLabel("Repeat Password").fill(confirm_password)
 }
 
 const verifyInput = async (
@@ -26,7 +26,7 @@ const verifyInput = async (
   placeholder: string,
   options?: OptionsType,
 ) => {
-  const input = page.getByPlaceholder(placeholder, options)
+  const input = page.getByLabel(placeholder, options)
   await expect(input).toBeVisible()
   await expect(input).toHaveText("")
   await expect(input).toBeEditable()

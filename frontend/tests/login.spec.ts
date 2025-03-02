@@ -9,16 +9,16 @@ type OptionsType = {
 }
 
 const fillForm = async (page: Page, email: string, password: string) => {
-  await page.getByPlaceholder("Email").fill(email)
-  await page.getByPlaceholder("Password", { exact: true }).fill(password)
+  await page.getByLabel("Email").fill(email)
+  await page.getByLabel("Password", { exact: true }).fill(password)
 }
 
 const verifyInput = async (
   page: Page,
-  placeholder: string,
+  label: string,
   options?: OptionsType,
 ) => {
-  const input = page.getByPlaceholder(placeholder, options)
+  const input = page.getByLabel(label, options)
   await expect(input).toBeVisible()
   await expect(input).toHaveText("")
   await expect(input).toBeEditable()
