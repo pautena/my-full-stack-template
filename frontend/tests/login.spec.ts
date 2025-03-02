@@ -1,4 +1,4 @@
-import { type Page, expect, test } from "@playwright/test"
+import { Locator, type Page, expect, test } from "@playwright/test"
 import { firstSuperuser, firstSuperuserPassword } from "./config.ts"
 import { randomPassword } from "./utils/random.ts"
 
@@ -9,16 +9,13 @@ type OptionsType = {
 }
 
 const fillForm = async (page: Page, email: string, password: string) => {
-  await page.getByLabel("Email").fill(email)
-  await page.getByLabel("Password", { exact: true }).fill(password)
+  await page.getByRole("textbox",{name:"Email"}).fill(email)
+  await page.getByRole("textbox", {name:"Password", exact: true }).fill(password)
 }
 
 const verifyInput = async (
-  page: Page,
-  label: string,
-  options?: OptionsType,
+  input:Locator,
 ) => {
-  const input = page.getByLabel(label, options)
   await expect(input).toBeVisible()
   await expect(input).toHaveText("")
   await expect(input).toBeEditable()
@@ -27,8 +24,8 @@ const verifyInput = async (
 test("Inputs are visible, empty and editable", async ({ page }) => {
   await page.goto("/login")
 
-  await verifyInput(page, "Email")
-  await verifyInput(page, "Password", { exact: true })
+  await verifyInput(page.getByRole("textbox", { name: "Email" }))
+  await verifyInput(page.getByRole("textbox", { name: "Password", exact: true }))
 })
 
 test("Log In button is visible", async ({ page }) => {
@@ -91,7 +88,7 @@ test("Successful log out", async ({ page }) => {
     page.getByText("Welcome back, nice to see you again!"),
   ).toBeVisible()
 
-  await page.getByTestId("user-menu").click()
+  await page.getByLabel("account of current user").click()
   await page.getByRole("menuitem", { name: "Log out" }).click()
   await page.waitForURL("/login")
 })
@@ -108,7 +105,7 @@ test("Logged-out user cannot access protected routes", async ({ page }) => {
     page.getByText("Welcome back, nice to see you again!"),
   ).toBeVisible()
 
-  await page.getByTestId("user-menu").click()
+  await page.getByLabel("account of current user").click()
   await page.getByRole("menuitem", { name: "Log out" }).click()
   await page.waitForURL("/login")
 

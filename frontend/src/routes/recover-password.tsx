@@ -51,10 +51,7 @@ function RecoverPassword() {
       reset()
     },
     onError: (err: ApiError) => {
-      show({
-        severity:"error",
-        message:err.message
-      })
+      handleError(err,show)
     },
   })
 

@@ -40,10 +40,7 @@ const UserInformation = () => {
       })
     },
     onError: (err: ApiError) => {
-      show({
-        severity:"error",
-        message:err.message,
-      });
+      handleError(err,show)
     },
     onSettled: () => {
       queryClient.invalidateQueries()

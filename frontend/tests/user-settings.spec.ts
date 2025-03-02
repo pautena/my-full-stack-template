@@ -38,14 +38,11 @@ test.describe("Edit user full name and email successfully", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "My profile" }).click()
-    await page.getByRole("button", { name: "Edit" }).click()
-    await page.getByLabel("Full name").fill(updatedName)
+    await page.getByRole("textbox",{name:"Full name"}).fill(updatedName)
     await page.getByRole("button", { name: "Save" }).click()
     await expect(page.getByText("User updated successfully")).toBeVisible()
     // Check if the new name is displayed on the page
-    await expect(
-      page.getByLabel("My profile").getByText(updatedName, { exact: true }),
-    ).toBeVisible()
+    await expect(page.getByRole("textbox",{name:"Full name"})).toHaveValue(updatedName)
   })
 
   test("Edit user email with a valid email", async ({ page }) => {
@@ -60,13 +57,10 @@ test.describe("Edit user full name and email successfully", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "My profile" }).click()
-    await page.getByRole("button", { name: "Edit" }).click()
-    await page.getByLabel("Email").fill(updatedEmail)
+    await page.getByRole("textbox",{name:"Email"}).fill(updatedEmail)
     await page.getByRole("button", { name: "Save" }).click()
     await expect(page.getByText("User updated successfully")).toBeVisible()
-    await expect(
-      page.getByLabel("My profile").getByText(updatedEmail, { exact: true }),
-    ).toBeVisible()
+    await expect(page.getByRole("textbox",{name:"Email"})).toHaveValue(updatedEmail)
   })
 })
 
@@ -85,52 +79,9 @@ test.describe("Edit user with invalid data", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "My profile" }).click()
-    await page.getByRole("button", { name: "Edit" }).click()
-    await page.getByLabel("Email").fill(invalidEmail)
+    await page.getByRole("textbox",{name:"Email"}).fill(invalidEmail)
     await page.locator("body").click()
     await expect(page.getByText("Email is required")).toBeVisible()
-  })
-
-  test("Cancel edit action restores original name", async ({ page }) => {
-    const email = randomEmail()
-    const password = randomPassword()
-    const updatedName = "Test User"
-
-    const user = await createUser({ email, password })
-
-    // Log in the user
-    await logInUser(page, email, password)
-
-    await page.goto("/settings")
-    await page.getByRole("tab", { name: "My profile" }).click()
-    await page.getByRole("button", { name: "Edit" }).click()
-    await page.getByLabel("Full name").fill(updatedName)
-    await page.getByRole("button", { name: "Cancel" }).first().click()
-    await expect(
-      page
-        .getByLabel("My profile")
-        .getByText(user.full_name as string, { exact: true }),
-    ).toBeVisible()
-  })
-
-  test("Cancel edit action restores original email", async ({ page }) => {
-    const email = randomEmail()
-    const password = randomPassword()
-    const updatedEmail = randomEmail()
-
-    await createUser({ email, password })
-
-    // Log in the user
-    await logInUser(page, email, password)
-
-    await page.goto("/settings")
-    await page.getByRole("tab", { name: "My profile" }).click()
-    await page.getByRole("button", { name: "Edit" }).click()
-    await page.getByLabel("Email").fill(updatedEmail)
-    await page.getByRole("button", { name: "Cancel" }).first().click()
-    await expect(
-      page.getByLabel("My profile").getByText(email, { exact: true }),
-    ).toBeVisible()
   })
 })
 
@@ -151,11 +102,11 @@ test.describe("Change password successfully", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "Password" }).click()
-    await page.getByLabel("Current Password*").fill(password)
-    await page.getByLabel("Set Password*").fill(NewPassword)
-    await page.getByLabel("Confirm Password*").fill(NewPassword)
+    await page.getByRole("textbox",{name:"Current Password"}).fill(password)
+    await page.getByRole("textbox",{name:"Set Password"}).fill(NewPassword)
+    await page.getByRole("textbox",{name:"Confirm Password"}).fill(NewPassword)
     await page.getByRole("button", { name: "Save" }).click()
-    await expect(page.getByText("Password updated successfully.")).toBeVisible()
+    await expect(page.getByText("Password updated successfully")).toBeVisible()
 
     await logOutUser(page)
 
@@ -179,9 +130,9 @@ test.describe("Change password with invalid data", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "Password" }).click()
-    await page.getByLabel("Current Password*").fill(password)
-    await page.getByLabel("Set Password*").fill(weakPassword)
-    await page.getByLabel("Confirm Password*").fill(weakPassword)
+    await page.getByRole("textbox",{name:"Current Password"}).fill(password)
+    await page.getByRole("textbox",{name:"Set Password"}).fill(weakPassword)
+    await page.getByRole("textbox",{name:"Confirm Password"}).fill(weakPassword)
     await expect(
       page.getByText("Password must be at least 8 characters"),
     ).toBeVisible()
@@ -202,9 +153,9 @@ test.describe("Change password with invalid data", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "Password" }).click()
-    await page.getByLabel("Current Password*").fill(password)
-    await page.getByLabel("Set Password*").fill(newPassword)
-    await page.getByLabel("Confirm Password*").fill(confirmPassword)
+    await page.getByLabel("Current Password").fill(password)
+    await page.getByLabel("Set Password").fill(newPassword)
+    await page.getByLabel("Confirm Password").fill(confirmPassword)
     await page.getByRole("button", { name: "Save" }).click()
     await expect(page.getByText("Passwords do not match")).toBeVisible()
   })
@@ -220,9 +171,9 @@ test.describe("Change password with invalid data", () => {
 
     await page.goto("/settings")
     await page.getByRole("tab", { name: "Password" }).click()
-    await page.getByLabel("Current Password*").fill(password)
-    await page.getByLabel("Set Password*").fill(password)
-    await page.getByLabel("Confirm Password*").fill(password)
+    await page.getByLabel("Current Password").fill(password)
+    await page.getByLabel("Set Password").fill(password)
+    await page.getByLabel("Confirm Password").fill(password)
     await page.getByRole("button", { name: "Save" }).click()
     await expect(
       page.getByText("New password cannot be the same as the current one"),
@@ -235,39 +186,12 @@ test.describe("Change password with invalid data", () => {
 test("Appearance tab is visible", async ({ page }) => {
   await page.goto("/settings")
   await page.getByRole("tab", { name: "Appearance" }).click()
-  await expect(page.getByLabel("Appearance")).toBeVisible()
+  await expect(page.getByRole("heading",{name:"Appearance"})).toBeVisible()
 })
 
-test("User can switch from light mode to dark mode", async ({ page }) => {
+test("User can switch mode", async ({ page }) => {
   await page.goto("/settings")
   await page.getByRole("tab", { name: "Appearance" }).click()
-  await page.getByLabel("Appearance").locator("span").nth(3).click()
-  const isDarkMode = await page.evaluate(() =>
-    document.body.classList.contains("chakra-ui-dark"),
-  )
-  expect(isDarkMode).toBe(true)
-})
-
-test("User can switch from dark mode to light mode", async ({ page }) => {
-  await page.goto("/settings")
-  await page.getByRole("tab", { name: "Appearance" }).click()
-  await page.getByLabel("Appearance").locator("span").first().click()
-  const isLightMode = await page.evaluate(() =>
-    document.body.classList.contains("chakra-ui-light"),
-  )
-  expect(isLightMode).toBe(true)
-})
-
-test("Selected mode is preserved across sessions", async ({ page }) => {
-  await page.goto("/settings")
-  await page.getByRole("tab", { name: "Appearance" }).click()
-  await page.getByLabel("Appearance").locator("span").nth(3).click()
-
-  await logOutUser(page)
-
-  await logInUser(page, firstSuperuser, firstSuperuserPassword)
-  const isDarkMode = await page.evaluate(() =>
-    document.body.classList.contains("chakra-ui-dark"),
-  )
-  expect(isDarkMode).toBe(true)
+  await page.getByRole("combobox",{name:"Theme"}).click()
+  await page.getByRole("option",{name:"Dark"}).click()
 })

@@ -9,7 +9,8 @@
     "start": "vite",
     "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
     "preview": "vite preview",
-    "generate-client": "openapi-ts"
+    "generate-client": "openapi-ts",
+    "test:playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.1.1",

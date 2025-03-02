@@ -34,10 +34,7 @@ const ChangePassword = () => {
       reset()
     },
     onError: (err: ApiError) => {
-      show({
-        severity:"error",
-        message:err.message,
-      })
+      handleError(err,show);
     },
   })
 
@@ -53,7 +50,7 @@ const ChangePassword = () => {
         <Grid2 size={12}>
           <TextField
             {...register("current_password")}
-            label="Password"
+            label="Current Password"
             type="password"
             fullWidth
             error={!!errors.current_password}

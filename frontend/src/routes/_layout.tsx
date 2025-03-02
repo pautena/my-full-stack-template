@@ -74,7 +74,7 @@ function Layout() {
             <MenuItem component={Link} href="/settings" onClick={handleClose}>Settings</MenuItem>
             {currentUser?.is_superuser &&  <MenuItem component={Link} href="/admin" onClick={handleClose}>Administration</MenuItem>}
             <Divider/>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Log out</MenuItem>
           </Menu>
         </Box>
 

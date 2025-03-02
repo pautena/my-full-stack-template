@@ -59,10 +59,7 @@ function ResetPassword() {
       navigate({ to: "/login" })
     },
     onError: (err: ApiError) => {
-      show({
-        severity: "error",
-        message: err.message,
-      })
+      handleError(err,show)
     },
   })
 
