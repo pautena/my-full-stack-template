@@ -114,8 +114,6 @@ function ResetPassword() {
           </Button>
           </Grid2>
         </Grid2>
-
-
     </Box>
   )
 }
