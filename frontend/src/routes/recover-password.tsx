@@ -6,7 +6,6 @@ import { type ApiError, LoginService } from "../client"
 import { isLoggedIn } from "../hooks/useAuth"
 import { emailPattern, handleError } from "../utils"
 import { Grid2, Typography, TextField, Button, Box } from "@mui/material"
-import { Show } from "@chakra-ui/react"
 import { useNotificationCenter } from "@pautena/react-design-system"
 
 interface FormData {
