@@ -1,10 +1,12 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
+import { Link, Outlet, createFileRoute, redirect } from "@tanstack/react-router"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { Drawer, DrawerAppBar, DrawerContent, DrawerLayout, LoadingArea } from "@pautena/react-design-system"
 import { useGetSidebarNav } from "../app/sidebar"
-import { Box, IconButton, Menu, MenuItem } from "@mui/material"
+import { Box, Divider, IconButton, Menu, MenuItem } from "@mui/material"
 import { useState } from "react"
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { useQueryClient } from "@tanstack/react-query"
+import { UserPublic } from "../client"
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,
@@ -19,6 +21,8 @@ export const Route = createFileRoute("/_layout")({
 
 function Layout() {
   const { isLoading,logout } = useAuth()
+  const queryClient = useQueryClient()
+  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const sidebarNav = useGetSidebarNav();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -67,6 +71,9 @@ function Layout() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
+            <MenuItem component={Link} href="/settings" onClick={handleClose}>Settings</MenuItem>
+            {currentUser?.is_superuser &&  <MenuItem component={Link} href="/admin" onClick={handleClose}>Administration</MenuItem>}
+            <Divider/>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Box>
