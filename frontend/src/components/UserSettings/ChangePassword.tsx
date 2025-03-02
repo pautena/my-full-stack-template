@@ -2,16 +2,15 @@ import { useMutation } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
 import { type ApiError, type UpdatePassword, UsersService } from "../../client"
-import useCustomToast from "../../hooks/useCustomToast"
 import { confirmPasswordRules, handleError, passwordRules } from "../../utils"
 import { Button, Grid2, TextField, Typography } from "@mui/material"
+import { useNotificationCenter } from "@pautena/react-design-system"
 
 interface UpdatePasswordForm extends UpdatePassword {
   confirm_password: string
 }
 
 const ChangePassword = () => {
-  const showToast = useCustomToast()
   const {
     register,
     handleSubmit,
@@ -22,16 +21,23 @@ const ChangePassword = () => {
     mode: "onBlur",
     criteriaMode: "all",
   })
+  const {show} = useNotificationCenter();
 
   const mutation = useMutation({
     mutationFn: (data: UpdatePassword) =>
       UsersService.updatePasswordMe({ requestBody: data }),
     onSuccess: () => {
-      showToast("Success!", "Password updated successfully.", "success")
+      show({
+        severity:"success",
+        message:"Password updated successfully",
+      });
       reset()
     },
     onError: (err: ApiError) => {
-      handleError(err, showToast)
+      show({
+        severity:"error",
+        message:err.message,
+      })
     },
   })
 

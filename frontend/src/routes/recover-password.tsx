@@ -4,9 +4,10 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 
 import { type ApiError, LoginService } from "../client"
 import { isLoggedIn } from "../hooks/useAuth"
-import useCustomToast from "../hooks/useCustomToast"
-import { confirmPasswordRules, emailPattern, handleError, passwordRules } from "../utils"
+import { emailPattern, handleError } from "../utils"
 import { Grid2, Typography, TextField, Button, Box } from "@mui/material"
+import { Show } from "@chakra-ui/react"
+import { useNotificationCenter } from "@pautena/react-design-system"
 
 interface FormData {
   email: string
@@ -30,7 +31,7 @@ function RecoverPassword() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>()
-  const showToast = useCustomToast()
+  const {show} = useNotificationCenter();
 
   const recoverPassword = async (data: FormData) => {
     await LoginService.recoverPassword({
@@ -41,15 +42,19 @@ function RecoverPassword() {
   const mutation = useMutation({
     mutationFn: recoverPassword,
     onSuccess: () => {
-      showToast(
-        "Email sent.",
-        "We sent an email with a link to get back into your account.",
-        "success",
-      )
+      show({
+        severity:"success",
+        title:"Email sent",
+        message:"We sent an email with a link to get back into your account.",
+      });
+
       reset()
     },
     onError: (err: ApiError) => {
-      handleError(err, showToast)
+      show({
+        severity:"error",
+        message:err.message
+      })
     },
   })
 
@@ -88,9 +93,9 @@ function RecoverPassword() {
             />
           </Grid2>
           <Grid2 size={12}>
-          <Button fullWidth variant="contained" color="primary" type="submit">
-          Continue
-          </Button>
+            <Button fullWidth variant="contained" color="primary" type="submit" loading={isSubmitting}>
+              Continue
+            </Button>
           </Grid2>
         </Grid2>
     </Box>
