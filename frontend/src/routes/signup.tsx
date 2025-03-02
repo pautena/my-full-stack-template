@@ -1,5 +1,4 @@
 import {
-  Link as RouterLink,
   createFileRoute,
   redirect,
 } from "@tanstack/react-router"
@@ -111,7 +110,7 @@ function SignUp() {
         <Grid2 size={12}>
           <Typography>
             Already have an account?{" "}
-            <Link component={RouterLink} to="/login" color="secondary">
+            <Link href="/login" color="secondary">
               Log In
             </Link>
           </Typography>

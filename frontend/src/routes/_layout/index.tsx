@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router"
-import {Content, Label} from '@pautena/react-design-system'
+import {Content} from '@pautena/react-design-system'
 
 import useAuth from "../../hooks/useAuth"
 import { Grid2, Typography } from "@mui/material"

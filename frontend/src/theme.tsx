@@ -1,11 +1,28 @@
 import { createTheme as muiCreateTheme, PaletteMode, Theme } from '@mui/material/styles';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
+import { Link } from '@tanstack/react-router'
 
 export function createTheme(mode:PaletteMode):Theme {
   return muiCreateTheme({
     palette: {
       mode,
     },
+    components:{
+      MuiLink: {
+        defaultProps: {
+          component: Link
+        }
+      },
+      MuiButtonBase: {
+        defaultProps: {
+          LinkComponent: Link,
+        }
+      },
+      MuiButton: {
+        defaultProps: {
+          variant: 'contained',        }
+      }
+    }
   });
 }
 
