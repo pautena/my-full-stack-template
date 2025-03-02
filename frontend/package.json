@@ -13,8 +13,6 @@
     "test:playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.1.1",
-    "@chakra-ui/react": "2.8.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.6",
