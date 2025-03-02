@@ -1,21 +1,12 @@
-import {
-  Button,
-  Container,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  Text,
-} from "@chakra-ui/react"
 import { useMutation } from "@tanstack/react-query"
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
 import { type ApiError, LoginService, type NewPassword } from "../client"
 import { isLoggedIn } from "../hooks/useAuth"
-import useCustomToast from "../hooks/useCustomToast"
 import { confirmPasswordRules, handleError, passwordRules } from "../utils"
+import { Box, Grid2, TextField, Typography,Button } from "@mui/material"
+import { useNotificationCenter } from "@pautena/react-design-system"
 
 interface NewPasswordForm extends NewPassword {
   confirm_password: string
@@ -46,8 +37,8 @@ function ResetPassword() {
       new_password: "",
     },
   })
-  const showToast = useCustomToast()
   const navigate = useNavigate()
+  const { show } = useNotificationCenter();
 
   const resetPassword = async (data: NewPassword) => {
     const token = new URLSearchParams(window.location.search).get("token")
@@ -60,12 +51,18 @@ function ResetPassword() {
   const mutation = useMutation({
     mutationFn: resetPassword,
     onSuccess: () => {
-      showToast("Success!", "Password updated successfully.", "success")
+      show({
+        severity: "success",
+        message: "Password updated successfully",
+      })
       reset()
       navigate({ to: "/login" })
     },
     onError: (err: ApiError) => {
-      handleError(err, showToast)
+      show({
+        severity: "error",
+        message: err.message,
+      })
     },
   })
 
@@ -74,49 +71,51 @@ function ResetPassword() {
   }
 
   return (
-    <Container
-      as="form"
-      onSubmit={handleSubmit(onSubmit)}
-      h="100vh"
-      maxW="sm"
-      alignItems="stretch"
-      justifyContent="center"
-      gap={4}
-      centerContent
-    >
-      <Heading size="xl" color="ui.main" textAlign="center" mb={2}>
-        Reset Password
-      </Heading>
-      <Text textAlign="center">
-        Please enter your new password and confirm it to reset your password.
-      </Text>
-      <FormControl mt={4} isInvalid={!!errors.new_password}>
-        <FormLabel htmlFor="password">Set Password</FormLabel>
-        <Input
-          id="password"
-          {...register("new_password", passwordRules())}
-          placeholder="Password"
-          type="password"
-        />
-        {errors.new_password && (
-          <FormErrorMessage>{errors.new_password.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl mt={4} isInvalid={!!errors.confirm_password}>
-        <FormLabel htmlFor="confirm_password">Confirm Password</FormLabel>
-        <Input
-          id="confirm_password"
-          {...register("confirm_password", confirmPasswordRules(getValues))}
-          placeholder="Password"
-          type="password"
-        />
-        {errors.confirm_password && (
-          <FormErrorMessage>{errors.confirm_password.message}</FormErrorMessage>
-        )}
-      </FormControl>
-      <Button variant="primary" type="submit">
-        Reset Password
-      </Button>
-    </Container>
+    <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        height="100vh"
+        alignItems="center"
+        justifyContent="center"
+        display="flex"
+      >
+        <Grid2 container spacing={2} maxWidth={400}>
+          <Grid2 size={12}>
+            <Typography variant="h4" textAlign="center">Reset Password</Typography>
+          </Grid2>
+          <Grid2 size={12}>
+            <Typography textAlign="center">Please enter your new password and confirm it to reset your password</Typography>
+          </Grid2>
+          <Grid2 size={12}>
+            <TextField
+              label="Set Password"
+              {...register("new_password", passwordRules())}
+              type="password"
+              required
+              fullWidth
+              error={!!errors.new_password}
+              helperText={errors.new_password?.message}
+            />
+          </Grid2>
+          <Grid2 size={12}>
+            <TextField
+              label="Confirm Password"
+              {...register("confirm_password", confirmPasswordRules(getValues))}
+              type="password"
+              required
+              fullWidth
+              error={!!errors.confirm_password}
+              helperText={errors.confirm_password?.message}
+            />
+          </Grid2>
+          <Grid2 size={12}>
+          <Button fullWidth variant="contained" color="primary" type="submit">
+            Reset Password
+          </Button>
+          </Grid2>
+        </Grid2>
+
+
+    </Box>
   )
 }
