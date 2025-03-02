@@ -1,38 +1,22 @@
-import {
-  Badge,
-  Container,
-  Heading,
-  Radio,
-  RadioGroup,
-  Stack,
-  useColorMode,
-} from "@chakra-ui/react"
+import { Grid2, MenuItem, PaletteMode, Typography } from "@mui/material"
+import { useColorMode } from "../../theme"
+import { Select } from "@pautena/react-design-system"
 
 const Appearance = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, setColorMode } = useColorMode()
 
   return (
-    <>
-      <Container maxW="full">
-        <Heading size="sm" py={4}>
-          Appearance
-        </Heading>
-        <RadioGroup onChange={toggleColorMode} value={colorMode}>
-          <Stack>
-            {/* TODO: Add system default option */}
-            <Radio value="light" colorScheme="teal">
-              Light Mode
-              <Badge ml="1" colorScheme="teal">
-                Default
-              </Badge>
-            </Radio>
-            <Radio value="dark" colorScheme="teal">
-              Dark Mode
-            </Radio>
-          </Stack>
-        </RadioGroup>
-      </Container>
-    </>
+    <Grid2 container spacing={2}>
+      <Grid2 size={12}>
+        <Typography variant="h4">Appearance</Typography>
+      </Grid2>
+      <Grid2 size={4}>
+        <Select label="Theme" fullWidth value={colorMode} onChange={(e)=>setColorMode(e.target.value as PaletteMode)}>
+          <MenuItem value="light">Light</MenuItem>
+          <MenuItem value="dark">Dark</MenuItem>
+        </Select>
+      </Grid2>
+    </Grid2>
   )
 }
 export default Appearance

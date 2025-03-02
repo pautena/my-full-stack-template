@@ -1,16 +1,4 @@
 import {
-  Button,
-  Container,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Image,
-  Input,
-  Link,
-  Text,
-} from "@chakra-ui/react"
-import {
   Link as RouterLink,
   createFileRoute,
   redirect,
@@ -20,6 +8,7 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 import type { UserRegister } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { confirmPasswordRules, emailPattern, passwordRules } from "../utils"
+import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material"
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -59,96 +48,76 @@ function SignUp() {
   }
 
   return (
-    <>
-      <Flex flexDir={{ base: "column", md: "row" }} justify="center" h="100vh">
-        <Container
-          as="form"
-          onSubmit={handleSubmit(onSubmit)}
-          h="100vh"
-          maxW="sm"
-          alignItems="stretch"
-          justifyContent="center"
-          gap={4}
-          centerContent
-        >
-          <FormControl id="full_name" isInvalid={!!errors.full_name}>
-            <FormLabel htmlFor="full_name" srOnly>
-              Full Name
-            </FormLabel>
-            <Input
-              id="full_name"
-              minLength={3}
+    <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        height="100vh"
+        alignItems="center"
+        justifyContent="center"
+        display="flex"
+      >
+        <Grid2 container spacing={2} maxWidth={400}>
+          <Grid2 size={12}>
+            <TextField
+              label="Full Name"
               {...register("full_name", { required: "Full Name is required" })}
-              placeholder="Full Name"
-              type="text"
+              required
+              fullWidth
+              error={!!errors.full_name}
+              helperText={errors.full_name?.message}
             />
-            {errors.full_name && (
-              <FormErrorMessage>{errors.full_name.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl id="email" isInvalid={!!errors.email}>
-            <FormLabel htmlFor="email" srOnly>
-              Email
-            </FormLabel>
-            <Input
-              id="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: emailPattern,
-              })}
-              placeholder="Email"
-              type="email"
-            />
-            {errors.email && (
-              <FormErrorMessage>{errors.email.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl id="password" isInvalid={!!errors.password}>
-            <FormLabel htmlFor="password" srOnly>
-              Password
-            </FormLabel>
-            <Input
-              id="password"
-              {...register("password", passwordRules())}
-              placeholder="Password"
-              type="password"
-            />
-            {errors.password && (
-              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl
-            id="confirm_password"
-            isInvalid={!!errors.confirm_password}
-          >
-            <FormLabel htmlFor="confirm_password" srOnly>
-              Confirm Password
-            </FormLabel>
-
-            <Input
-              id="confirm_password"
-              {...register("confirm_password", confirmPasswordRules(getValues))}
-              placeholder="Repeat Password"
-              type="password"
-            />
-            {errors.confirm_password && (
-              <FormErrorMessage>
-                {errors.confirm_password.message}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <Button variant="primary" type="submit" isLoading={isSubmitting}>
-            Sign Up
+          </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: emailPattern,
+            })}
+            type="email"
+            required
+            fullWidth
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Password"
+            {...register("password", passwordRules())}
+            type="password"
+            required
+            fullWidth
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Repeat Password"
+            {...register("confirm_password", confirmPasswordRules(getValues))}
+            type="password"
+            required
+            fullWidth
+            error={!!errors.confirm_password}
+            helperText={errors.confirm_password?.message}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <Button variant="contained" fullWidth color="primary" type="submit" loading={isSubmitting}>
+          Sign Up
           </Button>
-          <Text>
+        </Grid2>
+        <Grid2 size={12}>
+          <Typography>
             Already have an account?{" "}
-            <Link as={RouterLink} to="/login" color="blue.500">
+            <Link component={RouterLink} to="/login" color="secondary">
               Log In
             </Link>
-          </Text>
-        </Container>
-      </Flex>
-    </>
+          </Typography>
+        </Grid2>
+      </Grid2>
+    </Box>
   )
 }
 

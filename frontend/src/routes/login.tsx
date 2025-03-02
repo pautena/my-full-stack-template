@@ -1,18 +1,3 @@
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
-import {
-  Button,
-  Container,
-  FormControl,
-  FormErrorMessage,
-  Icon,
-  Image,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Text,
-  useBoolean,
-} from "@chakra-ui/react"
 import {
   Link as RouterLink,
   createFileRoute,
@@ -23,6 +8,10 @@ import { type SubmitHandler, useForm } from "react-hook-form"
 import type { Body_login_login_access_token as AccessToken } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { emailPattern } from "../utils"
+import { useState } from "react"
+import { Box, Button, Grid2, IconButton, InputAdornment, Link, TextField, Typography } from "@mui/material"
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 export const Route = createFileRoute("/login")({
   component: Login,
@@ -36,7 +25,7 @@ export const Route = createFileRoute("/login")({
 })
 
 function Login() {
-  const [show, setShow] = useBoolean()
+  const [showPassword, setShowPassword] = useState(false)
   const { loginMutation, error, resetError } = useAuth()
   const {
     register,
@@ -64,72 +53,77 @@ function Login() {
   }
 
   return (
-    <>
-      <Container
-        as="form"
+      <Box
+        component="form"
         onSubmit={handleSubmit(onSubmit)}
-        h="100vh"
-        maxW="sm"
-        alignItems="stretch"
+        height="100vh"
+        alignItems="center"
         justifyContent="center"
-        gap={4}
-        centerContent
+        display="flex"
       >
-        <FormControl id="username" isInvalid={!!errors.username || !!error}>
-          <Input
-            id="username"
-            {...register("username", {
-              required: "Username is required",
-              pattern: emailPattern,
-            })}
-            placeholder="Email"
-            type="email"
-            required
-          />
-          {errors.username && (
-            <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-          )}
-        </FormControl>
-        <FormControl id="password" isInvalid={!!error}>
-          <InputGroup>
-            <Input
+        <Grid2 container spacing={2} maxWidth={400}>
+          <Grid2 size={12}>
+            <TextField
+              label="Email"
+              {...register("username", {
+                required: "Username is required",
+                pattern: emailPattern,
+              })}
+              type="email"
+              required
+              fullWidth
+              error={!!errors.username || !!error}
+              helperText={errors.username?.message || error}
+            />
+          </Grid2>
+          <Grid2 size={12}>
+            <TextField
+              label="Password"
               {...register("password", {
                 required: "Password is required",
               })}
-              type={show ? "text" : "password"}
-              placeholder="Password"
+              type={showPassword ? "text" : "password"}
               required
-            />
-            <InputRightElement
-              color="ui.dim"
-              _hover={{
-                cursor: "pointer",
-              }}
-            >
-              <Icon
-                as={show ? ViewOffIcon : ViewIcon}
-                onClick={setShow.toggle}
-                aria-label={show ? "Hide password" : "Show password"}
-              >
-                {show ? <ViewOffIcon /> : <ViewIcon />}
-              </Icon>
-            </InputRightElement>
-          </InputGroup>
-          {error && <FormErrorMessage>{error}</FormErrorMessage>}
-        </FormControl>
-        <Link as={RouterLink} to="/recover-password" color="blue.500">
-          Forgot password?
-        </Link>
-        <Button variant="primary" type="submit" isLoading={isSubmitting}>
-          Log In
-        </Button>
-        <Text>
-          Don't have an account?{" "}
-          <Link as={RouterLink} to="/signup" color="blue.500">
-            Sign up
+              fullWidth
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              slotProps={{
+                input:{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label={
+                          showPassword ? 'hide the password' : 'display the password'
+                        }
+                        onClick={(s) => setShowPassword(!s)}
+                        onMouseDown={(e) => e.preventDefault()}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }
+              }}/>
+          </Grid2>
+          <Grid2 size={12}>
+            <Link component={RouterLink} to="/recover-password" color="secondary">
+              Forgot password?
           </Link>
-        </Text>
-      </Container>
-    </>
+          </Grid2>
+          <Grid2 size={12}>
+            <Button variant="contained" type="submit" loading={isSubmitting} fullWidth>
+              Log In
+            </Button>
+          </Grid2>
+          <Grid2 size={12}>
+            <Typography>
+              Don't have an account?{" "}
+              <Link component={RouterLink} to="/signup" color="secondary">
+                Sign up
+              </Link>
+            </Typography>
+          </Grid2>
+        </Grid2>
+      </Box>
   )
 }

@@ -16,9 +16,9 @@ test("Password Recovery title is visible", async ({ page }) => {
 test("Input is visible, empty and editable", async ({ page }) => {
   await page.goto("/recover-password")
 
-  await expect(page.getByPlaceholder("Email")).toBeVisible()
-  await expect(page.getByPlaceholder("Email")).toHaveText("")
-  await expect(page.getByPlaceholder("Email")).toBeEditable()
+  await expect(page.getByLabel("Email")).toBeVisible()
+  await expect(page.getByLabel("Email")).toHaveText("")
+  await expect(page.getByLabel("Email")).toBeEditable()
 })
 
 test("Continue button is visible", async ({ page }) => {
@@ -40,7 +40,7 @@ test("User can reset password successfully using the link", async ({
   await signUpNewUser(page, fullName, email, password)
 
   await page.goto("/recover-password")
-  await page.getByPlaceholder("Email").fill(email)
+  await page.getByLabel("Email").fill(email)
 
   await page.getByRole("button", { name: "Continue" }).click()
 
@@ -96,7 +96,7 @@ test("Weak new password validation", async ({ page, request }) => {
   await signUpNewUser(page, fullName, email, password)
 
   await page.goto("/recover-password")
-  await page.getByPlaceholder("Email").fill(email)
+  await page.getByLabel("Email").fill(email)
   await page.getByRole("button", { name: "Continue" }).click()
 
   const emailData = await findLastEmail({

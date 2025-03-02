@@ -11,7 +11,7 @@ import {
   type UserRegister,
   UsersService,
 } from "../client"
-import useCustomToast from "./useCustomToast"
+import { useNotificationCenter } from "@pautena/react-design-system"
 
 const isLoggedIn = () => {
   return localStorage.getItem("access_token") !== null
@@ -20,7 +20,7 @@ const isLoggedIn = () => {
 const useAuth = () => {
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
-  const showToast = useCustomToast()
+  const {show} = useNotificationCenter();
   const queryClient = useQueryClient()
   const { data: user, isLoading } = useQuery<UserPublic | null, Error>({
     queryKey: ["currentUser"],
@@ -34,11 +34,11 @@ const useAuth = () => {
 
     onSuccess: () => {
       navigate({ to: "/login" })
-      showToast(
-        "Account created.",
-        "Your account has been created successfully.",
-        "success",
-      )
+      show({
+        severity:"success",
+        title:"Account created",
+        message:"Your account has been created successfully.",
+      });
     },
     onError: (err: ApiError) => {
       let errDetail = (err.body as any)?.detail
@@ -47,7 +47,11 @@ const useAuth = () => {
         errDetail = err.message
       }
 
-      showToast("Something went wrong.", errDetail, "error")
+      show({
+        severity:"error",
+        title:"Something went wrong.",
+        message:errDetail,
+      })
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
