@@ -2,11 +2,8 @@ import { createTheme as muiCreateTheme, PaletteMode, Theme } from '@mui/material
 import { createContext, useContext } from 'react';
 import { Link } from '@tanstack/react-router'
 
-export function createTheme(mode:PaletteMode):Theme {
+export function createTheme():Theme {
   return muiCreateTheme({
-    palette: {
-      mode,
-    },
     components:{
       MuiLink: {
         defaultProps: {
