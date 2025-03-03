@@ -30,6 +30,7 @@ const router = createRouter({
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,
+
 })
 
 // Register things for typesafety
@@ -46,11 +47,9 @@ function App() {
   return (
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <AppProvider navigation={sidebarNavigation} theme={theme}>
           <NotificationCenterProvider>
                 <RouterProvider router={router} />
           </NotificationCenterProvider>
-        </AppProvider>
       </QueryClientProvider>
     </StrictMode>
   );

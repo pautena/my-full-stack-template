@@ -2,6 +2,9 @@ import { Outlet, createRootRoute } from "@tanstack/react-router"
 import React, { Suspense } from "react"
 
 import NotFound from "../components/Common/NotFound"
+import { createTheme } from "../theme"
+import { useGetNavigation } from "../app/navigation"
+import { TanstackRouterAppProvider } from "../app/tanstack-router-app-provider"
 
 const loadDevtools = () =>
   Promise.all([
@@ -22,13 +25,18 @@ const TanStackDevtools =
   process.env.NODE_ENV === "production" ? () => null : React.lazy(loadDevtools)
 
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <Suspense>
-        <TanStackDevtools />
-      </Suspense>
-    </>
-  ),
+  component: () => {
+    const sidebarNavigation = useGetNavigation();
+    const theme = createTheme();
+
+    return (
+      <TanstackRouterAppProvider navigation={sidebarNavigation} theme={theme}>
+        <Outlet />
+        <Suspense>
+          <TanStackDevtools />
+        </Suspense>
+      </TanstackRouterAppProvider>
+    )
+  },
   notFoundComponent: () => <NotFound />,
 })

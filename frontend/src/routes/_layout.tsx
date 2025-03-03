@@ -6,6 +6,9 @@ import { UserPublic } from "../client"
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { LoadingArea } from "@pautena/react-design-system"
 import { Account } from "@toolpad/core/Account"
+import { TanstackRouterAppProvider } from "../app/tanstack-router-app-provider"
+import { createTheme } from "@mui/material"
+import { useGetNavigation } from "../app/navigation"
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,
