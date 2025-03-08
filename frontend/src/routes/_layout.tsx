@@ -39,46 +39,47 @@ function Layout() {
     handleClose();
   };
 
-  return (
-    <DrawerLayout drawerProviderProps={{variant:"mini"}}>
-      <Drawer>
-        <DrawerContent nav={sidebarNav}/>
-      </Drawer>
-      <DrawerAppBar title="My Full Stack Template" >
-        <Box display="flex" justifyContent="flex-end" flexGrow={1}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenu}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem component={Link} href="/settings" onClick={handleClose}>Settings</MenuItem>
-            {currentUser?.is_superuser &&  <MenuItem component={Link} href="/admin" onClick={handleClose}>Administration</MenuItem>}
-            <Divider/>
-            <MenuItem onClick={handleLogout}>Log out</MenuItem>
-          </Menu>
-        </Box>
+  const drawerAppBarContent = (
+    <Box display="flex" justifyContent="flex-end" flexGrow={1}>
+      <IconButton
+        size="large"
+        aria-label="account of current user"
+        aria-controls="menu-appbar"
+        aria-haspopup="true"
+        onClick={handleMenu}
+        color="inherit"
+      >
+        <AccountCircle />
+      </IconButton>
+      <Menu
+        id="menu-appbar"
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem component={Link} href="/settings" onClick={handleClose}>Settings</MenuItem>
+        {currentUser?.is_superuser &&  <MenuItem component={Link} href="/admin" onClick={handleClose}>Administration</MenuItem>}
+        <Divider/>
+        <MenuItem onClick={handleLogout}>Log out</MenuItem>
+      </Menu>
+    </Box>
+  )
 
-      </DrawerAppBar>
+  return (
+    <DrawerLayout variant="mini" navigation={sidebarNav} title="My Full Stack Template" slotsProps={{
+      drawerAppBar: {
+        children: drawerAppBarContent,
+      }
+    }}>
       {isLoading ? <LoadingArea/>:<Outlet/>}
     </DrawerLayout>
   )
