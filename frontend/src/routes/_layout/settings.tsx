@@ -27,9 +27,12 @@ function UserSettings() {
     : tabsConfig
 
   return (
-    <HeaderLayout>
-      <Header title="User Settings" tabs={finalTabs}/>
-      <Content>
+    <HeaderLayout title="User Setttings" slotProps={{
+      header: {
+        tabs: finalTabs,
+        tabsMode: "panel",
+      }
+    }}>
         <TabPanel index={0}>
           <UserInformation/>
         </TabPanel>
@@ -42,7 +45,6 @@ function UserSettings() {
         <TabPanel index={3}>
           <DeleteAccount/>
         </TabPanel>
-      </Content>
     </HeaderLayout>
   )
 }

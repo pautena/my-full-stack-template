@@ -86,20 +86,21 @@ function Items() {
   }]
 
   return (
-    <HeaderLayout>
-      <Header title="Items Management" actions={[{id:"add","text":"Add Item", onClick:openAdd}]}/>
-      <Content>
-        <DataGrid columns={columns} loading={isPending} paginationMode="server"
-          rows={items?.data} rowCount={items?.count} pageSizeOptions={[PAGE_SIZE]}
-          paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
-        <AddItem isOpen={isOpenAdd} onClose={closeAdd}/>
-        {selectedItem && (
-          <>
-            <EditItem item={selectedItem} isOpen={isOpenEdit} onClose={closeEdit}/>
-            <DeleteItem item={selectedItem} isOpen={isOpenDelete} onClose={closeDelete}/>
-          </>
-        )}
-      </Content>
+    <HeaderLayout title="Items Management" slotProps={{
+      header:{
+        actions:[{id:"add","text":"Add Item", onClick:openAdd}]
+      }
+    }}>
+      <DataGrid columns={columns} loading={isPending} paginationMode="server"
+        rows={items?.data} rowCount={items?.count} pageSizeOptions={[PAGE_SIZE]}
+        paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
+      <AddItem isOpen={isOpenAdd} onClose={closeAdd}/>
+      {selectedItem && (
+        <>
+          <EditItem item={selectedItem} isOpen={isOpenEdit} onClose={closeEdit}/>
+          <DeleteItem item={selectedItem} isOpen={isOpenDelete} onClose={closeDelete}/>
+        </>
+      )}
     </HeaderLayout>
   )
 }

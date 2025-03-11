@@ -9,7 +9,7 @@ import { Content, Header, HeaderLayout, Label, useDialog } from "@pautena/react-
 import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel } from "@mui/x-data-grid"
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Typography, useTheme } from "@mui/material"
+import { Box, useTheme } from "@mui/material"
 import EditUser from "../../components/Admin/EditUser"
 import { DeleteUser } from "../../components/Admin/DeleteUser"
 import {AddUser} from "../../components/Admin/AddUser"
@@ -134,9 +134,11 @@ function Admin() {
   ];
 
   return (
-    <HeaderLayout>
-      <Header title="Users Management" actions={[{id:"add","text":"Add user", onClick:openAdd}]}/>
-      <Content>
+    <HeaderLayout title="Users Management"  slotProps={{
+      header:{
+        actions:[{id:"add","text":"Add user", onClick:openAdd}]
+      }
+    }}>
       <DataGrid columns={columns} rows={users?.data}loading={isPending} paginationMode="server" rowCount={users?.count}
       pageSizeOptions={[PAGE_SIZE]}
       paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
@@ -147,7 +149,6 @@ function Admin() {
           <DeleteUser user={selectedUser} isOpen={isOpenDelete} onClose={closeDelete}/>
         </>
       )}
-    </Content>
     </HeaderLayout>
   )
 }
