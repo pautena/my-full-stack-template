@@ -8,10 +8,12 @@ export async function signUpNewUser(
 ) {
   await page.goto("/signup")
 
-  await page.getByRole("textbox",{name:"Full Name"}).fill(name)
-  await page.getByRole("textbox",{name:"Email"}).fill(email)
-  await page.getByRole("textbox", { name:"Password",exact: true }).fill(password)
-  await page.getByRole("textbox",{name:"Repeat Password"}).fill(password)
+  await page.getByRole("textbox", { name: "Full Name" }).fill(name)
+  await page.getByRole("textbox", { name: "Email" }).fill(email)
+  await page
+    .getByRole("textbox", { name: "Password", exact: true })
+    .fill(password)
+  await page.getByRole("textbox", { name: "Repeat Password" }).fill(password)
   await page.getByRole("button", { name: "Sign Up" }).click()
   await expect(
     page.getByText("Your account has been created successfully"),
@@ -22,8 +24,10 @@ export async function signUpNewUser(
 export async function logInUser(page: Page, email: string, password: string) {
   await page.goto("/login")
 
-  await page.getByRole("textbox",{name:"Email"}).fill(email)
-  await page.getByRole("textbox", { name:"Password",exact: true }).fill(password)
+  await page.getByRole("textbox", { name: "Email" }).fill(email)
+  await page
+    .getByRole("textbox", { name: "Password", exact: true })
+    .fill(password)
   await page.getByRole("button", { name: "Log In" }).click()
   await page.waitForURL("/")
   await expect(

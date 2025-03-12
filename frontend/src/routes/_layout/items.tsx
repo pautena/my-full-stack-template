@@ -3,14 +3,24 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 
-import { ItemPublic, ItemsService } from "../../client"
-import {AddItem} from "../../components/Items/AddItem"
-import { Content, Header, HeaderLayout, useDialog } from "@pautena/react-design-system"
-import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { EditItem } from "../../components/Items/EditItem"
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
+import {
+  DataGrid,
+  GridActionsCellItem,
+  type GridColDef,
+  type GridPaginationModel,
+} from "@mui/x-data-grid"
+import {
+  Content,
+  Header,
+  HeaderLayout,
+  useDialog,
+} from "@pautena/react-design-system"
+import { type ItemPublic, ItemsService } from "../../client"
+import { AddItem } from "../../components/Items/AddItem"
 import { DeleteItem } from "../../components/Items/DeleteItem"
+import { EditItem } from "../../components/Items/EditItem"
 
 const itemsSearchSchema = z.object({
   page: z.number().catch(0),
@@ -31,18 +41,21 @@ function getItemsQueryOptions({ page }: { page: number }) {
   }
 }
 
-
 function Items() {
-  const {open: openAdd,close: closeAdd,isOpen: isOpenAdd} = useDialog();
-  const [selectedItem,setSelectedItem] = useState<ItemPublic|null>(null);
-  const {open: openEdit,close: closeEdit,isOpen: isOpenEdit} = useDialog();
-  const {open: openDelete,close: closeDelete,isOpen: isOpenDelete} = useDialog();
+  const { open: openAdd, close: closeAdd, isOpen: isOpenAdd } = useDialog()
+  const [selectedItem, setSelectedItem] = useState<ItemPublic | null>(null)
+  const { open: openEdit, close: closeEdit, isOpen: isOpenEdit } = useDialog()
+  const {
+    open: openDelete,
+    close: closeDelete,
+    isOpen: isOpenDelete,
+  } = useDialog()
 
   const queryClient = useQueryClient()
   const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
-  const handlePaginationModelChange = (paginationModel:GridPaginationModel) =>
-    navigate({ search: (prev) => ({ ...prev, page:paginationModel.page }) })
+  const handlePaginationModelChange = (paginationModel: GridPaginationModel) =>
+    navigate({ search: (prev) => ({ ...prev, page: paginationModel.page }) })
 
   const {
     data: items,
@@ -61,44 +74,77 @@ function Items() {
     }
   }, [page, queryClient, hasNextPage])
 
-  const columns:GridColDef<ItemPublic>[] =[{
-    field:'id',
-    width:350,
-  },{
-    field:'title',
-    width:200,
-  },{
-    field:'description',
-    width:500
-  },{
-    field:'actions',
-    type:'actions',
-    getActions:(params)=>[
-      <GridActionsCellItem icon={<EditIcon/>} label="Edit" onClick={()=>{
-        setSelectedItem(params.row);
-        openEdit();
-      }} showInMenu/>,
-      <GridActionsCellItem icon={<DeleteIcon/>} label="Delete" onClick={()=>{
-        setSelectedItem(params.row);
-        openDelete();
-      }} showInMenu/>,
-    ],
-  }]
+  const columns: GridColDef<ItemPublic>[] = [
+    {
+      field: "id",
+      width: 350,
+    },
+    {
+      field: "title",
+      width: 200,
+    },
+    {
+      field: "description",
+      width: 500,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="Edit"
+          onClick={() => {
+            setSelectedItem(params.row)
+            openEdit()
+          }}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Delete"
+          onClick={() => {
+            setSelectedItem(params.row)
+            openDelete()
+          }}
+          showInMenu
+        />,
+      ],
+    },
+  ]
 
   return (
-    <HeaderLayout title="Items Management" slotProps={{
-      header:{
-        actions:[{id:"add","text":"Add Item", onClick:openAdd}]
-      }
-    }}>
-      <DataGrid columns={columns} loading={isPending} paginationMode="server"
-        rows={items?.data} rowCount={items?.count} pageSizeOptions={[PAGE_SIZE]}
-        paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
-      <AddItem isOpen={isOpenAdd} onClose={closeAdd}/>
+    <HeaderLayout
+      title="Items Management"
+      slotProps={{
+        header: {
+          actions: [{ id: "add", text: "Add Item", onClick: openAdd }],
+        },
+      }}
+    >
+      <DataGrid
+        columns={columns}
+        loading={isPending}
+        paginationMode="server"
+        rows={items?.data}
+        rowCount={items?.count}
+        pageSizeOptions={[PAGE_SIZE]}
+        paginationModel={{ page: page, pageSize: PAGE_SIZE }}
+        onPaginationModelChange={handlePaginationModelChange}
+      />
+      <AddItem isOpen={isOpenAdd} onClose={closeAdd} />
       {selectedItem && (
         <>
-          <EditItem item={selectedItem} isOpen={isOpenEdit} onClose={closeEdit}/>
-          <DeleteItem item={selectedItem} isOpen={isOpenDelete} onClose={closeDelete}/>
+          <EditItem
+            item={selectedItem}
+            isOpen={isOpenEdit}
+            onClose={closeEdit}
+          />
+          <DeleteItem
+            item={selectedItem}
+            isOpen={isOpenDelete}
+            onClose={closeDelete}
+          />
         </>
       )}
     </HeaderLayout>

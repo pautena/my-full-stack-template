@@ -1,13 +1,10 @@
-import {
-  createFileRoute,
-  redirect,
-} from "@tanstack/react-router"
+import { createFileRoute, redirect } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
+import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material"
 import type { UserRegister } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { confirmPasswordRules, emailPattern, passwordRules } from "../utils"
-import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material"
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -48,24 +45,24 @@ function SignUp() {
 
   return (
     <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        height="100vh"
-        alignItems="center"
-        justifyContent="center"
-        display="flex"
-      >
-        <Grid2 container spacing={2} maxWidth={400}>
-          <Grid2 size={12}>
-            <TextField
-              label="Full Name"
-              {...register("full_name", { required: "Full Name is required" })}
-              required
-              fullWidth
-              error={!!errors.full_name}
-              helperText={errors.full_name?.message}
-            />
-          </Grid2>
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+      display="flex"
+    >
+      <Grid2 container spacing={2} maxWidth={400}>
+        <Grid2 size={12}>
+          <TextField
+            label="Full Name"
+            {...register("full_name", { required: "Full Name is required" })}
+            required
+            fullWidth
+            error={!!errors.full_name}
+            helperText={errors.full_name?.message}
+          />
+        </Grid2>
         <Grid2 size={12}>
           <TextField
             label="Email"
@@ -103,8 +100,14 @@ function SignUp() {
           />
         </Grid2>
         <Grid2 size={12}>
-          <Button variant="contained" fullWidth color="primary" type="submit" loading={isSubmitting}>
-          Sign Up
+          <Button
+            variant="contained"
+            fullWidth
+            color="primary"
+            type="submit"
+            loading={isSubmitting}
+          >
+            Sign Up
           </Button>
         </Grid2>
         <Grid2 size={12}>

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 
+import { useNotificationCenter } from "@pautena/react-design-system"
 import { AxiosError } from "axios"
 import {
   type Body_login_login_access_token as AccessToken,
@@ -11,7 +12,6 @@ import {
   type UserRegister,
   UsersService,
 } from "../client"
-import { useNotificationCenter } from "@pautena/react-design-system"
 
 const isLoggedIn = () => {
   return localStorage.getItem("access_token") !== null
@@ -20,7 +20,7 @@ const isLoggedIn = () => {
 const useAuth = () => {
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
-  const {show} = useNotificationCenter();
+  const { show } = useNotificationCenter()
   const queryClient = useQueryClient()
   const { data: user, isLoading } = useQuery<UserPublic | null, Error>({
     queryKey: ["currentUser"],
@@ -35,10 +35,10 @@ const useAuth = () => {
     onSuccess: () => {
       navigate({ to: "/login" })
       show({
-        severity:"success",
-        title:"Account created",
-        message:"Your account has been created successfully.",
-      });
+        severity: "success",
+        title: "Account created",
+        message: "Your account has been created successfully.",
+      })
     },
     onError: (err: ApiError) => {
       let errDetail = (err.body as any)?.detail
@@ -48,9 +48,9 @@ const useAuth = () => {
       }
 
       show({
-        severity:"error",
-        title:"Something went wrong.",
-        message:errDetail,
+        severity: "error",
+        title: "Something went wrong.",
+        message: errDetail,
       })
     },
     onSettled: () => {

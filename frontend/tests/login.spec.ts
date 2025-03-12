@@ -1,4 +1,4 @@
-import { Locator, type Page, expect, test } from "@playwright/test"
+import { type Locator, type Page, expect, test } from "@playwright/test"
 import { firstSuperuser, firstSuperuserPassword } from "./config.ts"
 import { randomPassword } from "./utils/random.ts"
 
@@ -9,13 +9,13 @@ type OptionsType = {
 }
 
 const fillForm = async (page: Page, email: string, password: string) => {
-  await page.getByRole("textbox",{name:"Email"}).fill(email)
-  await page.getByRole("textbox", {name:"Password", exact: true }).fill(password)
+  await page.getByRole("textbox", { name: "Email" }).fill(email)
+  await page
+    .getByRole("textbox", { name: "Password", exact: true })
+    .fill(password)
 }
 
-const verifyInput = async (
-  input:Locator,
-) => {
+const verifyInput = async (input: Locator) => {
   await expect(input).toBeVisible()
   await expect(input).toHaveText("")
   await expect(input).toBeEditable()
@@ -25,7 +25,9 @@ test("Inputs are visible, empty and editable", async ({ page }) => {
   await page.goto("/login")
 
   await verifyInput(page.getByRole("textbox", { name: "Email" }))
-  await verifyInput(page.getByRole("textbox", { name: "Password", exact: true }))
+  await verifyInput(
+    page.getByRole("textbox", { name: "Password", exact: true }),
+  )
 })
 
 test("Log In button is visible", async ({ page }) => {

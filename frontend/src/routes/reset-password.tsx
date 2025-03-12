@@ -2,11 +2,11 @@ import { useMutation } from "@tanstack/react-query"
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
+import { Box, Button, Grid2, TextField, Typography } from "@mui/material"
+import { useNotificationCenter } from "@pautena/react-design-system"
 import { type ApiError, LoginService, type NewPassword } from "../client"
 import { isLoggedIn } from "../hooks/useAuth"
 import { confirmPasswordRules, handleError, passwordRules } from "../utils"
-import { Box, Grid2, TextField, Typography,Button } from "@mui/material"
-import { useNotificationCenter } from "@pautena/react-design-system"
 
 interface NewPasswordForm extends NewPassword {
   confirm_password: string
@@ -38,7 +38,7 @@ function ResetPassword() {
     },
   })
   const navigate = useNavigate()
-  const { show } = useNotificationCenter();
+  const { show } = useNotificationCenter()
 
   const resetPassword = async (data: NewPassword) => {
     const token = new URLSearchParams(window.location.search).get("token")
@@ -59,7 +59,7 @@ function ResetPassword() {
       navigate({ to: "/login" })
     },
     onError: (err: ApiError) => {
-      handleError(err,show)
+      handleError(err, show)
     },
   })
 
@@ -69,48 +69,52 @@ function ResetPassword() {
 
   return (
     <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        height="100vh"
-        alignItems="center"
-        justifyContent="center"
-        display="flex"
-      >
-        <Grid2 container spacing={2} maxWidth={400}>
-          <Grid2 size={12}>
-            <Typography variant="h4" textAlign="center">Reset Password</Typography>
-          </Grid2>
-          <Grid2 size={12}>
-            <Typography textAlign="center">Please enter your new password and confirm it to reset your password</Typography>
-          </Grid2>
-          <Grid2 size={12}>
-            <TextField
-              label="Set Password"
-              {...register("new_password", passwordRules())}
-              type="password"
-              required
-              fullWidth
-              error={!!errors.new_password}
-              helperText={errors.new_password?.message}
-            />
-          </Grid2>
-          <Grid2 size={12}>
-            <TextField
-              label="Confirm Password"
-              {...register("confirm_password", confirmPasswordRules(getValues))}
-              type="password"
-              required
-              fullWidth
-              error={!!errors.confirm_password}
-              helperText={errors.confirm_password?.message}
-            />
-          </Grid2>
-          <Grid2 size={12}>
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+      display="flex"
+    >
+      <Grid2 container spacing={2} maxWidth={400}>
+        <Grid2 size={12}>
+          <Typography variant="h4" textAlign="center">
+            Reset Password
+          </Typography>
+        </Grid2>
+        <Grid2 size={12}>
+          <Typography textAlign="center">
+            Please enter your new password and confirm it to reset your password
+          </Typography>
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Set Password"
+            {...register("new_password", passwordRules())}
+            type="password"
+            required
+            fullWidth
+            error={!!errors.new_password}
+            helperText={errors.new_password?.message}
+          />
+        </Grid2>
+        <Grid2 size={12}>
+          <TextField
+            label="Confirm Password"
+            {...register("confirm_password", confirmPasswordRules(getValues))}
+            type="password"
+            required
+            fullWidth
+            error={!!errors.confirm_password}
+            helperText={errors.confirm_password?.message}
+          />
+        </Grid2>
+        <Grid2 size={12}>
           <Button fullWidth variant="contained" color="primary" type="submit">
             Reset Password
           </Button>
-          </Grid2>
         </Grid2>
+      </Grid2>
     </Box>
   )
 }
