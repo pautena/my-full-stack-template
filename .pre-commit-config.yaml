@@ -29,7 +29,7 @@ repos:
     hooks:
       - id: biome-check
         name: biome check
-        entry: cd frontend && npm run lint
+        entry: npx biome check --write --files-ignore-unknown=true --no-errors-on-unmatched --config-path=frontend/biome.json
         language: system
         types: [text]
         files: frontend/
