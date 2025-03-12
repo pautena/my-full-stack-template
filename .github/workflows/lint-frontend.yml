@@ -22,6 +22,6 @@ jobs:
     - name: Install dependencies
       run: npm install
       working-directory: frontend
-    - name: Run BiomeJS linter
+    - name: Run Biome linter
       run: npx biome lint .
       working-directory: frontend
