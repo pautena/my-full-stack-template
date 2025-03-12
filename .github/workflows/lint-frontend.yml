@@ -1,6 +1,13 @@
 name: Lint Frontend
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
   lint:
@@ -16,5 +23,5 @@ jobs:
       run: npm install
       working-directory: frontend
     - name: Run BiomeJS linter
-      run: npx biome lint
+      run: npx biome lint .
       working-directory: frontend
