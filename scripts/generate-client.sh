@@ -11,4 +11,3 @@ mv openapi.json frontend/
 # Generate React client
 cd frontend
 npm run generate-client
-npx biome format --write ./src/client
