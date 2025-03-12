@@ -15,10 +15,14 @@ const fillForm = async (
   password: string,
   confirm_password: string,
 ) => {
-  await page.getByRole("textbox",{name:"Full Name"}).fill(full_name)
-  await page.getByRole("textbox",{name:"Email"}).fill(email)
-  await page.getByRole("textbox", { name:"Password", exact: true }).fill(password)
-  await page.getByRole("textbox",{name:"Repeat Password"}).fill(confirm_password)
+  await page.getByRole("textbox", { name: "Full Name" }).fill(full_name)
+  await page.getByRole("textbox", { name: "Email" }).fill(email)
+  await page
+    .getByRole("textbox", { name: "Password", exact: true })
+    .fill(password)
+  await page
+    .getByRole("textbox", { name: "Repeat Password" })
+    .fill(confirm_password)
 }
 
 const verifyInput = async (

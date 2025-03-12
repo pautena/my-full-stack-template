@@ -1,6 +1,6 @@
-import { Grid2, MenuItem, PaletteMode, Typography } from "@mui/material"
-import { useColorMode } from "../../theme"
+import { Grid2, MenuItem, type PaletteMode, Typography } from "@mui/material"
 import { Select } from "@pautena/react-design-system"
+import { useColorMode } from "../../theme"
 
 const Appearance = () => {
   const { colorMode, setColorMode } = useColorMode()
@@ -11,7 +11,12 @@ const Appearance = () => {
         <Typography variant="h4">Appearance</Typography>
       </Grid2>
       <Grid2 size={4}>
-        <Select label="Theme" fullWidth value={colorMode} onChange={(e)=>setColorMode(e.target.value as PaletteMode)}>
+        <Select
+          label="Theme"
+          fullWidth
+          value={colorMode}
+          onChange={(e) => setColorMode(e.target.value as PaletteMode)}
+        >
           <MenuItem value="light">Light</MenuItem>
           <MenuItem value="dark">Dark</MenuItem>
         </Select>

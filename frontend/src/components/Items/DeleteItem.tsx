@@ -1,33 +1,35 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { type ApiError, ItemPublic, ItemsService } from "../../client"
-import { ConfirmDialog,  useNotificationCenter } from "@pautena/react-design-system"
 import { DialogContentText } from "@mui/material"
+import {
+  ConfirmDialog,
+  useNotificationCenter,
+} from "@pautena/react-design-system"
+import { type ApiError, type ItemPublic, ItemsService } from "../../client"
 
 interface EditItemProps {
   isOpen: boolean
-  item: ItemPublic;
+  item: ItemPublic
   onClose: () => void
 }
 
-export const DeleteItem = ({ isOpen,item, onClose }: EditItemProps) => {
+export const DeleteItem = ({ isOpen, item, onClose }: EditItemProps) => {
   const queryClient = useQueryClient()
-  const {show} = useNotificationCenter();
+  const { show } = useNotificationCenter()
 
   const mutation = useMutation({
-    mutationFn: () =>
-      ItemsService.deleteItem({ id: item.id }),
+    mutationFn: () => ItemsService.deleteItem({ id: item.id }),
     onSuccess: () => {
       show({
-        severity:"success",
-        message:"Item deleted",
+        severity: "success",
+        message: "Item deleted",
       })
       onClose()
     },
     onError: (err: ApiError) => {
       show({
-        severity:"error",
-        message:err.message,
+        severity: "error",
+        message: err.message,
       })
     },
     onSettled: () => {
@@ -36,8 +38,16 @@ export const DeleteItem = ({ isOpen,item, onClose }: EditItemProps) => {
   })
 
   return (
-    <ConfirmDialog open={isOpen} onCancel={onClose} onConfirm={() => mutation.mutate()} title="Delete Item" loading={mutation.isPending}>
-      <DialogContentText>Are you sure you want to delete this item?</DialogContentText>
+    <ConfirmDialog
+      open={isOpen}
+      onCancel={onClose}
+      onConfirm={() => mutation.mutate()}
+      title="Delete Item"
+      loading={mutation.isPending}
+    >
+      <DialogContentText>
+        Are you sure you want to delete this item?
+      </DialogContentText>
     </ConfirmDialog>
   )
 }

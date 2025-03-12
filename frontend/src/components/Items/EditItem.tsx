@@ -1,33 +1,43 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { type ApiError, type ItemCreate, ItemPublic, ItemsService, ItemUpdate } from "../../client"
-import { FormDialog, TextField, useNotificationCenter } from "@pautena/react-design-system"
 import { Grid2 } from "@mui/material"
+import {
+  FormDialog,
+  TextField,
+  useNotificationCenter,
+} from "@pautena/react-design-system"
+import {
+  type ApiError,
+  type ItemCreate,
+  type ItemPublic,
+  type ItemUpdate,
+  ItemsService,
+} from "../../client"
 
 interface EditItemProps {
   isOpen: boolean
-  item: ItemPublic;
+  item: ItemPublic
   onClose: () => void
 }
 
-export const EditItem = ({ isOpen,item, onClose }: EditItemProps) => {
+export const EditItem = ({ isOpen, item, onClose }: EditItemProps) => {
   const queryClient = useQueryClient()
-  const {show} = useNotificationCenter();
+  const { show } = useNotificationCenter()
 
   const mutation = useMutation({
     mutationFn: (data: ItemUpdate) =>
       ItemsService.updateItem({ id: item.id, requestBody: data }),
     onSuccess: () => {
       show({
-        severity:"success",
-        message:"Item updated",
+        severity: "success",
+        message: "Item updated",
       })
       onClose()
     },
     onError: (err: ApiError) => {
       show({
-        severity:"error",
-        message:err.message,
+        severity: "error",
+        message: err.message,
       })
     },
     onSettled: () => {
@@ -35,16 +45,38 @@ export const EditItem = ({ isOpen,item, onClose }: EditItemProps) => {
     },
   })
 
-  const handleSubmit = (data:any) => mutation.mutate(data)
+  const handleSubmit = (data: any) => mutation.mutate(data)
 
-  return (<FormDialog open={isOpen} onCancel={onClose} title="Edit Item" onSubmit={handleSubmit} loading={mutation.isPending}>
-    <Grid2 container spacing={2}>
-          <Grid2 size={12}>
-            <TextField name="title" label="Title" fullWidth required variant="outlined" defaultValue={item.title} />
-          </Grid2>
-          <Grid2 size={12}>
-            <TextField name="description" label="Description" fullWidth required variant="outlined" defaultValue={item.description} />
-          </Grid2>
+  return (
+    <FormDialog
+      open={isOpen}
+      onCancel={onClose}
+      title="Edit Item"
+      onSubmit={handleSubmit}
+      loading={mutation.isPending}
+    >
+      <Grid2 container spacing={2}>
+        <Grid2 size={12}>
+          <TextField
+            name="title"
+            label="Title"
+            fullWidth
+            required
+            variant="outlined"
+            defaultValue={item.title}
+          />
         </Grid2>
-  </FormDialog>)
+        <Grid2 size={12}>
+          <TextField
+            name="description"
+            label="Description"
+            fullWidth
+            required
+            variant="outlined"
+            defaultValue={item.description}
+          />
+        </Grid2>
+      </Grid2>
+    </FormDialog>
+  )
 }

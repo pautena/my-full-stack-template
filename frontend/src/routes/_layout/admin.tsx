@@ -1,19 +1,28 @@
-
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 import { z } from "zod"
 
-import { type UserPublic, UsersService } from "../../client"
-import { Content, Header, HeaderLayout, Label, useDialog } from "@pautena/react-design-system"
-import { DataGrid, GridActionsCellItem, GridColDef, GridPaginationModel } from "@mui/x-data-grid"
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
 import { Box, useTheme } from "@mui/material"
-import EditUser from "../../components/Admin/EditUser"
+import {
+  DataGrid,
+  GridActionsCellItem,
+  type GridColDef,
+  type GridPaginationModel,
+} from "@mui/x-data-grid"
+import {
+  Content,
+  Header,
+  HeaderLayout,
+  Label,
+  useDialog,
+} from "@pautena/react-design-system"
+import { type UserPublic, UsersService } from "../../client"
+import { AddUser } from "../../components/Admin/AddUser"
 import { DeleteUser } from "../../components/Admin/DeleteUser"
-import {AddUser} from "../../components/Admin/AddUser"
-
+import EditUser from "../../components/Admin/EditUser"
 
 const usersSearchSchema = z.object({
   page: z.number().catch(1),
@@ -35,20 +44,22 @@ function getUsersQueryOptions({ page }: { page: number }) {
 }
 
 function Admin() {
-  const {palette} = useTheme();
-  const [selectedUser,setSelectedUser] = useState<UserPublic|null>(null);
+  const { palette } = useTheme()
+  const [selectedUser, setSelectedUser] = useState<UserPublic | null>(null)
   const queryClient = useQueryClient()
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
-  const { page } = Route.useSearch();
+  const { page } = Route.useSearch()
   const navigate = useNavigate({ from: Route.fullPath })
-  const {open: openAdd,close: closeAdd,isOpen: isOpenAdd} = useDialog();
-  const {open: openEdit,close: closeEdit,isOpen: isOpenEdit} = useDialog();
-  const {open: openDelete,close: closeDelete,isOpen: isOpenDelete} = useDialog();
+  const { open: openAdd, close: closeAdd, isOpen: isOpenAdd } = useDialog()
+  const { open: openEdit, close: closeEdit, isOpen: isOpenEdit } = useDialog()
+  const {
+    open: openDelete,
+    close: closeDelete,
+    isOpen: isOpenDelete,
+  } = useDialog()
 
-
-  const handlePaginationModelChange = (paginationModel:GridPaginationModel) =>
-    navigate({ search: (prev) => ({ ...prev, page:paginationModel.page }) })
-
+  const handlePaginationModelChange = (paginationModel: GridPaginationModel) =>
+    navigate({ search: (prev) => ({ ...prev, page: paginationModel.page }) })
 
   const {
     data: users,
@@ -69,54 +80,56 @@ function Admin() {
 
   const columns: GridColDef<UserPublic>[] = [
     {
-      field: 'id',
-      headerName: 'ID',
+      field: "id",
+      headerName: "ID",
       width: 300,
     },
     {
-      field: 'full_name',
-      headerName: 'Full Name',
+      field: "full_name",
+      headerName: "Full Name",
       width: 200,
       renderCell: (params) => (
         <Box>
           {params.value}
           {currentUser?.id === params.row.id && (
-          <Label text="You" sx={{ml:1}} color={palette.secondary.main}/>
-        )}
+            <Label text="You" sx={{ ml: 1 }} color={palette.secondary.main} />
+          )}
         </Box>
-      )
+      ),
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: "email",
+      headerName: "Email",
       width: 250,
     },
     {
-      field: 'is_superuser',
-      headerName: 'Role',
+      field: "is_superuser",
+      headerName: "Role",
       width: 150,
-      renderCell: (params) => params.value ? 'Superuser' : 'User'
+      renderCell: (params) => (params.value ? "Superuser" : "User"),
     },
     {
-      field: 'is_active',
-      headerName: 'Status',
+      field: "is_active",
+      headerName: "Status",
       width: 70,
-      renderCell: (params) =>  <Label
-      color={params.value ? palette.success.main : palette.error.main}
-      text={params.value ? 'Active' : 'Inactive'}
-      />
+      renderCell: (params) => (
+        <Label
+          color={params.value ? palette.success.main : palette.error.main}
+          text={params.value ? "Active" : "Inactive"}
+        />
+      ),
     },
     {
-      field: 'actions',
-      headerName: 'Actions',
-      type: 'actions',
+      field: "actions",
+      headerName: "Actions",
+      type: "actions",
       getActions: (params) => [
         <GridActionsCellItem
           icon={<EditIcon />}
           label="Edit"
           onClick={() => {
-            setSelectedUser(params.row);
-            openEdit();
+            setSelectedUser(params.row)
+            openEdit()
           }}
           showInMenu
         />,
@@ -124,29 +137,47 @@ function Admin() {
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => {
-            setSelectedUser(params.row);
-            openDelete();
+            setSelectedUser(params.row)
+            openDelete()
           }}
           showInMenu
         />,
       ],
     },
-  ];
+  ]
 
   return (
-    <HeaderLayout title="Users Management"  slotProps={{
-      header:{
-        actions:[{id:"add","text":"Add user", onClick:openAdd}]
-      }
-    }}>
-      <DataGrid columns={columns} rows={users?.data}loading={isPending} paginationMode="server" rowCount={users?.count}
-      pageSizeOptions={[PAGE_SIZE]}
-      paginationModel={{page:page,pageSize:PAGE_SIZE}} onPaginationModelChange={handlePaginationModelChange}/>
-      <AddUser isOpen={isOpenAdd} onClose={closeAdd}/>
+    <HeaderLayout
+      title="Users Management"
+      slotProps={{
+        header: {
+          actions: [{ id: "add", text: "Add user", onClick: openAdd }],
+        },
+      }}
+    >
+      <DataGrid
+        columns={columns}
+        rows={users?.data}
+        loading={isPending}
+        paginationMode="server"
+        rowCount={users?.count}
+        pageSizeOptions={[PAGE_SIZE]}
+        paginationModel={{ page: page, pageSize: PAGE_SIZE }}
+        onPaginationModelChange={handlePaginationModelChange}
+      />
+      <AddUser isOpen={isOpenAdd} onClose={closeAdd} />
       {selectedUser && (
         <>
-          <EditUser user={selectedUser} isOpen={isOpenEdit} onClose={closeEdit}/>
-          <DeleteUser user={selectedUser} isOpen={isOpenDelete} onClose={closeDelete}/>
+          <EditUser
+            user={selectedUser}
+            isOpen={isOpenEdit}
+            onClose={closeEdit}
+          />
+          <DeleteUser
+            user={selectedUser}
+            isOpen={isOpenDelete}
+            onClose={closeDelete}
+          />
         </>
       )}
     </HeaderLayout>
