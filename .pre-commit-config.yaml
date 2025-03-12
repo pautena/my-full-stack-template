@@ -29,10 +29,10 @@ repos:
     hooks:
       - id: biome-check
         name: biome check
-        entry: npx biome check --write --files-ignore-unknown=true --no-errors-on-unmatched --config-path=frontend/biome.json
+        entry: npx biome check --write --files-ignore-unknown=true --no-errors-on-unmatched
         language: system
         types: [text]
-        files: frontend/
+        files: "\\.(jsx?|tsx?|c(js|ts)|m(js|ts)|d\\.(ts|cts|mts)|jsonc?|css|svelte|vue|astro|graphql|gql)$"
 
 ci:
   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
