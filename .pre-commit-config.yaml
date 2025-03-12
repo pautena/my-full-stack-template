@@ -24,6 +24,15 @@ repos:
         args:
           - --fix
       - id: ruff-format
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v1.9.4
+    hooks:
+      - id: biome-check
+        name: biome check
+        entry: cd frontend && npm run lint
+        language: system
+        types: [text]
+        files: frontend/
 
 ci:
   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
