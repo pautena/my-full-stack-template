@@ -19,9 +19,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '22'
-    - name: Install dependencies
-      run: npm install
-      working-directory: frontend
     - name: Run Biome linter
       run: npx biome lint .
       working-directory: frontend
