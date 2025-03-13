@@ -1,13 +1,10 @@
 FROM node:22
 
-RUN corepack enable
-RUN corepack prepare pnpm --activate
-
 WORKDIR /app
 
 COPY package*.json /app/
 
-RUN pnpm install
+RUN npm install
 
 RUN npx -y playwright install --with-deps
 
