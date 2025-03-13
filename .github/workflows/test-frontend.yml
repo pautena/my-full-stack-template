@@ -23,6 +23,9 @@ jobs:
       uses: pnpm/action-setup@v4
       with:
         version: 10
+    - name: Install dependencies
+      run: pnpm install
+      working-directory: frontend
     - name: Run test
-      run: pnpm run test
+      run: pnpm test
       working-directory: frontend
