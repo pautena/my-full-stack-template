@@ -1,5 +1,8 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
-FROM node:20 AS build-stage
+FROM node:22 AS build-stage
+
+RUN corepack enable
+RUN corepack prepare pnpm --activate
 
 WORKDIR /app
 
