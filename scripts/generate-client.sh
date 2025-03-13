@@ -10,4 +10,4 @@ mv openapi.json frontend/
 
 # Generate React client
 cd frontend
-npm run generate-client
+pnpm run generate-client

@@ -52,7 +52,7 @@ And then start the local frontend development server:
 
 ```bash
 cd frontend
-npm run dev
+pnpm run dev
 ```
 
 Or you could stop the `backend` Docker Compose service:

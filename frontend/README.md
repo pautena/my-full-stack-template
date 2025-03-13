@@ -36,13 +36,13 @@ nvm use
 * Within the `frontend` directory, install the necessary NPM packages:
 
 ```bash
-npm install
+pnpm install
 ```
 
 * And start the live server with the following `npm` script:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 * Then open your browser at http://localhost:5173/.
@@ -100,7 +100,7 @@ node modify-openapi-operationids.js
 * To generate the frontend client, run:
 
 ```bash
-npm run generate-client
+pnpm run generate-client
 ```
 
 * Commit the changes.
