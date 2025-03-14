@@ -1,12 +1,14 @@
 import uuid
 
+from pydantic import BaseModel
 from sqlmodel import Field, Relationship, SQLModel
 
+from app.models import CamelSchema
 from app.users.models import User
 
 
 # Shared properties
-class ItemBase(SQLModel):
+class ItemBase(SQLModel, CamelSchema):
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)
 
@@ -37,6 +39,6 @@ class ItemPublic(ItemBase):
     owner_id: uuid.UUID
 
 
-class ItemsPublic(SQLModel):
+class ItemsPublic(BaseModel, CamelSchema):
     data: list[ItemPublic]
     count: int
