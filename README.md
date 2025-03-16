@@ -28,12 +28,12 @@ This project is a fork from [https://github.com/pautena/my-full-stack-template.g
 
 ## Docs
 
-- [Start a new project](./docs/START_A_NEW_PROJECT.md)
-- [Environment](./docs/ENVIRONMENT.md)
+- [Environment](./docs/environment.md)
+- [Start a new project](./docs/start_project.md)
 - [Backend docs](./backend/README.md)
 - [Frontend docs](./frontend/README.md)
-- [Deployment docs](./deployment.md)
-- [General development docs](./development.md)
+- [Deployment docs](./docs/deployment.md)
+- [General development docs](./docs/development.md)
 
 ## Release Notes
 
