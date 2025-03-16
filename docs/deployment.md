@@ -207,9 +207,16 @@ sudo su - github
 cd
 ```
 
-* [Install a GitHub Action self-hosted runner following the official guide](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners#adding-a-self-hosted-runner-to-a-repository).
+1. [Install a GitHub Action self-hosted runner following the official guide](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners#adding-a-self-hosted-runner-to-a-repository).
+2. When asked about labels, add a label for the environment (`staging` or `production`). You can also add labels later.
+3. After finish the setup, run
 
-* When asked about labels, add a label for the environment, e.g. `production`. You can also add labels later.
+```
+sudo ./svc.sh install
+sudo ./svc.sh start
+```
+
+to start a background service with the action runner.
 
 After installing, the guide would tell you to run a command to start the runner. Nevertheless, it would stop once you terminate that process or if your local connection to your server is lost.
 
