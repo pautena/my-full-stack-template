@@ -21,6 +21,10 @@ fileConfig(config.config_file_name)
 from app.models import SQLModel  # noqa
 from app.core.config import settings # noqa
 
+# Import your models
+from app.users.models import User # noqa
+from app.items.models import Item # noqa
+
 target_metadata = SQLModel.metadata
 
 # other values from the config, defined by the needs of env.py,

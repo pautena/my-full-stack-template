@@ -163,6 +163,10 @@ $ alembic upgrade head
 
 If you don't want to start with the default models and want to remove them / modify them, from the beginning, without having any previous revision, you can remove the revision files (`.py` Python files) under `./backend/app/alembic/versions/`. And then create a first migration as described above.
 
+### New models
+
+After creating a new model, ensure you are importing it in `backend/app/alembic/env.py`. If you don't do it the autogenerate feature will not work.
+
 ## Email Templates
 
 The email templates are in `./backend/app/email-templates/`. Here, there are two directories: `build` and `src`. The `src` directory contains the source files that are used to build the final email templates. The `build` directory contains the final email templates that are used by the application.
