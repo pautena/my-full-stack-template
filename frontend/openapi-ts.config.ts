@@ -1,28 +1,35 @@
-import { defineConfig } from "@hey-api/openapi-ts"
+import { defineConfig } from "@hey-api/openapi-ts";
 
 export default defineConfig({
-  client: "legacy/axios",
-  input: "./openapi.json",
-  output: "./src/client",
-  // exportSchemas: true,
-  plugins: [
-    {
-      name: "@hey-api/sdk",
-      // NOTE: this doesn't allow tree-shaking
-      asClass: true,
-      operationId: true,
-      methodNameBuilder: (operation) => {
-        // @ts-ignore
-        let name: string = operation.name
-        // @ts-ignore
-        const service: string = operation.service
+	input: "./openapi.json",
+	output: "./src/client",
+	plugins: [
+		"@hey-api/client-fetch",
+		"@tanstack/react-query",
+		{
+			name: "@hey-api/sdk",
+			methodNameBuilder: (operation) => {
+				const id = operation.id;
 
-        if (service && name.toLowerCase().startsWith(service.toLowerCase())) {
-          name = name.slice(service.length)
-        }
+				if (!id) {
+					return "missingOperationId";
+				}
 
-        return name.charAt(0).toLowerCase() + name.slice(1)
-      },
-    },
-  ],
-})
+				if (
+					"tags" in operation &&
+					operation.tags &&
+					operation.tags.length > 0
+				) {
+					const tag = operation.tags[0];
+					if (tag === "private") {
+						return id;
+					}
+					const parsedId = id.replace(tag, "");
+					return parsedId.charAt(0).toLowerCase() + parsedId.slice(1);
+				}
+
+				return id;
+			},
+		},
+	],
+});

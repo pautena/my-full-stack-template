@@ -1,53 +1,48 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { DialogContentText } from "@mui/material"
+import { DialogContentText } from "@mui/material";
 import {
-  ConfirmDialog,
-  useNotificationCenter,
-} from "@pautena/react-design-system"
-import { type ApiError, type UserPublic, UsersService } from "../../client"
+	ConfirmDialog,
+	useNotificationCenter,
+} from "@pautena/react-design-system";
+import type { UserPublic } from "../../client";
+import { deleteUserMutation } from "../../client/@tanstack/react-query.gen";
+import { handleError } from "../../utils";
 
 interface EditItemProps {
-  isOpen: boolean
-  user: UserPublic
-  onClose: () => void
+	isOpen: boolean;
+	user: UserPublic;
+	onClose: () => void;
 }
 
 export const DeleteUser = ({ isOpen, user, onClose }: EditItemProps) => {
-  const queryClient = useQueryClient()
-  const { show } = useNotificationCenter()
+	const { show } = useNotificationCenter();
 
-  const mutation = useMutation({
-    mutationFn: () => UsersService.deleteUser({ userId: user.id }),
-    onSuccess: () => {
-      show({
-        severity: "success",
-        message: "User deleted",
-      })
-      onClose()
-    },
-    onError: (err: ApiError) => {
-      show({
-        severity: "error",
-        message: err.message,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
-    },
-  })
+	const mutation = useMutation({
+		...deleteUserMutation(),
+		onSuccess: () => {
+			show({
+				severity: "success",
+				message: "User deleted",
+			});
+			onClose();
+		},
+		onError: (err) => {
+			handleError(err, show);
+		},
+	});
 
-  return (
-    <ConfirmDialog
-      open={isOpen}
-      onCancel={onClose}
-      onConfirm={() => mutation.mutate()}
-      title="Delete User"
-      loading={mutation.isPending}
-    >
-      <DialogContentText>
-        Are you sure you want to delete this user?
-      </DialogContentText>
-    </ConfirmDialog>
-  )
-}
+	return (
+		<ConfirmDialog
+			open={isOpen}
+			onCancel={onClose}
+			onConfirm={() => mutation.mutate({ path: { user_id: user.id } })}
+			title="Delete User"
+			loading={mutation.isPending}
+		>
+			<DialogContentText>
+				Are you sure you want to delete this user?
+			</DialogContentText>
+		</ConfirmDialog>
+	);
+};

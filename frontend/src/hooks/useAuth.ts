@@ -1,105 +1,77 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useNavigate } from "@tanstack/react-router"
-import { useState } from "react"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
-import { useNotificationCenter } from "@pautena/react-design-system"
-import { AxiosError } from "axios"
+import { useNotificationCenter } from "@pautena/react-design-system";
+import { BodyLoginLoginAccessToken, loginAccessToken } from "../client";
 import {
-  type Body_login_login_access_token as AccessToken,
-  type ApiError,
-  LoginService,
-  type UserPublic,
-  type UserRegister,
-  UsersService,
-} from "../client"
+	loginAccessTokenMutation,
+	readUserMeOptions,
+	registerUserMutation,
+} from "../client/@tanstack/react-query.gen";
+import { handleError } from "../utils";
 
 const isLoggedIn = () => {
-  return localStorage.getItem("access_token") !== null
-}
+	return localStorage.getItem("access_token") !== null;
+};
 
 const useAuth = () => {
-  const [error, setError] = useState<string | null>(null)
-  const navigate = useNavigate()
-  const { show } = useNotificationCenter()
-  const queryClient = useQueryClient()
-  const { data: user, isLoading } = useQuery<UserPublic | null, Error>({
-    queryKey: ["currentUser"],
-    queryFn: UsersService.readUserMe,
-    enabled: isLoggedIn(),
-  })
+	const [error, setError] = useState<string | null>(null);
+	const navigate = useNavigate();
+	const { show } = useNotificationCenter();
+	const queryClient = useQueryClient();
+	const { data: user, isLoading } = useQuery({
+		...readUserMeOptions(),
+		enabled: isLoggedIn(),
+	});
 
-  const signUpMutation = useMutation({
-    mutationFn: (data: UserRegister) =>
-      UsersService.registerUser({ requestBody: data }),
+	const signUpMutation = useMutation({
+		...registerUserMutation(),
+		onSuccess: () => {
+			navigate({ to: "/login" });
+			show({
+				severity: "success",
+				title: "Account created",
+				message: "Your account has been created successfully.",
+			});
+		},
+		onError: (err) => {
+			handleError(err, show);
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["users"] });
+		},
+	});
 
-    onSuccess: () => {
-      navigate({ to: "/login" })
-      show({
-        severity: "success",
-        title: "Account created",
-        message: "Your account has been created successfully.",
-      })
-    },
-    onError: (err: ApiError) => {
-      let errDetail = (err.body as any)?.detail
+	const loginMutation = useMutation({
+		...loginAccessTokenMutation(),
+		onSuccess: (data) => {
+			if (data?.access_token) {
+				localStorage.setItem("access_token", data?.access_token);
+			}
+			navigate({ to: "/" });
+		},
+		onError: (err) => {
+			handleError(err, show);
+			setError("Invalid email or password");
+		},
+	});
 
-      if (err instanceof AxiosError) {
-        errDetail = err.message
-      }
+	const logout = () => {
+		localStorage.removeItem("access_token");
+		navigate({ to: "/login" });
+	};
 
-      show({
-        severity: "error",
-        title: "Something went wrong.",
-        message: errDetail,
-      })
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] })
-    },
-  })
+	return {
+		signUpMutation,
+		loginMutation,
+		logout,
+		user,
+		isLoading,
+		error,
+		resetError: () => setError(null),
+	};
+};
 
-  const login = async (data: AccessToken) => {
-    const response = await LoginService.loginAccessToken({
-      formData: data,
-    })
-    localStorage.setItem("access_token", response.access_token)
-  }
-
-  const loginMutation = useMutation({
-    mutationFn: login,
-    onSuccess: () => {
-      navigate({ to: "/" })
-    },
-    onError: (err: ApiError) => {
-      let errDetail = (err.body as any)?.detail
-
-      if (err instanceof AxiosError) {
-        errDetail = err.message
-      }
-
-      if (Array.isArray(errDetail)) {
-        errDetail = "Something went wrong"
-      }
-
-      setError(errDetail)
-    },
-  })
-
-  const logout = () => {
-    localStorage.removeItem("access_token")
-    navigate({ to: "/login" })
-  }
-
-  return {
-    signUpMutation,
-    loginMutation,
-    logout,
-    user,
-    isLoading,
-    error,
-    resetError: () => setError(null),
-  }
-}
-
-export { isLoggedIn }
-export default useAuth
+export { isLoggedIn };
+export default useAuth;

@@ -6,14 +6,14 @@ import { QueryClient } from "@tanstack/react-query";
 import { RouterProvider } from "@tanstack/react-router";
 import { createRouter } from "@tanstack/react-router";
 import { StrictMode, useMemo, useState } from "react";
-import { OpenAPI } from "./client";
+import { client } from "./client/client.gen";
 import { routeTree } from "./routeTree.gen";
 import { ColorModeContext, createTheme } from "./theme";
 
-OpenAPI.BASE = import.meta.env.VITE_API_URL;
-OpenAPI.TOKEN = async () => {
-	return localStorage.getItem("access_token") || "";
-};
+client.setConfig({
+	baseUrl: import.meta.env.VITE_API_URL,
+	auth: () => localStorage.getItem("access_token") || "",
+});
 
 const queryClient = new QueryClient();
 

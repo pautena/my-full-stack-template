@@ -14,6 +14,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.0
         version: 11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@19.0.0))(@types/react@18.3.18)(react@19.0.0)
+      '@hey-api/client-fetch':
+        specifier: ^0.10.0
+        version: 0.10.0(@hey-api/openapi-ts@0.64.15(typescript@5.8.2))
       '@mui/icons-material':
         specifier: ^6.4.6
         version: 6.4.7(@mui/material@6.4.7(@emotion/react@11.14.0(@types/react@18.3.18)(react@19.0.0))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@19.0.0))(@types/react@18.3.18)(react@19.0.0))(@types/react@18.3.18)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@types/react@18.3.18)(react@19.0.0)
@@ -44,9 +47,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.21(postcss@8.5.3)
-      axios:
-        specifier: ^1.8.1
-        version: 1.8.3
       postcss:
         specifier: ^8.5.1
         version: 8.5.3
@@ -62,9 +62,6 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.0.0)
-      redaxios:
-        specifier: ^0.5.1
-        version: 0.5.1
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17
@@ -76,8 +73,8 @@ importers:
         specifier: 1.6.1
         version: 1.6.1
       '@hey-api/openapi-ts':
-        specifier: ^0.57.0
-        version: 0.57.1(typescript@5.8.2)
+        specifier: ^0.64.15
+        version: 0.64.15(typescript@5.8.2)
       '@playwright/test':
         specifier: ^1.45.2
         version: 1.51.0
@@ -133,10 +130,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@apidevtools/json-schema-ref-parser@11.7.2':
-    resolution: {integrity: sha512-4gY54eEGEstClvEkGnwVkTkrx0sqwemEFG5OSRRn3tD91XH0+Q8XIkYIfo7IwEWPpJZwILb9GUXeShtplRc/eA==}
-    engines: {node: '>= 16'}
 
   '@asamuzakjp/css-color@3.1.1':
     resolution: {integrity: sha512-hpRD68SV2OMcZCsrbdkccTw5FXjNDLo5OuqSHyHZfwweGsDWZwDJ2+gONyNAbazZclobMirACLw0lk8WVxIqxA==}
@@ -521,12 +514,21 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@hey-api/openapi-ts@0.57.1':
-    resolution: {integrity: sha512-CZ2W1Ma4Z1zPI2M7mR5wfgTvDnxYenv/zAiX4wYgUX3n8GlWWjRkAQ02TgwBiHD3T9isR2zPyub/8rqyZ5yIsA==}
-    engines: {node: ^18.0.0 || >=20.0.0}
+  '@hey-api/client-fetch@0.10.0':
+    resolution: {integrity: sha512-C7vzj4t52qPiHCqjn1l8cRTI2p4pZCd7ViLtJDTHr5ZwI4sWOYC1tmv6bd529qqY6HFFbhGCz4TAZSwKAMJncg==}
+    peerDependencies:
+      '@hey-api/openapi-ts': < 2
+
+  '@hey-api/json-schema-ref-parser@1.0.3':
+    resolution: {integrity: sha512-jgyNFPUReGpdB0ihWv6m+Q3dcawtXx4t6cvi0NS4xxblulcCfEjThP5xVwShFiTRScckIQ/GsuZv20arRTIDkg==}
+    engines: {node: '>= 16'}
+
+  '@hey-api/openapi-ts@0.64.15':
+    resolution: {integrity: sha512-bXpi9z3YEPVt9bVqlFA3hHmgDzfM8ID5kjnXR7t6PFxlmqo8CH8Y8aCNP7rMk1q7MXk42y2CXC2ehbU9cthCyw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=22.10.0}
     hasBin: true
     peerDependencies:
-      typescript: ^5.x
+      typescript: ^5.5.3
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1131,9 +1133,6 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  axios@1.8.3:
-    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
-
   babel-dead-code-elimination@1.0.9:
     resolution: {integrity: sha512-JLIhax/xullfInZjtu13UJjaLHDeTzt3vOeomaSUdO/nAMEL/pWC/laKrSvWylXMnVWyL5bpmG9njqBZlUQOdg==}
 
@@ -1233,8 +1232,8 @@ packages:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
 
-  commander@12.1.0:
-    resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
+  commander@13.0.0:
+    resolution: {integrity: sha512-oPYleIY8wmTVzkvQq10AEok6YcTC4sRUBl8F9gVuwchGVUCTbl/vhLTaQqutuuySYOsu8YTgV+OxKc/8Yvx+mQ==}
     engines: {node: '>=18'}
 
   commander@4.1.1:
@@ -1426,15 +1425,6 @@ packages:
 
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
-
-  follow-redirects@1.15.9:
-    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
 
   foreground-child@3.3.1:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
@@ -1898,9 +1888,6 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -1960,9 +1947,6 @@ packages:
   readdirp@4.1.2:
     resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
-
-  redaxios@0.5.1:
-    resolution: {integrity: sha512-FSD2AmfdbkYwl7KDExYQlVvIrFz6Yd83pGfaGjBzM9F6rpq8g652Q4Yq5QD4c+nf4g2AgeElv1y+8ajUPiOYMg==}
 
   redent@3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
@@ -2378,12 +2362,6 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@apidevtools/json-schema-ref-parser@11.7.2':
-    dependencies:
-      '@jsdevtools/ono': 7.1.3
-      '@types/json-schema': 7.0.15
-      js-yaml: 4.1.0
-
   '@asamuzakjp/css-color@3.1.1':
     dependencies:
       '@csstools/css-calc': 2.1.2(@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3))(@csstools/css-tokenizer@3.0.3)
@@ -2729,11 +2707,21 @@ snapshots:
   '@esbuild/win32-x64@0.25.1':
     optional: true
 
-  '@hey-api/openapi-ts@0.57.1(typescript@5.8.2)':
+  '@hey-api/client-fetch@0.10.0(@hey-api/openapi-ts@0.64.15(typescript@5.8.2))':
     dependencies:
-      '@apidevtools/json-schema-ref-parser': 11.7.2
+      '@hey-api/openapi-ts': 0.64.15(typescript@5.8.2)
+
+  '@hey-api/json-schema-ref-parser@1.0.3':
+    dependencies:
+      '@jsdevtools/ono': 7.1.3
+      '@types/json-schema': 7.0.15
+      js-yaml: 4.1.0
+
+  '@hey-api/openapi-ts@0.64.15(typescript@5.8.2)':
+    dependencies:
+      '@hey-api/json-schema-ref-parser': 1.0.3
       c12: 2.0.1
-      commander: 12.1.0
+      commander: 13.0.0
       handlebars: 4.7.8
       typescript: 5.8.2
     transitivePeerDependencies:
@@ -3304,14 +3292,6 @@ snapshots:
       postcss: 8.5.3
       postcss-value-parser: 4.2.0
 
-  axios@1.8.3:
-    dependencies:
-      follow-redirects: 1.15.9
-      form-data: 4.0.2
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   babel-dead-code-elimination@1.0.9:
     dependencies:
       '@babel/core': 7.26.10
@@ -3428,7 +3408,7 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
-  commander@12.1.0: {}
+  commander@13.0.0: {}
 
   commander@4.1.1: {}
 
@@ -3605,8 +3585,6 @@ snapshots:
   find-root@1.1.0: {}
 
   flatted@3.3.3: {}
-
-  follow-redirects@1.15.9: {}
 
   foreground-child@3.3.1:
     dependencies:
@@ -4044,8 +4022,6 @@ snapshots:
       object-assign: 4.1.1
       react-is: 16.13.1
 
-  proxy-from-env@1.1.0: {}
-
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
@@ -4096,8 +4072,6 @@ snapshots:
       picomatch: 2.3.1
 
   readdirp@4.1.2: {}
-
-  redaxios@0.5.1: {}
 
   redent@3.0.0:
     dependencies:
