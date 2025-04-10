@@ -21,9 +21,6 @@ export default defineConfig({
 					operation.tags.length > 0
 				) {
 					const tag = operation.tags[0];
-					if (tag === "private") {
-						return id;
-					}
 					const parsedId = id.replace(tag, "");
 					return parsedId.charAt(0).toLowerCase() + parsedId.slice(1);
 				}

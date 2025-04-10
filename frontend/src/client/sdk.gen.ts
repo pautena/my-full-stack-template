@@ -415,7 +415,7 @@ export class PrivateService {
      * Create User
      * Create a new user.
      */
-    public static privateCreateUser<ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) {
+    public static createUser<ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
             url: '/api/v1/private/users/',
             ...options,
