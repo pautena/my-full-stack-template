@@ -8,16 +8,18 @@
 		"serve": "vite preview",
 		"start": "vite",
 		"lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+		"ts-check": "tsc --noEmit",
 		"preview": "vite preview",
 		"test": "vitest",
 		"test:watch": "vitest --watch",
 		"test:ui": "vitest --ui",
-		"generate-client": "openapi-ts",
-		"test:playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure"
+		"playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure",
+		"generate-client": "openapi-ts"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
+		"@hey-api/client-fetch": "^0.10.0",
 		"@mui/icons-material": "^6.4.6",
 		"@mui/material": "^6.4.6",
 		"@mui/x-data-grid": "^7.27.1",
@@ -40,7 +42,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.6.1",
-		"@hey-api/openapi-ts": "^0.57.0",
+		"@hey-api/openapi-ts": "^0.66.3",
 		"@playwright/test": "^1.45.2",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.2.0",

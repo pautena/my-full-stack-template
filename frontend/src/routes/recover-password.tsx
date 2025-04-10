@@ -1,109 +1,92 @@
-import { useMutation } from "@tanstack/react-query"
-import { createFileRoute, redirect } from "@tanstack/react-router"
-import { type SubmitHandler, useForm } from "react-hook-form"
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { Box, Button, Grid2, TextField, Typography } from "@mui/material"
-import { useNotificationCenter } from "@pautena/react-design-system"
-import { type ApiError, LoginService } from "../client"
-import { isLoggedIn } from "../hooks/useAuth"
-import { emailPattern, handleError } from "../utils"
+import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
+import { useRecoveryPasswordMutation } from "../features/auth/auth.service";
+import { isLoggedIn } from "../hooks/useAuth";
+import { emailPattern } from "../utils";
 
 interface FormData {
-  email: string
+	email: string;
 }
 
 export const Route = createFileRoute("/recover-password")({
-  component: RecoverPassword,
-  beforeLoad: async () => {
-    if (isLoggedIn()) {
-      throw redirect({
-        to: "/",
-      })
-    }
-  },
-})
+	component: RecoverPassword,
+	beforeLoad: async () => {
+		if (isLoggedIn()) {
+			throw redirect({
+				to: "/",
+			});
+		}
+	},
+});
 
 function RecoverPassword() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>()
-  const { show } = useNotificationCenter()
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors, isSubmitting },
+	} = useForm<FormData>();
 
-  const recoverPassword = async (data: FormData) => {
-    await LoginService.recoverPassword({
-      email: data.email,
-    })
-  }
+	const mutation = useRecoveryPasswordMutation({
+		onSuccess: () => {
+			reset();
+		},
+	});
 
-  const mutation = useMutation({
-    mutationFn: recoverPassword,
-    onSuccess: () => {
-      show({
-        severity: "success",
-        title: "Email sent",
-        message: "We sent an email with a link to get back into your account.",
-      })
+	const onSubmit: SubmitHandler<FormData> = async (data) => {
+		mutation.mutate({
+			email: data.email,
+		});
+	};
 
-      reset()
-    },
-    onError: (err: ApiError) => {
-      handleError(err, show)
-    },
-  })
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    mutation.mutate(data)
-  }
-
-  return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      height="100vh"
-      alignItems="center"
-      justifyContent="center"
-      display="flex"
-    >
-      <Grid2 container spacing={2} maxWidth={400}>
-        <Grid2 size={12}>
-          <Typography variant="h4" textAlign="center">
-            Password Recovery
-          </Typography>
-        </Grid2>
-        <Grid2 size={12}>
-          <Typography textAlign="center">
-            A password recovery email will be sent to the registered account
-          </Typography>
-        </Grid2>
-        <Grid2 size={12}>
-          <TextField
-            label="Email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: emailPattern,
-            })}
-            type="email"
-            required
-            fullWidth
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-        </Grid2>
-        <Grid2 size={12}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            type="submit"
-            loading={isSubmitting}
-          >
-            Continue
-          </Button>
-        </Grid2>
-      </Grid2>
-    </Box>
-  )
+	return (
+		<Box
+			component="form"
+			onSubmit={handleSubmit(onSubmit)}
+			height="100vh"
+			alignItems="center"
+			justifyContent="center"
+			display="flex"
+		>
+			<Grid2 container spacing={2} maxWidth={400}>
+				<Grid2 size={12}>
+					<Typography variant="h4" textAlign="center">
+						Password Recovery
+					</Typography>
+				</Grid2>
+				<Grid2 size={12}>
+					<Typography textAlign="center">
+						A password recovery email will be sent to the registered account
+					</Typography>
+				</Grid2>
+				<Grid2 size={12}>
+					<TextField
+						label="Email"
+						{...register("email", {
+							required: "Email is required",
+							pattern: emailPattern,
+						})}
+						type="email"
+						required
+						fullWidth
+						error={!!errors.email}
+						helperText={errors.email?.message}
+					/>
+				</Grid2>
+				<Grid2 size={12}>
+					<Button
+						fullWidth
+						variant="contained"
+						color="primary"
+						type="submit"
+						loading={isSubmitting}
+					>
+						Continue
+					</Button>
+				</Grid2>
+			</Grid2>
+		</Box>
+	);
 }
