@@ -61,6 +61,6 @@ export const handleError = (
 ) => {
 	show({
 		severity: "error",
-		message: err.message,
+		message: "detail" in err ? (err.detail as string) : err.message,
 	});
 };

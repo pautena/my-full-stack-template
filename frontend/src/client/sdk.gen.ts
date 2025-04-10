@@ -23,7 +23,7 @@ export class ItemsService {
      * Read Items
      * Retrieve items.
      */
-    public static readItems<ThrowOnError extends boolean = false>(options?: Options<ItemsReadItemsData, ThrowOnError>) {
+    public static readItems<ThrowOnError extends boolean = true>(options?: Options<ItemsReadItemsData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).get<ItemsReadItemsResponse, ItemsReadItemsError, ThrowOnError>({
             security: [
                 {
@@ -40,7 +40,7 @@ export class ItemsService {
      * Create Item
      * Create new item.
      */
-    public static createItem<ThrowOnError extends boolean = false>(options: Options<ItemsCreateItemData, ThrowOnError>) {
+    public static createItem<ThrowOnError extends boolean = true>(options: Options<ItemsCreateItemData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<ItemsCreateItemResponse, ItemsCreateItemError, ThrowOnError>({
             security: [
                 {
@@ -61,7 +61,7 @@ export class ItemsService {
      * Delete Item
      * Delete an item.
      */
-    public static deleteItem<ThrowOnError extends boolean = false>(options: Options<ItemsDeleteItemData, ThrowOnError>) {
+    public static deleteItem<ThrowOnError extends boolean = true>(options: Options<ItemsDeleteItemData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).delete<ItemsDeleteItemResponse, ItemsDeleteItemError, ThrowOnError>({
             security: [
                 {
@@ -78,7 +78,7 @@ export class ItemsService {
      * Read Item
      * Get item by ID.
      */
-    public static readItem<ThrowOnError extends boolean = false>(options: Options<ItemsReadItemData, ThrowOnError>) {
+    public static readItem<ThrowOnError extends boolean = true>(options: Options<ItemsReadItemData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).get<ItemsReadItemResponse, ItemsReadItemError, ThrowOnError>({
             security: [
                 {
@@ -95,7 +95,7 @@ export class ItemsService {
      * Update Item
      * Update an item.
      */
-    public static updateItem<ThrowOnError extends boolean = false>(options: Options<ItemsUpdateItemData, ThrowOnError>) {
+    public static updateItem<ThrowOnError extends boolean = true>(options: Options<ItemsUpdateItemData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).put<ItemsUpdateItemResponse, ItemsUpdateItemError, ThrowOnError>({
             security: [
                 {
@@ -119,7 +119,7 @@ export class LoginService {
      * Login Access Token
      * OAuth2 compatible token login, get an access token for future requests
      */
-    public static loginAccessToken<ThrowOnError extends boolean = false>(options: Options<LoginLoginAccessTokenData, ThrowOnError>) {
+    public static loginAccessToken<ThrowOnError extends boolean = true>(options: Options<LoginLoginAccessTokenData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<LoginLoginAccessTokenResponse, LoginLoginAccessTokenError, ThrowOnError>({
             ...urlSearchParamsBodySerializer,
             url: '/api/v1/login/access-token',
@@ -135,7 +135,7 @@ export class LoginService {
      * Test Token
      * Test access token
      */
-    public static testToken<ThrowOnError extends boolean = false>(options?: Options<LoginTestTokenData, ThrowOnError>) {
+    public static testToken<ThrowOnError extends boolean = true>(options?: Options<LoginTestTokenData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).post<LoginTestTokenResponse, unknown, ThrowOnError>({
             security: [
                 {
@@ -152,7 +152,7 @@ export class LoginService {
      * Recover Password
      * Password Recovery
      */
-    public static recoverPassword<ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordData, ThrowOnError>) {
+    public static recoverPassword<ThrowOnError extends boolean = true>(options: Options<LoginRecoverPasswordData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<LoginRecoverPasswordResponse, LoginRecoverPasswordError, ThrowOnError>({
             url: '/api/v1/password-recovery/{email}',
             ...options
@@ -163,7 +163,7 @@ export class LoginService {
      * Reset Password
      * Reset password
      */
-    public static resetPassword<ThrowOnError extends boolean = false>(options: Options<LoginResetPasswordData, ThrowOnError>) {
+    public static resetPassword<ThrowOnError extends boolean = true>(options: Options<LoginResetPasswordData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<LoginResetPasswordResponse, LoginResetPasswordError, ThrowOnError>({
             url: '/api/v1/reset-password/',
             ...options,
@@ -178,7 +178,7 @@ export class LoginService {
      * Recover Password Html Content
      * HTML Content for Password Recovery
      */
-    public static recoverPasswordHtmlContent<ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordHtmlContentData, ThrowOnError>) {
+    public static recoverPasswordHtmlContent<ThrowOnError extends boolean = true>(options: Options<LoginRecoverPasswordHtmlContentData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<LoginRecoverPasswordHtmlContentResponse, LoginRecoverPasswordHtmlContentError, ThrowOnError>({
             security: [
                 {
@@ -198,7 +198,7 @@ export class UtilsService {
      * Test Email
      * Test emails.
      */
-    public static testEmail<ThrowOnError extends boolean = false>(options: Options<UtilsTestEmailData, ThrowOnError>) {
+    public static testEmail<ThrowOnError extends boolean = true>(options: Options<UtilsTestEmailData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<UtilsTestEmailResponse, UtilsTestEmailError, ThrowOnError>({
             security: [
                 {
@@ -214,7 +214,7 @@ export class UtilsService {
     /**
      * Health Check
      */
-    public static healthCheck<ThrowOnError extends boolean = false>(options?: Options<UtilsHealthCheckData, ThrowOnError>) {
+    public static healthCheck<ThrowOnError extends boolean = true>(options?: Options<UtilsHealthCheckData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).get<UtilsHealthCheckResponse, unknown, ThrowOnError>({
             url: '/api/v1/utils/health-check/',
             ...options
@@ -228,7 +228,7 @@ export class UsersService {
      * Read Users
      * Retrieve users.
      */
-    public static readUsers<ThrowOnError extends boolean = false>(options?: Options<UsersReadUsersData, ThrowOnError>) {
+    public static readUsers<ThrowOnError extends boolean = true>(options?: Options<UsersReadUsersData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).get<UsersReadUsersResponse, UsersReadUsersError, ThrowOnError>({
             security: [
                 {
@@ -245,7 +245,7 @@ export class UsersService {
      * Create User
      * Create new user.
      */
-    public static createUser<ThrowOnError extends boolean = false>(options: Options<UsersCreateUserData, ThrowOnError>) {
+    public static createUser<ThrowOnError extends boolean = true>(options: Options<UsersCreateUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<UsersCreateUserResponse, UsersCreateUserError, ThrowOnError>({
             security: [
                 {
@@ -266,7 +266,7 @@ export class UsersService {
      * Delete User Me
      * Delete own user.
      */
-    public static deleteUserMe<ThrowOnError extends boolean = false>(options?: Options<UsersDeleteUserMeData, ThrowOnError>) {
+    public static deleteUserMe<ThrowOnError extends boolean = true>(options?: Options<UsersDeleteUserMeData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).delete<UsersDeleteUserMeResponse, unknown, ThrowOnError>({
             security: [
                 {
@@ -283,7 +283,7 @@ export class UsersService {
      * Read User Me
      * Get current user.
      */
-    public static readUserMe<ThrowOnError extends boolean = false>(options?: Options<UsersReadUserMeData, ThrowOnError>) {
+    public static readUserMe<ThrowOnError extends boolean = true>(options?: Options<UsersReadUserMeData, ThrowOnError>) {
         return (options?.client ?? _heyApiClient).get<UsersReadUserMeResponse, unknown, ThrowOnError>({
             security: [
                 {
@@ -300,7 +300,7 @@ export class UsersService {
      * Update User Me
      * Update own user.
      */
-    public static updateUserMe<ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserMeData, ThrowOnError>) {
+    public static updateUserMe<ThrowOnError extends boolean = true>(options: Options<UsersUpdateUserMeData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).patch<UsersUpdateUserMeResponse, UsersUpdateUserMeError, ThrowOnError>({
             security: [
                 {
@@ -321,7 +321,7 @@ export class UsersService {
      * Update Password Me
      * Update own password.
      */
-    public static updatePasswordMe<ThrowOnError extends boolean = false>(options: Options<UsersUpdatePasswordMeData, ThrowOnError>) {
+    public static updatePasswordMe<ThrowOnError extends boolean = true>(options: Options<UsersUpdatePasswordMeData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).patch<UsersUpdatePasswordMeResponse, UsersUpdatePasswordMeError, ThrowOnError>({
             security: [
                 {
@@ -342,7 +342,7 @@ export class UsersService {
      * Register User
      * Create new user without the need to be logged in.
      */
-    public static registerUser<ThrowOnError extends boolean = false>(options: Options<UsersRegisterUserData, ThrowOnError>) {
+    public static registerUser<ThrowOnError extends boolean = true>(options: Options<UsersRegisterUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<UsersRegisterUserResponse, UsersRegisterUserError, ThrowOnError>({
             url: '/api/v1/users/signup',
             ...options,
@@ -357,7 +357,7 @@ export class UsersService {
      * Delete User
      * Delete a user.
      */
-    public static deleteUser<ThrowOnError extends boolean = false>(options: Options<UsersDeleteUserData, ThrowOnError>) {
+    public static deleteUser<ThrowOnError extends boolean = true>(options: Options<UsersDeleteUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).delete<UsersDeleteUserResponse, UsersDeleteUserError, ThrowOnError>({
             security: [
                 {
@@ -374,7 +374,7 @@ export class UsersService {
      * Read User By Id
      * Get a specific user by id.
      */
-    public static readUserById<ThrowOnError extends boolean = false>(options: Options<UsersReadUserByIdData, ThrowOnError>) {
+    public static readUserById<ThrowOnError extends boolean = true>(options: Options<UsersReadUserByIdData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).get<UsersReadUserByIdResponse, UsersReadUserByIdError, ThrowOnError>({
             security: [
                 {
@@ -391,7 +391,7 @@ export class UsersService {
      * Update User
      * Update a user.
      */
-    public static updateUser<ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserData, ThrowOnError>) {
+    public static updateUser<ThrowOnError extends boolean = true>(options: Options<UsersUpdateUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).patch<UsersUpdateUserResponse, UsersUpdateUserError, ThrowOnError>({
             security: [
                 {
@@ -415,7 +415,7 @@ export class PrivateService {
      * Create User
      * Create a new user.
      */
-    public static createUser<ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) {
+    public static createUser<ThrowOnError extends boolean = true>(options: Options<PrivateCreateUserData, ThrowOnError>) {
         return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
             url: '/api/v1/private/users/',
             ...options,

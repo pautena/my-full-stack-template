@@ -4,7 +4,10 @@ export default defineConfig({
 	input: "./openapi.json",
 	output: "./src/client",
 	plugins: [
-		"@hey-api/client-fetch",
+		{
+			name: "@hey-api/client-fetch",
+			throwOnError: true,
+		},
 		{
 			name: "@hey-api/sdk",
 			asClass: true,

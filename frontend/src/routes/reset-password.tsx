@@ -52,7 +52,9 @@ function ResetPassword() {
 	});
 
 	const onSubmit: SubmitHandler<NewPasswordForm> = async (data) => {
-		mutation.mutate(data);
+		const token =
+			new URLSearchParams(window.location.search).get("token") ?? "";
+		mutation.mutate({ ...data, token });
 	};
 
 	return (

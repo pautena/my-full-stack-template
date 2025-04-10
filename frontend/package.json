@@ -8,13 +8,13 @@
 		"serve": "vite preview",
 		"start": "vite",
 		"lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
-		"ts-check": "tsc --noEmit -p tsconfig.build.json",
+		"ts-check": "tsc --noEmit",
 		"preview": "vite preview",
 		"test": "vitest",
 		"test:watch": "vitest --watch",
 		"test:ui": "vitest --ui",
-		"generate-client": "openapi-ts",
-		"test:playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure"
+		"playwright": "ENVIRONMENT=local op run --env-file='../.env' -- npx playwright test --fail-on-flaky-tests --trace=retain-on-failure",
+		"generate-client": "openapi-ts"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",

@@ -14,7 +14,7 @@ export const createUser = async ({
 	email: string;
 	password: string;
 }) => {
-	return await PrivateService.privateCreateUser({
+	return await PrivateService.createUser({
 		body: {
 			email,
 			password,
