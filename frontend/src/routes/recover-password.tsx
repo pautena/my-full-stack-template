@@ -1,12 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
-import { useNotificationCenter } from "@pautena/react-design-system";
-import { recoverPassword } from "../client";
+import { useRecoveryPasswordMutation } from "../features/auth/auth.service";
 import { isLoggedIn } from "../hooks/useAuth";
-import { emailPattern, handleError } from "../utils";
+import { emailPattern } from "../utils";
 
 interface FormData {
 	email: string;
@@ -30,32 +28,17 @@ function RecoverPassword() {
 		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<FormData>();
-	const { show } = useNotificationCenter();
 
-	const mutation = useMutation({
-		mutationFn: async (data: FormData) => {
-			await recoverPassword({
-				path: {
-					email: data.email,
-				},
-			});
-		},
+	const mutation = useRecoveryPasswordMutation({
 		onSuccess: () => {
-			show({
-				severity: "success",
-				title: "Email sent",
-				message: "We sent an email with a link to get back into your account.",
-			});
-
 			reset();
-		},
-		onError: (err) => {
-			handleError(err, show);
 		},
 	});
 
 	const onSubmit: SubmitHandler<FormData> = async (data) => {
-		mutation.mutate(data);
+		mutation.mutate({
+			email: data.email,
+		});
 	};
 
 	return (

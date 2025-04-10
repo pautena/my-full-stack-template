@@ -1,14 +1,7 @@
 import { useNotificationCenter } from "@pautena/react-design-system";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import {
-	type ItemCreate,
-	type ItemUpdate,
-	createItem,
-	deleteItem,
-	readItems,
-	updateItem,
-} from "../../client";
+import { type ItemCreate, type ItemUpdate, ItemsService } from "../../client";
 import { type UseMutationArgs, handleError } from "../../utils";
 
 export const useReadItemsQuery = ({
@@ -27,7 +20,7 @@ export function readItemsQueryOptions({
 }: { page: number; pageSize: number }) {
 	return {
 		queryFn: async () => {
-			const response = await readItems({
+			const response = await ItemsService.readItems({
 				query: { skip: page * pageSize, limit: pageSize },
 			});
 			return response.data;
@@ -43,7 +36,7 @@ export const useAddItemMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: (data: ItemCreate) => createItem({ body: data }),
+		mutationFn: (data: ItemCreate) => ItemsService.createItem({ body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -68,7 +61,7 @@ export const useDeleteItemMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: () => deleteItem({ path: { id } }),
+		mutationFn: () => ItemsService.deleteItem({ path: { id } }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -93,7 +86,8 @@ export const useUpdateItemMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: (data: ItemUpdate) => updateItem({ path: { id }, body: data }),
+		mutationFn: (data: ItemUpdate) =>
+			ItemsService.updateItem({ path: { id }, body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",

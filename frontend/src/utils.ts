@@ -5,7 +5,10 @@ import type {
 	RegisterOptions,
 	UseFormGetValues,
 } from "react-hook-form";
-import type { HttpValidationError } from "./client";
+
+export type UseMutationArgs<T = object> = {
+	onSuccess?: () => void;
+} & T;
 
 export const emailPattern = {
 	value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -53,16 +56,11 @@ export const confirmPasswordRules = <T extends FieldValues, R extends Path<T>>(
 };
 
 export const handleError = (
-	err: HttpValidationError,
+	err: Error,
 	show: (notification: Notification) => void,
 ) => {
-	const errDetail = err.detail;
-	let errorMessage = "Something went wrong.";
-	if (errDetail && errDetail.length > 0) {
-		errorMessage = errDetail[0].msg;
-	}
 	show({
 		severity: "error",
-		message: errorMessage,
+		message: err.message,
 	});
 };

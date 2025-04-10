@@ -1,26 +1,13 @@
 import { useNotificationCenter } from "@pautena/react-design-system";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-	type BodyLoginLoginAccessToken,
-	LoginResetPasswordData,
-	type NewPassword,
 	type UpdatePassword,
 	type UserCreate,
 	type UserPublic,
 	type UserRegister,
 	type UserUpdate,
 	type UserUpdateMe,
-	createUser,
-	deleteUser,
-	deleteUserMe,
-	loginAccessToken,
-	readUserMe,
-	readUsers,
-	registerUser,
-	resetPassword,
-	updatePasswordMe,
-	updateUser,
-	updateUserMe,
+	UsersService,
 } from "../../client";
 import { isLoggedIn } from "../../hooks/useAuth";
 import { type UseMutationArgs, handleError } from "../../utils";
@@ -31,7 +18,7 @@ export function getUsersQueryOptions({
 }: { page: number; pageSize: number }) {
 	return {
 		queryFn: async () => {
-			const response = await readUsers({
+			const response = await UsersService.readUsers({
 				query: { skip: page * pageSize, limit: pageSize },
 			});
 			return response.data;
@@ -57,7 +44,7 @@ export const useAddUserMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: (data: UserCreate) => createUser({ body: data }),
+		mutationFn: (data: UserCreate) => UsersService.createUser({ body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -82,7 +69,7 @@ export const useDeleteUserMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: () => deleteUser({ path: { user_id: id } }),
+		mutationFn: () => UsersService.deleteUser({ path: { user_id: id } }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -108,7 +95,7 @@ export const useUpdateUserMutation = ({
 
 	return useMutation({
 		mutationFn: (data: UserUpdate) =>
-			updateUser({ path: { user_id: id }, body: data }),
+			UsersService.updateUser({ path: { user_id: id }, body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -131,7 +118,8 @@ export const useUpdateUserPasswordMeMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: (data: UpdatePassword) => updatePasswordMe({ body: data }),
+		mutationFn: (data: UpdatePassword) =>
+			UsersService.updatePasswordMe({ body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -152,7 +140,7 @@ export const useDeleteUserMeMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: () => deleteUserMe(),
+		mutationFn: () => UsersService.deleteUserMe(),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -176,7 +164,8 @@ export const useUpdateUserMeMutation = ({
 	const { show } = useNotificationCenter();
 
 	return useMutation({
-		mutationFn: (data: UserUpdateMe) => updateUserMe({ body: data }),
+		mutationFn: (data: UserUpdateMe) =>
+			UsersService.updateUserMe({ body: data }),
 		onSuccess: () => {
 			show({
 				severity: "success",
@@ -200,7 +189,8 @@ export const useRegisterUser = ({
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: (data: UserRegister) => registerUser({ body: data }),
+		mutationFn: (data: UserRegister) =>
+			UsersService.registerUser({ body: data }),
 
 		onSuccess: () => {
 			show({
@@ -219,65 +209,13 @@ export const useRegisterUser = ({
 	});
 };
 
-export const useLoginMutation = ({
-	onSuccess = () => {},
-}: UseMutationArgs = {}) => {
-	const { show } = useNotificationCenter();
-	const queryClient = useQueryClient();
-
-	return useMutation({
-		mutationFn: async (data: BodyLoginLoginAccessToken) => {
-			const response = await loginAccessToken({
-				body: data,
-			});
-			if (response.data?.access_token) {
-				localStorage.setItem("access_token", response.data.access_token);
-			}
-		},
-		onSuccess: () => {
-			show({
-				severity: "success",
-				message: "Login successful",
-			});
-			onSuccess();
-			queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-		},
-		onError: (err) => {
-			handleError(err, show);
-		},
-	});
-};
-
 export const useReadUserMeQuery = () => {
 	return useQuery<UserPublic | null, Error>({
 		queryKey: ["currentUser"],
 		queryFn: async () => {
-			const response = await readUserMe();
+			const response = await UsersService.readUserMe();
 			return response.data || null;
 		},
 		enabled: isLoggedIn(),
-	});
-};
-
-export const useResetPasswordMutation = ({
-	onSuccess = () => {},
-}: UseMutationArgs) => {
-	const { show } = useNotificationCenter();
-
-	return useMutation({
-		mutationFn: (data: NewPassword) => {
-			const response = resetPassword({ body: data });
-			return response;
-		},
-		onSuccess: () => {
-			show({
-				severity: "success",
-				message: "Password updated successfully",
-			});
-			onSuccess();
-		},
-		onError: (err) => {
-			handleError(err, show);
-		},
 	});
 };

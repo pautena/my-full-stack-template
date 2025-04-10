@@ -8,6 +8,7 @@
 		"serve": "vite preview",
 		"start": "vite",
 		"lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+		"ts-check": "tsc --noEmit",
 		"preview": "vite preview",
 		"test": "vitest",
 		"test:watch": "vitest --watch",

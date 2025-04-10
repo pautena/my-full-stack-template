@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
+import { useLoginMutation } from "../features/auth/auth.service";
 import {
-	useLoginMutation,
 	useReadUserMeQuery,
 	useRegisterUser,
 } from "../features/users/users.client";

@@ -18,397 +18,412 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
     meta?: Record<string, unknown>;
 };
 
-/**
- * Read Items
- * Retrieve items.
- */
-export const readItems = <ThrowOnError extends boolean = false>(options?: Options<ItemsReadItemsData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<ItemsReadItemsResponse, ItemsReadItemsError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class ItemsService {
+    /**
+     * Read Items
+     * Retrieve items.
+     */
+    public static readItems<ThrowOnError extends boolean = false>(options?: Options<ItemsReadItemsData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<ItemsReadItemsResponse, ItemsReadItemsError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/items/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create Item
+     * Create new item.
+     */
+    public static createItem<ThrowOnError extends boolean = false>(options: Options<ItemsCreateItemData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<ItemsCreateItemResponse, ItemsCreateItemError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/items/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/items/',
-        ...options
-    });
-};
-
-/**
- * Create Item
- * Create new item.
- */
-export const createItem = <ThrowOnError extends boolean = false>(options: Options<ItemsCreateItemData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<ItemsCreateItemResponse, ItemsCreateItemError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Delete Item
+     * Delete an item.
+     */
+    public static deleteItem<ThrowOnError extends boolean = false>(options: Options<ItemsDeleteItemData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).delete<ItemsDeleteItemResponse, ItemsDeleteItemError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/items/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read Item
+     * Get item by ID.
+     */
+    public static readItem<ThrowOnError extends boolean = false>(options: Options<ItemsReadItemData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).get<ItemsReadItemResponse, ItemsReadItemError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/items/{id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update Item
+     * Update an item.
+     */
+    public static updateItem<ThrowOnError extends boolean = false>(options: Options<ItemsUpdateItemData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).put<ItemsUpdateItemResponse, ItemsUpdateItemError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/items/{id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/items/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
+        });
+    }
+    
+}
 
-/**
- * Delete Item
- * Delete an item.
- */
-export const deleteItem = <ThrowOnError extends boolean = false>(options: Options<ItemsDeleteItemData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).delete<ItemsDeleteItemResponse, ItemsDeleteItemError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class LoginService {
+    /**
+     * Login Access Token
+     * OAuth2 compatible token login, get an access token for future requests
+     */
+    public static loginAccessToken<ThrowOnError extends boolean = false>(options: Options<LoginLoginAccessTokenData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<LoginLoginAccessTokenResponse, LoginLoginAccessTokenError, ThrowOnError>({
+            ...urlSearchParamsBodySerializer,
+            url: '/api/v1/login/access-token',
+            ...options,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/items/{id}',
-        ...options
-    });
-};
-
-/**
- * Read Item
- * Get item by ID.
- */
-export const readItem = <ThrowOnError extends boolean = false>(options: Options<ItemsReadItemData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).get<ItemsReadItemResponse, ItemsReadItemError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Test Token
+     * Test access token
+     */
+    public static testToken<ThrowOnError extends boolean = false>(options?: Options<LoginTestTokenData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).post<LoginTestTokenResponse, unknown, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/login/test-token',
+            ...options
+        });
+    }
+    
+    /**
+     * Recover Password
+     * Password Recovery
+     */
+    public static recoverPassword<ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<LoginRecoverPasswordResponse, LoginRecoverPasswordError, ThrowOnError>({
+            url: '/api/v1/password-recovery/{email}',
+            ...options
+        });
+    }
+    
+    /**
+     * Reset Password
+     * Reset password
+     */
+    public static resetPassword<ThrowOnError extends boolean = false>(options: Options<LoginResetPasswordData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<LoginResetPasswordResponse, LoginResetPasswordError, ThrowOnError>({
+            url: '/api/v1/reset-password/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/items/{id}',
-        ...options
-    });
-};
+        });
+    }
+    
+    /**
+     * Recover Password Html Content
+     * HTML Content for Password Recovery
+     */
+    public static recoverPasswordHtmlContent<ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordHtmlContentData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<LoginRecoverPasswordHtmlContentResponse, LoginRecoverPasswordHtmlContentError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/password-recovery-html-content/{email}',
+            ...options
+        });
+    }
+    
+}
 
-/**
- * Update Item
- * Update an item.
- */
-export const updateItem = <ThrowOnError extends boolean = false>(options: Options<ItemsUpdateItemData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).put<ItemsUpdateItemResponse, ItemsUpdateItemError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class UtilsService {
+    /**
+     * Test Email
+     * Test emails.
+     */
+    public static testEmail<ThrowOnError extends boolean = false>(options: Options<UtilsTestEmailData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<UtilsTestEmailResponse, UtilsTestEmailError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/utils/test-email/',
+            ...options
+        });
+    }
+    
+    /**
+     * Health Check
+     */
+    public static healthCheck<ThrowOnError extends boolean = false>(options?: Options<UtilsHealthCheckData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<UtilsHealthCheckResponse, unknown, ThrowOnError>({
+            url: '/api/v1/utils/health-check/',
+            ...options
+        });
+    }
+    
+}
+
+export class UsersService {
+    /**
+     * Read Users
+     * Retrieve users.
+     */
+    public static readUsers<ThrowOnError extends boolean = false>(options?: Options<UsersReadUsersData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<UsersReadUsersResponse, UsersReadUsersError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/',
+            ...options
+        });
+    }
+    
+    /**
+     * Create User
+     * Create new user.
+     */
+    public static createUser<ThrowOnError extends boolean = false>(options: Options<UsersCreateUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<UsersCreateUserResponse, UsersCreateUserError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/items/{id}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Login Access Token
- * OAuth2 compatible token login, get an access token for future requests
- */
-export const loginAccessToken = <ThrowOnError extends boolean = false>(options: Options<LoginLoginAccessTokenData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<LoginLoginAccessTokenResponse, LoginLoginAccessTokenError, ThrowOnError>({
-        ...urlSearchParamsBodySerializer,
-        url: '/api/v1/login/access-token',
-        ...options,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Test Token
- * Test access token
- */
-export const testToken = <ThrowOnError extends boolean = false>(options?: Options<LoginTestTokenData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).post<LoginTestTokenResponse, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Delete User Me
+     * Delete own user.
+     */
+    public static deleteUserMe<ThrowOnError extends boolean = false>(options?: Options<UsersDeleteUserMeData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).delete<UsersDeleteUserMeResponse, unknown, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/me',
+            ...options
+        });
+    }
+    
+    /**
+     * Read User Me
+     * Get current user.
+     */
+    public static readUserMe<ThrowOnError extends boolean = false>(options?: Options<UsersReadUserMeData, ThrowOnError>) {
+        return (options?.client ?? _heyApiClient).get<UsersReadUserMeResponse, unknown, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/me',
+            ...options
+        });
+    }
+    
+    /**
+     * Update User Me
+     * Update own user.
+     */
+    public static updateUserMe<ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserMeData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).patch<UsersUpdateUserMeResponse, UsersUpdateUserMeError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/me',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/login/test-token',
-        ...options
-    });
-};
-
-/**
- * Recover Password
- * Password Recovery
- */
-export const recoverPassword = <ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<LoginRecoverPasswordResponse, LoginRecoverPasswordError, ThrowOnError>({
-        url: '/api/v1/password-recovery/{email}',
-        ...options
-    });
-};
-
-/**
- * Reset Password
- * Reset password
- */
-export const resetPassword = <ThrowOnError extends boolean = false>(options: Options<LoginResetPasswordData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<LoginResetPasswordResponse, LoginResetPasswordError, ThrowOnError>({
-        url: '/api/v1/reset-password/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Recover Password Html Content
- * HTML Content for Password Recovery
- */
-export const recoverPasswordHtmlContent = <ThrowOnError extends boolean = false>(options: Options<LoginRecoverPasswordHtmlContentData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<LoginRecoverPasswordHtmlContentResponse, LoginRecoverPasswordHtmlContentError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Update Password Me
+     * Update own password.
+     */
+    public static updatePasswordMe<ThrowOnError extends boolean = false>(options: Options<UsersUpdatePasswordMeData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).patch<UsersUpdatePasswordMeResponse, UsersUpdatePasswordMeError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/me/password',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/password-recovery-html-content/{email}',
-        ...options
-    });
-};
-
-/**
- * Test Email
- * Test emails.
- */
-export const testEmail = <ThrowOnError extends boolean = false>(options: Options<UtilsTestEmailData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<UtilsTestEmailResponse, UtilsTestEmailError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Register User
+     * Create new user without the need to be logged in.
+     */
+    public static registerUser<ThrowOnError extends boolean = false>(options: Options<UsersRegisterUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<UsersRegisterUserResponse, UsersRegisterUserError, ThrowOnError>({
+            url: '/api/v1/users/signup',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/utils/test-email/',
-        ...options
-    });
-};
-
-/**
- * Health Check
- */
-export const healthCheck = <ThrowOnError extends boolean = false>(options?: Options<UtilsHealthCheckData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<UtilsHealthCheckResponse, unknown, ThrowOnError>({
-        url: '/api/v1/utils/health-check/',
-        ...options
-    });
-};
-
-/**
- * Read Users
- * Retrieve users.
- */
-export const readUsers = <ThrowOnError extends boolean = false>(options?: Options<UsersReadUsersData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<UsersReadUsersResponse, UsersReadUsersError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+        });
+    }
+    
+    /**
+     * Delete User
+     * Delete a user.
+     */
+    public static deleteUser<ThrowOnError extends boolean = false>(options: Options<UsersDeleteUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).delete<UsersDeleteUserResponse, UsersDeleteUserError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/{user_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Read User By Id
+     * Get a specific user by id.
+     */
+    public static readUserById<ThrowOnError extends boolean = false>(options: Options<UsersReadUserByIdData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).get<UsersReadUserByIdResponse, UsersReadUserByIdError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/{user_id}',
+            ...options
+        });
+    }
+    
+    /**
+     * Update User
+     * Update a user.
+     */
+    public static updateUser<ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).patch<UsersUpdateUserResponse, UsersUpdateUserError, ThrowOnError>({
+            security: [
+                {
+                    scheme: 'bearer',
+                    type: 'http'
+                }
+            ],
+            url: '/api/v1/users/{user_id}',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/users/',
-        ...options
-    });
-};
+        });
+    }
+    
+}
 
-/**
- * Create User
- * Create new user.
- */
-export const createUser = <ThrowOnError extends boolean = false>(options: Options<UsersCreateUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<UsersCreateUserResponse, UsersCreateUserError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
+export class PrivateService {
+    /**
+     * Create User
+     * Create a new user.
+     */
+    public static privateCreateUser<ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) {
+        return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
+            url: '/api/v1/private/users/',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options?.headers
             }
-        ],
-        url: '/api/v1/users/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Delete User Me
- * Delete own user.
- */
-export const deleteUserMe = <ThrowOnError extends boolean = false>(options?: Options<UsersDeleteUserMeData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).delete<UsersDeleteUserMeResponse, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/me',
-        ...options
-    });
-};
-
-/**
- * Read User Me
- * Get current user.
- */
-export const readUserMe = <ThrowOnError extends boolean = false>(options?: Options<UsersReadUserMeData, ThrowOnError>) => {
-    return (options?.client ?? _heyApiClient).get<UsersReadUserMeResponse, unknown, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/me',
-        ...options
-    });
-};
-
-/**
- * Update User Me
- * Update own user.
- */
-export const updateUserMe = <ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserMeData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).patch<UsersUpdateUserMeResponse, UsersUpdateUserMeError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/me',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Update Password Me
- * Update own password.
- */
-export const updatePasswordMe = <ThrowOnError extends boolean = false>(options: Options<UsersUpdatePasswordMeData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).patch<UsersUpdatePasswordMeResponse, UsersUpdatePasswordMeError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/me/password',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Register User
- * Create new user without the need to be logged in.
- */
-export const registerUser = <ThrowOnError extends boolean = false>(options: Options<UsersRegisterUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<UsersRegisterUserResponse, UsersRegisterUserError, ThrowOnError>({
-        url: '/api/v1/users/signup',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Delete User
- * Delete a user.
- */
-export const deleteUser = <ThrowOnError extends boolean = false>(options: Options<UsersDeleteUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).delete<UsersDeleteUserResponse, UsersDeleteUserError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/{user_id}',
-        ...options
-    });
-};
-
-/**
- * Read User By Id
- * Get a specific user by id.
- */
-export const readUserById = <ThrowOnError extends boolean = false>(options: Options<UsersReadUserByIdData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).get<UsersReadUserByIdResponse, UsersReadUserByIdError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/{user_id}',
-        ...options
-    });
-};
-
-/**
- * Update User
- * Update a user.
- */
-export const updateUser = <ThrowOnError extends boolean = false>(options: Options<UsersUpdateUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).patch<UsersUpdateUserResponse, UsersUpdateUserError, ThrowOnError>({
-        security: [
-            {
-                scheme: 'bearer',
-                type: 'http'
-            }
-        ],
-        url: '/api/v1/users/{user_id}',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
-
-/**
- * Create User
- * Create a new user.
- */
-export const privateCreateUser = <ThrowOnError extends boolean = false>(options: Options<PrivateCreateUserData, ThrowOnError>) => {
-    return (options.client ?? _heyApiClient).post<PrivateCreateUserResponse, PrivateCreateUserError, ThrowOnError>({
-        url: '/api/v1/private/users/',
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...options?.headers
-        }
-    });
-};
+        });
+    }
+    
+}

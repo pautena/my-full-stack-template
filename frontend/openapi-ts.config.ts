@@ -7,6 +7,7 @@ export default defineConfig({
 		"@hey-api/client-fetch",
 		{
 			name: "@hey-api/sdk",
+			asClass: true,
 			methodNameBuilder: (operation) => {
 				const id = operation.id;
 
