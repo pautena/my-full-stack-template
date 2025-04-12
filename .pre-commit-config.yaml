@@ -24,11 +24,13 @@ repos:
         args:
           - --fix
       - id: ruff-format
-  - repo: https://github.com/biomejs/pre-commit
-    rev: v1.9.4
+  - repo: local
     hooks:
-      - id: biome-check
-        exclude: ^frontend/src/client/.*
+      - id: biome-lint
+        name: biome lint
+        entry: bash -c 'cd frontend && pnpm lint'
+        language: system
+        types: [text]
 ci:
   autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
   autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
