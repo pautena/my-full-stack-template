@@ -6,12 +6,12 @@ import type { ReactElement } from "react";
 const theme = createTheme();
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-	return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
 const customRender = (
-	ui: ReactElement,
-	options?: Omit<RenderOptions, "wrapper">,
+  ui: ReactElement,
+  options?: Omit<RenderOptions, "wrapper">,
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from "@testing-library/react";

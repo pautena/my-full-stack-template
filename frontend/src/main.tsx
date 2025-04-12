@@ -5,6 +5,6 @@ import App from "./app";
 const rootElement = document.getElementById("app");
 
 if (rootElement && !rootElement.innerHTML) {
-	const root = ReactDOM.createRoot(rootElement);
-	root.render(<App />);
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App />);
 }
