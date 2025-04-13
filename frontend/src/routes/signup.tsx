@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import type { UserRegister } from "@/client";
+import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
+import { confirmPasswordRules, emailPattern, passwordRules } from "@/utils";
 import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material";
-import type { UserRegister } from "../client";
-import useAuth, { isLoggedIn } from "../features/auth/useAuth";
-import { confirmPasswordRules, emailPattern, passwordRules } from "../utils";
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,

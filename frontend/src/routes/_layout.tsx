@@ -1,3 +1,6 @@
+import type { UserPublic } from "@/client";
+import { useGetSidebarNav } from "@/common/hooks/sidebar";
+import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Box, Divider, IconButton, Menu, MenuItem } from "@mui/material";
 import { DrawerLayout, LoadingArea } from "@pautena/react-design-system";
@@ -9,9 +12,6 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { useState } from "react";
-import type { UserPublic } from "../client";
-import { useGetSidebarNav } from "../common/hooks/sidebar";
-import useAuth, { isLoggedIn } from "../features/auth/useAuth";
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,

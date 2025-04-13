@@ -1,8 +1,8 @@
+import { type ItemCreate, type ItemUpdate, ItemsService } from "@/client";
+import { type UseMutationArgs, handleError } from "@/utils";
 import { useNotificationCenter } from "@pautena/react-design-system";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { type ItemCreate, type ItemUpdate, ItemsService } from "../../client";
-import { type UseMutationArgs, handleError } from "../../utils";
 
 export const useReadItemsQuery = ({
   page,

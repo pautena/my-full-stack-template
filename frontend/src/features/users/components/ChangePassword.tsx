@@ -1,9 +1,9 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import type { UpdatePassword } from "@/client";
+import { useUpdateUserPasswordMeMutation } from "@/features/users/users.client";
+import { confirmPasswordRules, passwordRules } from "@/utils";
 import { Button, Grid2, TextField, Typography } from "@mui/material";
-import type { UpdatePassword } from "../../../client";
-import { confirmPasswordRules, passwordRules } from "../../../utils";
-import { useUpdateUserPasswordMeMutation } from "../users.client";
 
 interface UpdatePasswordForm extends UpdatePassword {
   confirm_password: string;

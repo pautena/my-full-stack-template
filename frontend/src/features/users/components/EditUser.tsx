@@ -1,7 +1,7 @@
+import type { UserPublic, UserUpdate } from "@/client";
+import { useUpdateUserMutation } from "@/features/users/users.client";
 import { Checkbox, FormControlLabel, Grid2, TextField } from "@mui/material";
 import { FormDialog } from "@pautena/react-design-system";
-import type { UserPublic, UserUpdate } from "../../../client";
-import { useUpdateUserMutation } from "../users.client";
 
 interface EditUserProps {
   user: UserPublic;

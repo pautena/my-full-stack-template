@@ -1,11 +1,11 @@
-import { useNotificationCenter } from "@pautena/react-design-system";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   type BodyLoginLoginAccessToken,
   LoginService,
   type NewPassword,
-} from "../../client";
-import { type UseMutationArgs, handleError } from "../../utils";
+} from "@/client";
+import { type UseMutationArgs, handleError } from "@/utils";
+import { useNotificationCenter } from "@pautena/react-design-system";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useResetPasswordMutation = ({
   onSuccess = () => {},

@@ -3,6 +3,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
+import type { ItemPublic } from "@/client";
+import { AddItem } from "@/features/items/components/AddItem";
+import { DeleteItem } from "@/features/items/components/DeleteItem";
+import { EditItem } from "@/features/items/components/EditItem";
+import {
+  readItemsQueryOptions,
+  useReadItemsQuery,
+} from "@/features/items/items.client";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import {
@@ -12,14 +20,6 @@ import {
   type GridPaginationModel,
 } from "@mui/x-data-grid";
 import { HeaderLayout, useDialog } from "@pautena/react-design-system";
-import type { ItemPublic } from "../../client";
-import { AddItem } from "../../features/items/components/AddItem";
-import { DeleteItem } from "../../features/items/components/DeleteItem";
-import { EditItem } from "../../features/items/components/EditItem";
-import {
-  readItemsQueryOptions,
-  useReadItemsQuery,
-} from "../../features/items/items.client";
 
 const itemsSearchSchema = z.object({
   page: z.number().catch(0),

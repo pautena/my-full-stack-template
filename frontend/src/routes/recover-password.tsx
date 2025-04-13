@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import { useRecoveryPasswordMutation } from "@/features/auth/auth.service";
+import { isLoggedIn } from "@/features/auth/useAuth";
+import { emailPattern } from "@/utils";
 import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
-import { useRecoveryPasswordMutation } from "../features/auth/auth.service";
-import { isLoggedIn } from "../features/auth/useAuth";
-import { emailPattern } from "../utils";
 
 interface FormData {
   email: string;

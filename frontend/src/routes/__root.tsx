@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import React, { Suspense } from "react";
 
-import NotFound from "../common/components/NotFound";
+import NotFound from "@/common/components/NotFound";
 
 const loadDevtools = () =>
   Promise.all([

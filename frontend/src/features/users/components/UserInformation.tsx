@@ -1,11 +1,11 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import type { UserPublic, UserUpdateMe } from "@/client";
+import useAuth from "@/features/auth/useAuth";
+import { useUpdateUserMeMutation } from "@/features/users/users.client";
+import { emailPattern } from "@/utils";
 import { Button, Grid2 } from "@mui/material";
 import { TextField } from "@pautena/react-design-system";
-import type { UserPublic, UserUpdateMe } from "../../../client";
-import { emailPattern } from "../../../utils";
-import useAuth from "../../auth/useAuth";
-import { useUpdateUserMeMutation } from "../users.client";
 
 const UserInformation = () => {
   const { user: currentUser } = useAuth();
