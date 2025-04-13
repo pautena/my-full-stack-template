@@ -9,8 +9,8 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { useState } from "react";
-import { useGetSidebarNav } from "../app/sidebar";
 import type { UserPublic } from "../client";
+import { useGetSidebarNav } from "../common/hooks/sidebar";
 import useAuth, { isLoggedIn } from "../features/auth/useAuth";
 
 export const Route = createFileRoute("/_layout")({
