@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import type { BodyLoginLoginAccessToken } from "../client";
-import useAuth, { isLoggedIn } from "../hooks/useAuth";
+import useAuth, { isLoggedIn } from "../features/auth/useAuth";
 import { emailPattern } from "../utils";
 
 export const Route = createFileRoute("/login")({

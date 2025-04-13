@@ -9,10 +9,10 @@ import {
   TabPanel,
 } from "@pautena/react-design-system";
 import type { UserPublic } from "../../client";
-import Appearance from "../../components/UserSettings/Appearance";
-import ChangePassword from "../../components/UserSettings/ChangePassword";
-import DeleteAccount from "../../components/UserSettings/DeleteAccount";
-import UserInformation from "../../components/UserSettings/UserInformation";
+import Appearance from "../../features/users/components/Appearance";
+import ChangePassword from "../../features/users/components/ChangePassword";
+import DeleteAccount from "../../features/users/components/DeleteAccount";
+import UserInformation from "../../features/users/components/UserInformation";
 
 const tabsConfig: HeaderTab[] = [
   { id: "profile", label: "My profile" },

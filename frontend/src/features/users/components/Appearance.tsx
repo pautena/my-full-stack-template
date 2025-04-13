@@ -1,6 +1,6 @@
 import { Grid2, MenuItem, type PaletteMode, Typography } from "@mui/material";
 import { Select } from "@pautena/react-design-system";
-import { useColorMode } from "../../theme";
+import { useColorMode } from "../../../theme";
 
 const Appearance = () => {
   const { colorMode, setColorMode } = useColorMode();

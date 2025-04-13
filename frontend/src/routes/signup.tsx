@@ -3,7 +3,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material";
 import type { UserRegister } from "../client";
-import useAuth, { isLoggedIn } from "../hooks/useAuth";
+import useAuth, { isLoggedIn } from "../features/auth/useAuth";
 import { confirmPasswordRules, emailPattern, passwordRules } from "../utils";
 
 export const Route = createFileRoute("/signup")({

@@ -14,9 +14,9 @@ import {
 } from "@mui/x-data-grid";
 import { HeaderLayout, Label, useDialog } from "@pautena/react-design-system";
 import type { UserPublic } from "../../client";
-import { AddUser } from "../../components/Admin/AddUser";
-import { DeleteUser } from "../../components/Admin/DeleteUser";
-import EditUser from "../../components/Admin/EditUser";
+import { AddUser } from "../../features/users/components/AddUser";
+import { DeleteUser } from "../../features/users/components/DeleteUser";
+import EditUser from "../../features/users/components/EditUser";
 import {
   getUsersQueryOptions,
   useGetUsersQuery,

@@ -1,12 +1,6 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Box, Divider, IconButton, Menu, MenuItem } from "@mui/material";
-import {
-  Drawer,
-  DrawerAppBar,
-  DrawerContent,
-  DrawerLayout,
-  LoadingArea,
-} from "@pautena/react-design-system";
+import { DrawerLayout, LoadingArea } from "@pautena/react-design-system";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   Link,
@@ -15,9 +9,9 @@ import {
   redirect,
 } from "@tanstack/react-router";
 import { useState } from "react";
-import { useGetSidebarNav } from "../app/sidebar";
 import type { UserPublic } from "../client";
-import useAuth, { isLoggedIn } from "../hooks/useAuth";
+import { useGetSidebarNav } from "../common/hooks/sidebar";
+import useAuth, { isLoggedIn } from "../features/auth/useAuth";
 
 export const Route = createFileRoute("/_layout")({
   component: Layout,

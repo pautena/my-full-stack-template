@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Grid2 } from "@mui/material";
 import { FormDialog, TextField } from "@pautena/react-design-system";
-import type { ItemPublic, ItemUpdate } from "../../client";
-import { useUpdateItemMutation } from "../../features/items/items.client";
+import type { ItemPublic, ItemUpdate } from "../../../client";
+import { useUpdateItemMutation } from "../items.client";
 
 interface EditItemProps {
   isOpen: boolean;

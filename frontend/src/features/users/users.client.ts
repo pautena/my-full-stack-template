@@ -9,8 +9,8 @@ import {
   type UserUpdateMe,
   UsersService,
 } from "../../client";
-import { isLoggedIn } from "../../hooks/useAuth";
 import { type UseMutationArgs, handleError } from "../../utils";
+import { isLoggedIn } from "../auth/useAuth";
 
 export function getUsersQueryOptions({
   page,
