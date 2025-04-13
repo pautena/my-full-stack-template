@@ -4,7 +4,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
 import type { NewPassword } from "../client";
 import { useResetPasswordMutation } from "../features/auth/auth.service";
-import { isLoggedIn } from "../hooks/useAuth";
+import { isLoggedIn } from "../features/auth/useAuth";
 import { confirmPasswordRules, passwordRules } from "../utils";
 
 interface NewPasswordForm extends NewPassword {

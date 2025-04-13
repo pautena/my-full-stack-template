@@ -1,19 +1,25 @@
 import { Checkbox, FormControlLabel, Grid2, TextField } from "@mui/material";
 import { FormDialog } from "@pautena/react-design-system";
-import type { UserCreate, UserUpdate } from "../../client";
-import { useAddUserMutation } from "../../features/users/users.client";
+import type { UserPublic, UserUpdate } from "../../../client";
+import { useUpdateUserMutation } from "../users.client";
 
-interface AddUserProps {
+interface EditUserProps {
+  user: UserPublic;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const AddUser = ({ isOpen, onClose }: AddUserProps) => {
-  const mutation = useAddUserMutation({
+const EditUser = ({ user, isOpen, onClose }: EditUserProps) => {
+  const mutation = useUpdateUserMutation({
+    id: user.id,
     onSuccess: onClose,
   });
 
-  const handleSubmit = (data: UserCreate) => {
+  const handleSubmit = (data: UserUpdate) => {
+    if (data.password === "") {
+      data.password = undefined;
+    }
+
     mutation.mutate(data);
   };
 
@@ -33,6 +39,7 @@ export const AddUser = ({ isOpen, onClose }: AddUserProps) => {
             fullWidth
             required
             variant="outlined"
+            defaultValue={user.email}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -42,6 +49,7 @@ export const AddUser = ({ isOpen, onClose }: AddUserProps) => {
             fullWidth
             required
             variant="outlined"
+            defaultValue={user.full_name}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -80,3 +88,5 @@ export const AddUser = ({ isOpen, onClose }: AddUserProps) => {
     </FormDialog>
   );
 };
+
+export default EditUser;

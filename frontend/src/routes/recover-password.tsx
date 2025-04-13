@@ -3,7 +3,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
 import { useRecoveryPasswordMutation } from "../features/auth/auth.service";
-import { isLoggedIn } from "../hooks/useAuth";
+import { isLoggedIn } from "../features/auth/useAuth";
 import { emailPattern } from "../utils";
 
 interface FormData {

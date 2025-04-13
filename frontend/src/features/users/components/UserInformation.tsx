@@ -2,10 +2,10 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, Grid2 } from "@mui/material";
 import { TextField } from "@pautena/react-design-system";
-import type { UserPublic, UserUpdateMe } from "../../client";
-import { useUpdateUserMeMutation } from "../../features/users/users.client";
-import useAuth from "../../hooks/useAuth";
-import { emailPattern } from "../../utils";
+import type { UserPublic, UserUpdateMe } from "../../../client";
+import { emailPattern } from "../../../utils";
+import useAuth from "../../auth/useAuth";
+import { useUpdateUserMeMutation } from "../users.client";
 
 const UserInformation = () => {
   const { user: currentUser } = useAuth();

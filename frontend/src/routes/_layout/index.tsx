@@ -2,7 +2,7 @@ import { Content } from "@pautena/react-design-system";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { Grid2, Typography } from "@mui/material";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../features/auth/useAuth";
 
 export const Route = createFileRoute("/_layout/")({
   component: Dashboard,

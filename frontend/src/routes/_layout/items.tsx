@@ -13,9 +13,9 @@ import {
 } from "@mui/x-data-grid";
 import { HeaderLayout, useDialog } from "@pautena/react-design-system";
 import type { ItemPublic } from "../../client";
-import { AddItem } from "../../components/Items/AddItem";
-import { DeleteItem } from "../../components/Items/DeleteItem";
-import { EditItem } from "../../components/Items/EditItem";
+import { AddItem } from "../../features/items/components/AddItem";
+import { DeleteItem } from "../../features/items/components/DeleteItem";
+import { EditItem } from "../../features/items/components/EditItem";
 import {
   readItemsQueryOptions,
   useReadItemsQuery,

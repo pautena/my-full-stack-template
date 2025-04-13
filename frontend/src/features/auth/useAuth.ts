@@ -1,11 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useLoginMutation } from "../features/auth/auth.service";
-import {
-  useReadUserMeQuery,
-  useRegisterUser,
-} from "../features/users/users.client";
+import { useReadUserMeQuery, useRegisterUser } from "../users/users.client";
+import { useLoginMutation } from "./auth.service";
 
 const isLoggedIn = () => {
   return localStorage.getItem("access_token") !== null;

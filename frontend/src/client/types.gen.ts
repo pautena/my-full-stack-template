@@ -44,6 +44,13 @@ export type NewPassword = {
     new_password: string;
 };
 
+export type PrivateUserCreate = {
+    email: string;
+    password: string;
+    full_name: string;
+    is_verified?: boolean;
+};
+
 export type Token = {
     access_token: string;
     token_type?: string;
@@ -637,6 +644,31 @@ export type UsersUpdateUserResponses = {
 };
 
 export type UsersUpdateUserResponse = UsersUpdateUserResponses[keyof UsersUpdateUserResponses];
+
+export type PrivateCreateUserData = {
+    body: PrivateUserCreate;
+    path?: never;
+    query?: never;
+    url: '/api/v1/private/users/';
+};
+
+export type PrivateCreateUserErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type PrivateCreateUserError = PrivateCreateUserErrors[keyof PrivateCreateUserErrors];
+
+export type PrivateCreateUserResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserPublic;
+};
+
+export type PrivateCreateUserResponse = PrivateCreateUserResponses[keyof PrivateCreateUserResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});
