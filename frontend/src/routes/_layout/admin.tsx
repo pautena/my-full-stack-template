@@ -3,6 +3,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
+import type { UserPublic } from "@/client";
+import { AddUser } from "@/features/users/components/AddUser";
+import { DeleteUser } from "@/features/users/components/DeleteUser";
+import EditUser from "@/features/users/components/EditUser";
+import {
+  getUsersQueryOptions,
+  useGetUsersQuery,
+} from "@/features/users/users.client";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, useTheme } from "@mui/material";
@@ -13,14 +21,6 @@ import {
   type GridPaginationModel,
 } from "@mui/x-data-grid";
 import { HeaderLayout, Label, useDialog } from "@pautena/react-design-system";
-import type { UserPublic } from "../../client";
-import { AddUser } from "../../features/users/components/AddUser";
-import { DeleteUser } from "../../features/users/components/DeleteUser";
-import EditUser from "../../features/users/components/EditUser";
-import {
-  getUsersQueryOptions,
-  useGetUsersQuery,
-} from "../../features/users/users.client";
 
 const usersSearchSchema = z.object({
   page: z.number().catch(1),

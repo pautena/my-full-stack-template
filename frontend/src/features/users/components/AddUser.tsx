@@ -1,7 +1,7 @@
+import type { UserCreate, UserUpdate } from "@/client";
+import { useAddUserMutation } from "@/features/users/users.client";
 import { Checkbox, FormControlLabel, Grid2, TextField } from "@mui/material";
 import { FormDialog } from "@pautena/react-design-system";
-import type { UserCreate, UserUpdate } from "../../../client";
-import { useAddUserMutation } from "../users.client";
 
 interface AddUserProps {
   isOpen: boolean;

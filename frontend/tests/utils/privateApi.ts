@@ -1,7 +1,7 @@
 // Note: the `PrivateService` is only available when generating the client
 // for local environments
-import { PrivateService } from "../../src/client";
-import { client } from "../../src/client/client.gen";
+import { PrivateService } from "@/client";
+import { client } from "@/client/client.gen";
 
 client.setConfig({
   baseUrl: process.env.VITE_API_URL,

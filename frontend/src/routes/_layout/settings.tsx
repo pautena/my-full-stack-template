@@ -1,6 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
+import type { UserPublic } from "@/client";
+import Appearance from "@/features/users/components/Appearance";
+import ChangePassword from "@/features/users/components/ChangePassword";
+import DeleteAccount from "@/features/users/components/DeleteAccount";
+import UserInformation from "@/features/users/components/UserInformation";
 import {
   Content,
   Header,
@@ -8,11 +13,6 @@ import {
   type HeaderTab,
   TabPanel,
 } from "@pautena/react-design-system";
-import type { UserPublic } from "../../client";
-import Appearance from "../../features/users/components/Appearance";
-import ChangePassword from "../../features/users/components/ChangePassword";
-import DeleteAccount from "../../features/users/components/DeleteAccount";
-import UserInformation from "../../features/users/components/UserInformation";
 
 const tabsConfig: HeaderTab[] = [
   { id: "profile", label: "My profile" },

@@ -1,7 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { useReadUserMeQuery, useRegisterUser } from "../users/users.client";
+import {
+  useReadUserMeQuery,
+  useRegisterUser,
+} from "@/features/users/users.client";
 import { useLoginMutation } from "./auth.service";
 
 const isLoggedIn = () => {

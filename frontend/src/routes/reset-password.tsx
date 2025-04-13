@@ -1,11 +1,11 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import type { NewPassword } from "@/client";
+import { useResetPasswordMutation } from "@/features/auth/auth.service";
+import { isLoggedIn } from "@/features/auth/useAuth";
+import { confirmPasswordRules, passwordRules } from "@/utils";
 import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
-import type { NewPassword } from "../client";
-import { useResetPasswordMutation } from "../features/auth/auth.service";
-import { isLoggedIn } from "../features/auth/useAuth";
-import { confirmPasswordRules, passwordRules } from "../utils";
 
 interface NewPasswordForm extends NewPassword {
   confirm_password: string;

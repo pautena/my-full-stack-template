@@ -1,5 +1,3 @@
-import { useNotificationCenter } from "@pautena/react-design-system";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   type UpdatePassword,
   type UserCreate,
@@ -8,9 +6,11 @@ import {
   type UserUpdate,
   type UserUpdateMe,
   UsersService,
-} from "../../client";
-import { type UseMutationArgs, handleError } from "../../utils";
-import { isLoggedIn } from "../auth/useAuth";
+} from "@/client";
+import { isLoggedIn } from "@/features/auth/useAuth";
+import { type UseMutationArgs, handleError } from "@/utils";
+import { useNotificationCenter } from "@pautena/react-design-system";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function getUsersQueryOptions({
   page,

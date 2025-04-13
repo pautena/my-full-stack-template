@@ -1,5 +1,5 @@
+import { render } from "@/test-utils";
 import { screen } from "@testing-library/react";
-import { render } from "../../test-utils";
 import NotFound from "./NotFound";
 
 describe("NotFound component", () => {

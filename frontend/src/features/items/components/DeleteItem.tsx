@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import type { ItemPublic } from "@/client";
+import { useDeleteItemMutation } from "@/features/items/items.client";
 import { DialogContentText } from "@mui/material";
 import { ConfirmDialog } from "@pautena/react-design-system";
-import type { ItemPublic } from "../../../client";
-import { useDeleteItemMutation } from "../items.client";
 
 interface EditItemProps {
   isOpen: boolean;
