@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
-import type { UserPublic } from "@/client";
+import type { UserSchema } from "@/client";
 import { AddUser } from "@/features/users/components/AddUser";
 import { DeleteUser } from "@/features/users/components/DeleteUser";
 import EditUser from "@/features/users/components/EditUser";
@@ -35,9 +35,9 @@ const PAGE_SIZE = 5;
 
 function Admin() {
   const { palette } = useTheme();
-  const [selectedUser, setSelectedUser] = useState<UserPublic | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserSchema | null>(null);
   const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"]);
+  const currentUser = queryClient.getQueryData<UserSchema>(["currentUser"]);
   const { page } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const { open: openAdd, close: closeAdd, isOpen: isOpenAdd } = useDialog();
@@ -71,7 +71,7 @@ function Admin() {
     }
   }, [page, queryClient, hasNextPage]);
 
-  const columns: GridColDef<UserPublic>[] = [
+  const columns: GridColDef<UserSchema>[] = [
     {
       field: "id",
       headerName: "ID",

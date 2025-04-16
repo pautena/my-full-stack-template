@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-import type { UserPublic } from "@/client";
+import type { UserSchema } from "@/client";
 import Appearance from "@/features/users/components/Appearance";
 import ChangePassword from "@/features/users/components/ChangePassword";
 import DeleteAccount from "@/features/users/components/DeleteAccount";
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_layout/settings")({
 
 function UserSettings() {
   const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"]);
+  const currentUser = queryClient.getQueryData<UserSchema>(["currentUser"]);
   const finalTabs = currentUser?.is_superuser
     ? tabsConfig.slice(0, 3)
     : tabsConfig;

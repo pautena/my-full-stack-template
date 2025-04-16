@@ -3,7 +3,7 @@ from sqlmodel import Session
 from app.auth import repository as auth_repository
 from app.tests.utils.utils import random_email, random_lower_string
 from app.users import repository as users_repository
-from app.users.models import UserCreate
+from app.users.schemas import UserCreate
 
 
 def test_authenticate_user(db: Session) -> None:

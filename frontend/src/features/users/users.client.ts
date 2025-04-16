@@ -1,8 +1,8 @@
 import {
   type UpdatePassword,
   type UserCreate,
-  type UserPublic,
   type UserRegister,
+  type UserSchema,
   type UserUpdate,
   type UserUpdateMe,
   UsersService,
@@ -210,7 +210,7 @@ export const useRegisterUser = ({
 };
 
 export const useReadUserMeQuery = () => {
-  return useQuery<UserPublic | null, Error>({
+  return useQuery<UserSchema | null, Error>({
     queryKey: ["currentUser"],
     queryFn: async () => {
       const response = await UsersService.readUserMe();

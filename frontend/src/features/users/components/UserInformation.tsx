@@ -1,6 +1,6 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import type { UserPublic, UserUpdateMe } from "@/client";
+import type { UserSchema, UserUpdateMe } from "@/client";
 import useAuth from "@/features/auth/useAuth";
 import { useUpdateUserMeMutation } from "@/features/users/users.client";
 import { emailPattern } from "@/utils";
@@ -14,7 +14,7 @@ const UserInformation = () => {
     handleSubmit,
     getValues,
     formState: { isSubmitting, errors, isDirty },
-  } = useForm<UserPublic>({
+  } = useForm<UserSchema>({
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {

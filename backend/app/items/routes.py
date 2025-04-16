@@ -4,14 +4,15 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from sqlmodel import func, select
 
-from app.items.models import Item, ItemCreate, ItemPublic, ItemsPublic, ItemUpdate
+from app.items.models import Item
+from app.items.schemas import ItemCreate, ItemSchema, ItemsSchema, ItemUpdate
 from app.models import Message
 from app.users.dependencies import CurrentUser, SessionDep
 
 router = APIRouter(prefix="/items", tags=["items"])
 
 
-@router.get("/", response_model=ItemsPublic)
+@router.get("/", response_model=ItemsSchema)
 def read_items(
     session: SessionDep, current_user: CurrentUser, skip: int = 0, limit: int = 100
 ) -> Any:
@@ -39,10 +40,10 @@ def read_items(
         )
         items = session.exec(statement).all()
 
-    return ItemsPublic(data=items, count=count)
+    return ItemsSchema(data=items, count=count)
 
 
-@router.get("/{id}", response_model=ItemPublic)
+@router.get("/{id}", response_model=ItemSchema)
 def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> Any:
     """
     Get item by ID.
@@ -55,7 +56,7 @@ def read_item(session: SessionDep, current_user: CurrentUser, id: uuid.UUID) -> 
     return item
 
 
-@router.post("/", response_model=ItemPublic)
+@router.post("/", response_model=ItemSchema)
 def create_item(
     *, session: SessionDep, current_user: CurrentUser, item_in: ItemCreate
 ) -> Any:
@@ -69,7 +70,7 @@ def create_item(
     return item
 
 
-@router.put("/{id}", response_model=ItemPublic)
+@router.put("/{id}", response_model=ItemSchema)
 def update_item(
     *,
     session: SessionDep,

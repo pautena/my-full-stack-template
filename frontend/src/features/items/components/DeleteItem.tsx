@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import type { ItemPublic } from "@/client";
+import type { ItemSchema } from "@/client";
 import { useDeleteItemMutation } from "@/features/items/items.client";
 import { DialogContentText } from "@mui/material";
 import { ConfirmDialog } from "@pautena/react-design-system";
 
 interface EditItemProps {
   isOpen: boolean;
-  item: ItemPublic;
+  item: ItemSchema;
   onClose: () => void;
 }
 

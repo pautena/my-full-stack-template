@@ -1,11 +1,11 @@
-import type { UserPublic } from "@/client";
+import type { UserSchema } from "@/client";
 import { useDeleteUserMutation } from "@/features/users/users.client";
 import { DialogContentText } from "@mui/material";
 import { ConfirmDialog } from "@pautena/react-design-system";
 
 interface EditItemProps {
   isOpen: boolean;
-  user: UserPublic;
+  user: UserSchema;
   onClose: () => void;
 }
 

@@ -15,12 +15,14 @@ from app.users.dependencies import (
     get_current_active_superuser,
 )
 from app.users.models import (
-    UpdatePassword,
     User,
+)
+from app.users.schemas import (
+    UpdatePassword,
     UserCreate,
-    UserPublic,
     UserRegister,
-    UsersPublic,
+    UserSchema,
+    UsersSchema,
     UserUpdate,
     UserUpdateMe,
 )
@@ -32,7 +34,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.get(
     "/",
     dependencies=[Depends(get_current_active_superuser)],
-    response_model=UsersPublic,
+    response_model=UsersSchema,
 )
 def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
     """
@@ -45,13 +47,13 @@ def read_users(session: SessionDep, skip: int = 0, limit: int = 100) -> Any:
     statement = select(User).offset(skip).limit(limit)
     users = session.exec(statement).all()
 
-    return UsersPublic(data=users, count=count)
+    return UsersSchema(data=users, count=count)
 
 
 @router.post(
     "/",
     dependencies=[Depends(get_current_active_superuser)],
-    response_model=UserPublic,
+    response_model=UserSchema,
 )
 def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
     """
@@ -77,7 +79,7 @@ def create_user(*, session: SessionDep, user_in: UserCreate) -> Any:
     return user
 
 
-@router.patch("/me", response_model=UserPublic)
+@router.patch("/me", response_model=UserSchema)
 def update_user_me(
     *, session: SessionDep, user_in: UserUpdateMe, current_user: CurrentUser
 ) -> Any:
@@ -121,7 +123,7 @@ def update_password_me(
     return Message(message="Password updated successfully")
 
 
-@router.get("/me", response_model=UserPublic)
+@router.get("/me", response_model=UserSchema)
 def read_user_me(current_user: CurrentUser) -> Any:
     """
     Get current user.
@@ -145,7 +147,7 @@ def delete_user_me(session: SessionDep, current_user: CurrentUser) -> Any:
     return Message(message="User deleted successfully")
 
 
-@router.post("/signup", response_model=UserPublic)
+@router.post("/signup", response_model=UserSchema)
 def register_user(session: SessionDep, user_in: UserRegister) -> Any:
     """
     Create new user without the need to be logged in.
@@ -161,7 +163,7 @@ def register_user(session: SessionDep, user_in: UserRegister) -> Any:
     return user
 
 
-@router.get("/{user_id}", response_model=UserPublic)
+@router.get("/{user_id}", response_model=UserSchema)
 def read_user_by_id(
     user_id: uuid.UUID, session: SessionDep, current_user: CurrentUser
 ) -> Any:
@@ -182,7 +184,7 @@ def read_user_by_id(
 @router.patch(
     "/{user_id}",
     dependencies=[Depends(get_current_active_superuser)],
-    response_model=UserPublic,
+    response_model=UserSchema,
 )
 def update_user(
     *,

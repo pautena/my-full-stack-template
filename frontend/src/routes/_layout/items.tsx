@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 
-import type { ItemPublic } from "@/client";
+import type { ItemSchema } from "@/client";
 import { AddItem } from "@/features/items/components/AddItem";
 import { DeleteItem } from "@/features/items/components/DeleteItem";
 import { EditItem } from "@/features/items/components/EditItem";
@@ -34,7 +34,7 @@ const PAGE_SIZE = 5;
 
 function Items() {
   const { open: openAdd, close: closeAdd, isOpen: isOpenAdd } = useDialog();
-  const [selectedItem, setSelectedItem] = useState<ItemPublic | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ItemSchema | null>(null);
   const { open: openEdit, close: closeEdit, isOpen: isOpenEdit } = useDialog();
   const {
     open: openDelete,
@@ -67,7 +67,7 @@ function Items() {
     }
   }, [page, queryClient, hasNextPage]);
 
-  const columns: GridColDef<ItemPublic>[] = [
+  const columns: GridColDef<ItemSchema>[] = [
     {
       field: "id",
       width: 350,

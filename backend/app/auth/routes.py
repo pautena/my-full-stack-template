@@ -6,14 +6,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.auth import repository as auth_repository
-from app.auth.models import NewPassword, Token
+from app.auth.schemas import NewPassword, Token
 from app.core import security
 from app.core.config import settings
 from app.core.security import get_password_hash
 from app.models import Message
 from app.users import repository as users_repository
 from app.users.dependencies import CurrentUser, SessionDep, get_current_active_superuser
-from app.users.models import UserPublic
+from app.users.schemas import UserSchema
 from app.utils.utils import (
     generate_password_reset_token,
     generate_reset_password_email,
@@ -46,7 +46,7 @@ def login_access_token(
     )
 
 
-@router.post("/login/test-token", response_model=UserPublic)
+@router.post("/login/test-token", response_model=UserSchema)
 def test_token(current_user: CurrentUser) -> Any:
     """
     Test access token
