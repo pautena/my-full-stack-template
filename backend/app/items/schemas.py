@@ -1,19 +1,18 @@
 import uuid
+from collections.abc import Iterable
 
-from pydantic import BaseModel, Field
+from sqlmodel import Field, SQLModel
 
 from app.items.models import ItemBase
 
 
 class ItemSchema(ItemBase):
     id: uuid.UUID
-    title: str = Field(min_length=1, max_length=255)
-    description: str | None = Field(default=None, max_length=255)
     owner_id: uuid.UUID
 
 
-class ItemsSchema(BaseModel):
-    data: list[ItemSchema]
+class ItemsSchema(SQLModel):
+    data: Iterable[ItemSchema]
     count: int
 
 
