@@ -1,4 +1,4 @@
-import type { UserPublic } from "@/client";
+import type { UserSchema } from "@/client";
 import { useGetSidebarNav } from "@/common/hooks/sidebar";
 import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_layout")({
 function Layout() {
   const { isLoading, logout } = useAuth();
   const queryClient = useQueryClient();
-  const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"]);
+  const currentUser = queryClient.getQueryData<UserSchema>(["currentUser"]);
   const sidebarNav = useGetSidebarNav();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
