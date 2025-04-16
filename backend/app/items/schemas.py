@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from app.items.models import ItemBase
 
 
-class ItemSchema(BaseModel):
+class ItemSchema(ItemBase):
     id: uuid.UUID
     title: str = Field(min_length=1, max_length=255)
     description: str | None = Field(default=None, max_length=255)

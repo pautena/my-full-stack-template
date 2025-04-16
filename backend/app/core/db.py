@@ -1,6 +1,6 @@
 from sqlmodel import Session, create_engine, select
 
-from app.auth.models import *  # noqa: F403
+from app.auth.schemas import *  # noqa: F403
 from app.core.config import settings
 from app.items.models import *  # noqa: F403
 from app.users import repository as users_repository

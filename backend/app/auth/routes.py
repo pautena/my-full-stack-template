@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 
 from app.auth import repository as auth_repository
-from app.auth.models import NewPassword, Token
+from app.auth.schemas import NewPassword, Token
 from app.core import security
 from app.core.config import settings
 from app.core.security import get_password_hash
