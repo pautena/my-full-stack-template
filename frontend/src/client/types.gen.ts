@@ -19,9 +19,9 @@ export type ItemCreate = {
 };
 
 export type ItemSchema = {
-    id: string;
     title: string;
     description?: string | null;
+    id: string;
     owner_id: string;
 };
 
@@ -42,13 +42,6 @@ export type Message = {
 export type NewPassword = {
     token: string;
     new_password: string;
-};
-
-export type PrivateUserCreate = {
-    email: string;
-    password: string;
-    full_name: string;
-    is_verified?: boolean;
 };
 
 export type Token = {
@@ -644,31 +637,6 @@ export type UsersUpdateUserResponses = {
 };
 
 export type UsersUpdateUserResponse = UsersUpdateUserResponses[keyof UsersUpdateUserResponses];
-
-export type PrivateCreateUserData = {
-    body: PrivateUserCreate;
-    path?: never;
-    query?: never;
-    url: '/api/v1/private/users/';
-};
-
-export type PrivateCreateUserErrors = {
-    /**
-     * Validation Error
-     */
-    422: HttpValidationError;
-};
-
-export type PrivateCreateUserError = PrivateCreateUserErrors[keyof PrivateCreateUserErrors];
-
-export type PrivateCreateUserResponses = {
-    /**
-     * Successful Response
-     */
-    200: UserSchema;
-};
-
-export type PrivateCreateUserResponse = PrivateCreateUserResponses[keyof PrivateCreateUserResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});
