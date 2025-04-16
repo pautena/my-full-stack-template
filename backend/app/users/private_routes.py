@@ -9,8 +9,8 @@ from app.users.dependencies import (
 )
 from app.users.models import (
     User,
-    UserPublic,
 )
+from app.users.schemas import UserSchema
 
 router = APIRouter(tags=["private"], prefix="/private")
 
@@ -22,7 +22,7 @@ class PrivateUserCreate(BaseModel):
     is_verified: bool = False
 
 
-@router.post("/users/", response_model=UserPublic)
+@router.post("/users/", response_model=UserSchema)
 def create_user(user_in: PrivateUserCreate, session: SessionDep) -> Any:
     """
     Create a new user.

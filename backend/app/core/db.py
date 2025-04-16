@@ -4,7 +4,8 @@ from app.auth.models import *  # noqa: F403
 from app.core.config import settings
 from app.items.models import *  # noqa: F403
 from app.users import repository as users_repository
-from app.users.models import User, UserCreate
+from app.users.models import User
+from app.users.schemas import UserCreate
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 
