@@ -1,5 +1,6 @@
 import type { UserSchema } from "@/client";
 import { useGetSidebarNav } from "@/common/hooks/sidebar";
+import { config } from "@/config";
 import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { Box, Divider, IconButton, Menu, MenuItem } from "@mui/material";
@@ -89,7 +90,7 @@ function Layout() {
     <DrawerLayout
       variant="mini"
       navigation={sidebarNav}
-      title="My Full Stack Template"
+      title={config.projectName}
       slotsProps={{
         drawerAppBar: {
           children: drawerAppBarContent,

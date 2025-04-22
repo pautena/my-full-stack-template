@@ -13,6 +13,7 @@ RUN pnpm install
 COPY ./ /app/
 
 ARG VITE_API_URL=${VITE_API_URL}
+ARG VITE_PROJECT_NAME=${VITE_PROJECT_NAME}
 
 RUN pnpm build
 
