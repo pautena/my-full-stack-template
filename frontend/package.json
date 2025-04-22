@@ -1,5 +1,5 @@
 {
-  "name": "my-full-stack-template",
+  "name": "app-frontend",
   "private": true,
   "type": "module",
   "scripts": {
