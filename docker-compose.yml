@@ -140,6 +140,7 @@ services:
       args:
         - VITE_API_URL=https://api.${DOMAIN?Variable not set}
         - NODE_ENV=production
+        - VITE_PROJECT_NAME=${PROJECT_NAME}
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
