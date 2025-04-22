@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "ENVIRONMENT=local op run --env-file='./.env.development' -- vite",
+    "dev:playwright": "vite --mode playwright",
     "build": "tsc -p tsconfig.build.json && vite build",
     "serve": "vite preview",
     "start": "vite",
