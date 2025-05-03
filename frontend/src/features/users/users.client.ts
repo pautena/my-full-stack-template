@@ -114,7 +114,7 @@ export const useUpdateUserMutation = ({
 
 export const useUpdateUserPasswordMeMutation = ({
   onSuccess = () => {},
-}: UseMutationArgs) => {
+}: UseMutationArgs = {}) => {
   const { show } = useNotificationCenter();
 
   return useMutation({

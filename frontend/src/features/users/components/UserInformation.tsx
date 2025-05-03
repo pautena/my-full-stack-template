@@ -1,71 +1,60 @@
-import { type SubmitHandler, useForm } from "react-hook-form";
-
-import type { UserSchema, UserUpdateMe } from "@/client";
+import { useAppForm } from "@/common/forms";
 import useAuth from "@/features/auth/useAuth";
 import { useUpdateUserMeMutation } from "@/features/users/users.client";
-import { emailPattern } from "@/utils";
-import { Button, Grid2 } from "@mui/material";
-import { TextField } from "@pautena/react-design-system";
+import { Grid2 } from "@mui/material";
+import { z } from "zod";
+
+const userInformationSchema = z.object({
+  full_name: z
+    .string()
+    .min(1, "Full name is required")
+    .max(30, "Full name must be at most 30 characters"),
+  email: z.string().min(1, "Email is required").email("Invalid email"),
+});
 
 const UserInformation = () => {
   const { user: currentUser } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { isSubmitting, errors, isDirty },
-  } = useForm<UserSchema>({
-    mode: "onBlur",
-    criteriaMode: "all",
+  const mutation = useUpdateUserMeMutation();
+  const { AppField, AppForm, handleSubmit, reset, SubmitButton } = useAppForm({
     defaultValues: {
-      full_name: currentUser?.full_name,
-      email: currentUser?.email,
+      full_name: currentUser?.full_name || "",
+      email: currentUser?.email || "",
+    },
+    validators: {
+      onSubmit: userInformationSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await mutation.mutateAsync(value);
+      reset();
     },
   });
-
-  const mutation = useUpdateUserMeMutation();
-
-  const onSubmit: SubmitHandler<UserUpdateMe> = async (data) =>
-    mutation.mutate(data);
 
   return (
     <Grid2
       component="form"
       container
       spacing={2}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
     >
       <Grid2 size={4}>
-        <TextField
-          label="Full Name"
-          {...register("full_name", { maxLength: 30 })}
-          defaultValue={currentUser?.full_name}
-          fullWidth
+        <AppField
+          name="full_name"
+          children={(field) => <field.TextField label="Full Name" />}
         />
       </Grid2>
       <Grid2 size={4}>
-        <TextField
-          label="Email"
-          {...register("email", {
-            required: "Email is required",
-            pattern: emailPattern,
-          })}
-          defaultValue={currentUser?.email}
-          error={!!errors.email?.message}
-          helperText={errors.email?.message}
-          fullWidth
+        <AppField
+          name="email"
+          children={(field) => <field.TextField label="Email" />}
         />
       </Grid2>
       <Grid2 size={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          disabled={!isDirty || !getValues("email")}
-          loading={isSubmitting}
-        >
-          Save
-        </Button>
+        <AppForm>
+          <SubmitButton label="Save" />
+        </AppForm>
       </Grid2>
     </Grid2>
   );

@@ -1,15 +1,20 @@
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { type SubmitHandler, useForm } from "react-hook-form";
 
-import type { NewPassword } from "@/client";
+import { useAppForm } from "@/common/forms";
 import { useResetPasswordMutation } from "@/features/auth/auth.service";
 import { isLoggedIn } from "@/features/auth/useAuth";
-import { confirmPasswordRules, passwordRules } from "@/utils";
-import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
+import { z } from "zod";
 
-interface NewPasswordForm extends NewPassword {
-  confirm_password: string;
-}
+const resetPasswordSchema = z
+  .object({
+    new_password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string().min(1, "Confirm password is required"),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "The passwords do not match",
+    path: ["confirm_password"],
+  });
 
 export const Route = createFileRoute("/reset-password")({
   component: ResetPassword,
@@ -23,26 +28,23 @@ export const Route = createFileRoute("/reset-password")({
 });
 
 function ResetPassword() {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    reset,
-    formState: { errors },
-  } = useForm<NewPasswordForm>({
-    mode: "onBlur",
-    criteriaMode: "all",
-    defaultValues: {
-      new_password: "",
-    },
-  });
   const navigate = useNavigate();
 
-  const resetPassword = async (data: NewPassword) => {
-    const token = new URLSearchParams(window.location.search).get("token");
-    if (!token) return;
-    await resetPassword({ new_password: data.new_password, token: token });
-  };
+  const { AppField, AppForm, handleSubmit, reset, SubmitButton } = useAppForm({
+    defaultValues: {
+      new_password: "",
+      confirm_password: "",
+    },
+    validators: {
+      onSubmit: resetPasswordSchema,
+    },
+    onSubmit: async ({ value }) => {
+      const token =
+        new URLSearchParams(window.location.search).get("token") ?? "";
+      await mutation.mutateAsync({ ...value, token });
+      reset();
+    },
+  });
 
   const mutation = useResetPasswordMutation({
     onSuccess: () => {
@@ -51,16 +53,13 @@ function ResetPassword() {
     },
   });
 
-  const onSubmit: SubmitHandler<NewPasswordForm> = async (data) => {
-    const token =
-      new URLSearchParams(window.location.search).get("token") ?? "";
-    mutation.mutate({ ...data, token });
-  };
-
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       height="100vh"
       alignItems="center"
       justifyContent="center"
@@ -78,31 +77,25 @@ function ResetPassword() {
           </Typography>
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Set Password"
-            {...register("new_password", passwordRules())}
-            type="password"
-            required
-            fullWidth
-            error={!!errors.new_password}
-            helperText={errors.new_password?.message}
+          <AppField
+            name="new_password"
+            children={(field) => (
+              <field.TextField type="password" label="Set Password" />
+            )}
           />
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Confirm Password"
-            {...register("confirm_password", confirmPasswordRules(getValues))}
-            type="password"
-            required
-            fullWidth
-            error={!!errors.confirm_password}
-            helperText={errors.confirm_password?.message}
+          <AppField
+            name="confirm_password"
+            children={(field) => (
+              <field.TextField type="password" label="Confirm Password" />
+            )}
           />
         </Grid2>
         <Grid2 size={12}>
-          <Button fullWidth variant="contained" color="primary" type="submit">
-            Reset Password
-          </Button>
+          <AppForm>
+            <SubmitButton label="Reset Password" fullWidth />
+          </AppForm>
         </Grid2>
       </Grid2>
     </Box>

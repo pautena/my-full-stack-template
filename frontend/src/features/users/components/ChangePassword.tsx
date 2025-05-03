@@ -1,81 +1,78 @@
-import { type SubmitHandler, useForm } from "react-hook-form";
-
-import type { UpdatePassword } from "@/client";
+import { useAppForm } from "@/common/forms";
 import { useUpdateUserPasswordMeMutation } from "@/features/users/users.client";
-import { confirmPasswordRules, passwordRules } from "@/utils";
-import { Button, Grid2, TextField, Typography } from "@mui/material";
+import { Grid2, Typography } from "@mui/material";
+import { z } from "zod";
 
-interface UpdatePasswordForm extends UpdatePassword {
-  confirm_password: string;
-}
-
-const ChangePassword = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    getValues,
-    formState: { errors, isSubmitting },
-  } = useForm<UpdatePasswordForm>({
-    mode: "onBlur",
-    criteriaMode: "all",
+const updatePasswordSchema = z
+  .object({
+    current_password: z.string().min(1, "Current password is required"),
+    new_password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string().min(1, "Confirm password is required"),
+  })
+  .refine((data) => data.new_password === data.confirm_password, {
+    message: "The passwords do not match",
+    path: ["confirm_password"],
   });
 
-  const mutation = useUpdateUserPasswordMeMutation({ onSuccess: reset });
+const ChangePassword = () => {
+  const mutation = useUpdateUserPasswordMeMutation();
 
-  const onSubmit: SubmitHandler<UpdatePasswordForm> = (data) => {
-    mutation.mutate(data);
-  };
+  const { AppField, AppForm, handleSubmit, reset, SubmitButton } = useAppForm({
+    defaultValues: {
+      current_password: "",
+      new_password: "",
+      confirm_password: "",
+    },
+    validators: {
+      onSubmit: updatePasswordSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await mutation.mutateAsync(value);
+      reset();
+    },
+  });
 
   return (
     <Grid2
       container
       spacing={2}
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
     >
       <Grid2 size={12}>
         <Typography variant="h4">Change Password</Typography>
       </Grid2>
       <Grid2 size={12}>
-        <TextField
-          {...register("current_password")}
-          label="Current Password"
-          type="password"
-          fullWidth
-          error={!!errors.current_password}
-          helperText={errors.current_password?.message}
+        <AppField
+          name="current_password"
+          children={(field) => (
+            <field.TextField type="password" label="Current Password" />
+          )}
         />
       </Grid2>
       <Grid2 size={12}>
-        <TextField
-          {...register("new_password", passwordRules())}
-          label="Set Password"
-          type="password"
-          fullWidth
-          error={!!errors.new_password}
-          helperText={errors.new_password?.message}
+        <AppField
+          name="new_password"
+          children={(field) => (
+            <field.TextField type="password" label="Set Password" />
+          )}
         />
       </Grid2>
       <Grid2 size={12}>
-        <TextField
-          {...register("confirm_password", confirmPasswordRules(getValues))}
-          label="Confirm Password"
-          type="password"
-          fullWidth
-          error={!!errors.confirm_password}
-          helperText={errors.confirm_password?.message}
+        <AppField
+          name="confirm_password"
+          children={(field) => (
+            <field.TextField type="password" label="Confirm Password" />
+          )}
         />
       </Grid2>
       <Grid2 size={12}>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          loading={isSubmitting}
-        >
-          Save
-        </Button>
+        <AppForm>
+          <SubmitButton label="Save" fullWidth />
+        </AppForm>
       </Grid2>
     </Grid2>
   );

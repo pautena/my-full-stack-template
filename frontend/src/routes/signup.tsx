@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { type SubmitHandler, useForm } from "react-hook-form";
 
 import type { UserRegister } from "@/client";
+import { useAppForm } from "@/common/forms";
 import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
-import { confirmPasswordRules, emailPattern, passwordRules } from "@/utils";
-import { Box, Button, Grid2, Link, TextField, Typography } from "@mui/material";
+import { Box, Grid2, Link, Typography } from "@mui/material";
+import { z } from "zod";
 
 export const Route = createFileRoute("/signup")({
   component: SignUp,
@@ -17,36 +17,46 @@ export const Route = createFileRoute("/signup")({
   },
 });
 
-interface UserRegisterForm extends UserRegister {
-  confirm_password: string;
-}
+const signUpSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Invalid email address"),
+    full_name: z.string().min(1, "Full Name is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirm_password: z.string().min(1, "Confirm password is required"),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "The passwords do not match",
+    path: ["confirm_password"],
+  });
 
 function SignUp() {
   const { signUpMutation } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors, isSubmitting },
-  } = useForm<UserRegisterForm>({
-    mode: "onBlur",
-    criteriaMode: "all",
+  const { AppField, AppForm, handleSubmit, reset, SubmitButton } = useAppForm({
     defaultValues: {
       email: "",
       full_name: "",
       password: "",
       confirm_password: "",
     },
+    validators: {
+      onSubmit: signUpSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await signUpMutation.mutateAsync(value);
+      reset();
+    },
   });
-
-  const onSubmit: SubmitHandler<UserRegisterForm> = (data) => {
-    signUpMutation.mutate(data);
-  };
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       height="100vh"
       alignItems="center"
       justifyContent="center"
@@ -54,69 +64,37 @@ function SignUp() {
     >
       <Grid2 container spacing={2} maxWidth={400}>
         <Grid2 size={12}>
-          <TextField
-            label="Full Name"
-            {...register("full_name", { required: "Full Name is required" })}
-            required
-            fullWidth
-            error={!!errors.full_name}
-            helperText={errors.full_name?.message}
+          <AppField
+            name="full_name"
+            children={(field) => <field.TextField label="Full Name" />}
           />
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: emailPattern,
-            })}
-            type="email"
-            required
-            fullWidth
-            error={!!errors.email}
-            helperText={errors.email?.message}
+          <AppField
+            name="email"
+            children={(field) => <field.TextField label="Email" />}
           />
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Password"
-            {...register(
-              "password",
-              passwordRules<UserRegisterForm, "password">(),
+          <AppField
+            name="password"
+            children={(field) => (
+              <field.TextField type="password" label="Password" />
             )}
-            type="password"
-            required
-            fullWidth
-            error={!!errors.password}
-            helperText={errors.password?.message}
           />
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Repeat Password"
-            {...register(
-              "confirm_password",
-              confirmPasswordRules<UserRegisterForm, "confirm_password">(
-                getValues,
-              ),
+          <AppField
+            name="confirm_password"
+            children={(field) => (
+              <field.TextField type="password" label="Repeat Password" />
             )}
-            type="password"
-            required
-            fullWidth
-            error={!!errors.confirm_password}
-            helperText={errors.confirm_password?.message}
           />
         </Grid2>
         <Grid2 size={12}>
-          <Button
-            variant="contained"
-            fullWidth
-            color="primary"
-            type="submit"
-            loading={isSubmitting}
-          >
-            Sign Up
-          </Button>
+          <AppForm>
+            <SubmitButton label="Sign Up" fullWidth />
+          </AppForm>
         </Grid2>
         <Grid2 size={12}>
           <Typography>

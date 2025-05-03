@@ -1,14 +1,14 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { type SubmitHandler, useForm } from "react-hook-form";
 
+import { useAppForm } from "@/common/forms";
 import { useRecoveryPasswordMutation } from "@/features/auth/auth.service";
 import { isLoggedIn } from "@/features/auth/useAuth";
-import { emailPattern } from "@/utils";
-import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
+import { z } from "zod";
 
-interface FormData {
-  email: string;
-}
+const recoverPasswordSchema = z.object({
+  email: z.string().min(1, "Email is required").email(),
+});
 
 export const Route = createFileRoute("/recover-password")({
   component: RecoverPassword,
@@ -22,29 +22,32 @@ export const Route = createFileRoute("/recover-password")({
 });
 
 function RecoverPassword() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>();
-
   const mutation = useRecoveryPasswordMutation({
     onSuccess: () => {
       reset();
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    mutation.mutate({
-      email: data.email,
-    });
-  };
+  const { AppField, AppForm, handleSubmit, reset, SubmitButton } = useAppForm({
+    defaultValues: {
+      email: "",
+    },
+    validators: {
+      onSubmit: recoverPasswordSchema,
+    },
+    onSubmit: async ({ value }) => {
+      await mutation.mutateAsync(value);
+      reset();
+    },
+  });
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       height="100vh"
       alignItems="center"
       justifyContent="center"
@@ -62,29 +65,17 @@ function RecoverPassword() {
           </Typography>
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: emailPattern,
-            })}
-            type="email"
-            required
-            fullWidth
-            error={!!errors.email}
-            helperText={errors.email?.message}
+          <AppField
+            name="email"
+            children={(field) => (
+              <field.TextField type="password" label="Email" />
+            )}
           />
         </Grid2>
         <Grid2 size={12}>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            type="submit"
-            loading={isSubmitting}
-          >
-            Continue
-          </Button>
+          <AppForm>
+            <SubmitButton label="Continue" fullWidth />
+          </AppForm>
         </Grid2>
       </Grid2>
     </Box>

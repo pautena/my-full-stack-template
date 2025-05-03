@@ -1,22 +1,26 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { type SubmitHandler, useForm } from "react-hook-form";
-
-import type { BodyLoginLoginAccessToken } from "@/client";
+import { useAppForm } from "@/common/forms";
 import useAuth, { isLoggedIn } from "@/features/auth/useAuth";
-import { emailPattern } from "@/utils";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
   Box,
-  Button,
   Grid2,
   IconButton,
   InputAdornment,
   Link,
-  TextField,
   Typography,
 } from "@mui/material";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  username: z
+    .string()
+    .min(1, "Email is required")
+    .email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+});
 
 export const Route = createFileRoute("/login")({
   component: Login,
@@ -32,85 +36,73 @@ export const Route = createFileRoute("/login")({
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { loginMutation, error, resetError } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<BodyLoginLoginAccessToken>({
-    mode: "onBlur",
-    criteriaMode: "all",
+
+  const { AppField, AppForm, handleSubmit, SubmitButton } = useAppForm({
     defaultValues: {
       username: "",
       password: "",
     },
+    validators: {
+      onSubmit: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      resetError();
+      try {
+        await loginMutation.mutateAsync(value);
+      } catch {
+        // error is handled by useAuth hook
+      }
+    },
   });
-
-  const onSubmit: SubmitHandler<BodyLoginLoginAccessToken> = async (data) => {
-    if (isSubmitting) return;
-
-    resetError();
-
-    try {
-      await loginMutation.mutateAsync(data);
-    } catch {
-      // error is handled by useAuth hook
-    }
-  };
 
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
       height="100vh"
       alignItems="center"
       justifyContent="center"
       display="flex"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
     >
       <Grid2 container spacing={2} maxWidth={400}>
         <Grid2 size={12}>
-          <TextField
-            label="Email"
-            {...register("username", {
-              required: "Username is required",
-              pattern: emailPattern,
-            })}
-            type="email"
-            required
-            fullWidth
-            error={!!errors.username || !!error}
-            helperText={errors.username?.message || error}
+          <AppField
+            name="username"
+            children={(field) => <field.TextField label="Email" />}
           />
         </Grid2>
         <Grid2 size={12}>
-          <TextField
-            label="Password"
-            {...register("password", {
-              required: "Password is required",
-            })}
-            type={showPassword ? "text" : "password"}
-            required
-            fullWidth
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label={
-                        showPassword
-                          ? "hide the password"
-                          : "display the password"
-                      }
-                      onClick={(s) => setShowPassword(!s)}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
+          <AppField
+            name="password"
+            children={(field) => (
+              <field.TextField
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                error={!!error}
+                helperText={error}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label={
+                            showPassword
+                              ? "hide the password"
+                              : "display the password"
+                          }
+                          onClick={() => setShowPassword((s) => !s)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+            )}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -119,9 +111,9 @@ function Login() {
           </Link>
         </Grid2>
         <Grid2 size={12}>
-          <Button type="submit" loading={isSubmitting} fullWidth>
-            Log In
-          </Button>
+          <AppForm>
+            <SubmitButton label="Log In" fullWidth />
+          </AppForm>
         </Grid2>
         <Grid2 size={12}>
           <Typography>
