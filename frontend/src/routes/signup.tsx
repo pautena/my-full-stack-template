@@ -17,30 +17,19 @@ export const Route = createFileRoute("/signup")({
   },
 });
 
-interface UserRegisterForm extends UserRegister {
-  confirm_password: string;
-}
-
 const signUpSchema = z
   .object({
-    email: z.string().email("Invalid email address"),
-    full_name: z.string().min(1, "Full Name is required"),
-    password: z
+    email: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/(?=.*[0-9])/, "Password must contain at least one number")
-      .regex(
-        /(?=.*[a-z])/,
-        "Password must contain at least one lowercase letter",
-      )
-      .regex(
-        /(?=.*[A-Z])/,
-        "Password must contain at least one uppercase letter",
-      ),
+      .min(1, "Email is required")
+      .email("Invalid email address"),
+    full_name: z.string().min(1, "Full Name is required"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirm_password: z.string().min(1, "Confirm password is required"),
   })
   .refine((data) => data.password === data.confirm_password, {
     message: "The passwords do not match",
+    path: ["confirm_password"],
   });
 
 function SignUp() {
@@ -83,7 +72,7 @@ function SignUp() {
         <Grid2 size={12}>
           <AppField
             name="email"
-            children={(field) => <field.TextField type="email" label="Email" />}
+            children={(field) => <field.TextField label="Email" />}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -104,7 +93,7 @@ function SignUp() {
         </Grid2>
         <Grid2 size={12}>
           <AppForm>
-            <SubmitButton label="ign Up" fullWidth />
+            <SubmitButton label="Sign Up" fullWidth />
           </AppForm>
         </Grid2>
         <Grid2 size={12}>

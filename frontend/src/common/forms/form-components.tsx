@@ -12,6 +12,7 @@ export function TextField(props: TextFieldProps) {
   return (
     <MuiTextField
       fullWidth
+      defaultValue={field.state.value}
       onChange={(e) => field.handleChange(e.target.value)}
       error={field.state.meta.errors.length > 0}
       helperText={field.state.meta.errors.map((e) => e.message).join(", ")}

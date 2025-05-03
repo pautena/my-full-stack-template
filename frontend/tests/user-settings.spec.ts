@@ -84,7 +84,7 @@ test.describe("Edit user with invalid data", () => {
     await page.goto("/settings");
     await page.getByRole("tab", { name: "My profile" }).click();
     await page.getByRole("textbox", { name: "Email" }).fill(invalidEmail);
-    await page.locator("body").click();
+    await page.getByRole("button", { name: "Save" }).click();
     await expect(page.getByText("Email is required")).toBeVisible();
   });
 });
@@ -147,6 +147,7 @@ test.describe("Change password with invalid data", () => {
     await page
       .getByRole("textbox", { name: "Confirm Password" })
       .fill(weakPassword);
+    await page.getByRole("button", { name: "Save" }).click();
     await expect(
       page.getByText("Password must be at least 8 characters"),
     ).toBeVisible();

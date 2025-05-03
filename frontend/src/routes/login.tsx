@@ -15,7 +15,10 @@ import { useState } from "react";
 import { z } from "zod";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Email is required").email("Invalid email"),
+  username: z
+    .string()
+    .min(1, "Email is required")
+    .email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
@@ -90,8 +93,7 @@ function Login() {
                               ? "hide the password"
                               : "display the password"
                           }
-                          onClick={(s) => setShowPassword(!s)}
-                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => setShowPassword((s) => !s)}
                         >
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
